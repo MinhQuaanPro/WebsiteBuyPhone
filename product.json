@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "iPhone 13",
+    "price": 19990000,
+    "description": "Điện thoại iPhone 13 với chip A15 Bionic, camera kép, thiết kế hiện đại.",
+    "image": "https://example.com/images/iphone13.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Galaxy S22",
+    "price": 16990000,
+    "description": "Samsung Galaxy S22 với màn hình Dynamic AMOLED, camera 50MP.",
+    "image": "https://example.com/images/galaxy-s22.jpg"
+  }
+]

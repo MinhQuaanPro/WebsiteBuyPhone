@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Galaxy Z Flip - Điện thoại gập đầu tiên</title>
+    <style>
+        /* Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        /* Main Product Section */
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .image-thumbs:hover {
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        /* Tabs Section */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+        .spec-section {
+            margin-top: 20px;
+        }
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+        .spec-value {
+            width: 70%;
+        }
+        /* Product Info Section */
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #7b2cbf, #e0aaff);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .storage-options {
+            display: none;
+        }
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+        .color-btn:hover, .color-btn.active {
+            background: #7b2cbf;
+            color: white;
+            border-color: #7b2cbf;
+        }
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .price-info {
+            margin: 20px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+        .stock-status {
+            color: #5cb85c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+        /* Recently Viewed & Related Products */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #7b2cbf;
+        }
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+        .view-all-link {
+            color: #7b2cbf;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+        .product-info-small {
+            padding: 10px;
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .star {
+            color: #ffcc00;
+        }
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <!-- Product Image Carousel -->
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/42/320722/Slider/vi-vn-samsung-galaxy-z-flip6-1.jpg" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow">&lt;</button>
+                    <button class="nav-arrow" id="nextArrow">&gt;</button>
+                </div>
+            </div>
+            <!-- Thumbnail Images -->
+            <div class="image-thumbs">
+    <!-- Xanh (active) -->
+    <div class="thumb-item active">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-2-1-750x500.jpg"
+             alt="Z Flip6 Xanh - Mặt trước">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-3-1-750x500.jpg"
+             alt="Z Flip6 Xanh - Góc nghiêng">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-4-1-750x500.jpg"
+             alt="Z Flip6 Xanh - Gập mở">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-5-1-750x500.jpg"
+             alt="Z Flip6 Xanh - Mặt sau">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-6-1-750x500.jpg"
+             alt="Z Flip6 Xanh - Camera">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-7-750x500.jpg"
+             alt="Z Flip6 Xanh - Màn hình phụ">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-8-750x500.jpg"
+             alt="Z Flip6 Xanh - Trải nghiệm">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-9-750x500.jpg"
+             alt="Z Flip6 Xanh - Góc khác">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-10-750x500.jpg"
+             alt="Z Flip6 Xanh - Chi tiết bản lề">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/42/320722/samsung-galaxy-z-flip6-blue-14-750x500.jpg"
+             alt="Z Flip6 Xanh - Lifestyle">
+    </div>
+
+    <div class="thumb-item">
+        <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/320722/Kit/samsung-galaxy-z-flip6-mo-hop-638822257151113902.jpg"
+             alt="Z Flip6 - Mở hộp">
+    </div>
+</div>
+
+            <!-- Product Features Grid -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Thiết kế</h4>
+                    <p>Gập dọc độc đáo</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình chính</h4>
+                    <p>6.7" Dynamic AMOLED</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình phụ</h4>
+                    <p>1.1" Super AMOLED</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chip</h4>
+                    <p>Snapdragon 855+</p>
+                </div>
+                <div class="feature-item">
+                    <h4>RAM</h4>
+                    <p>8GB</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Bộ nhớ</h4>
+                    <p>256GB</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera sau</h4>
+                    <p>12MP + 12MP</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera trước</h4>
+                    <p>10MP</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <!-- Tab Content -->
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">Cấu hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Hệ điều hành</div><div class="spec-value">Android 10 (cập nhật đến Android 12)</div></div>
+                        <div class="spec-row"><div class="spec-label">Chip</div><div class="spec-value">Qualcomm Snapdragon 855+</div></div>
+                        <div class="spec-row"><div class="spec-label">RAM</div><div class="spec-value">8GB LPDDR4X</div></div>
+                        <div class="spec-row"><div class="spec-label">Bộ nhớ trong</div><div class="spec-value">256GB UFS 3.0 (không hỗ trợ thẻ nhớ)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">Màn hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Màn hình chính</div><div class="spec-value">6.7 inch Dynamic AMOLED 2X, FHD+ (2636 x 1080)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tần số quét</div><div class="spec-value">60Hz</div></div>
+                        <div class="spec-row"><div class="spec-label">Màn hình phụ</div><div class="spec-value">1.1 inch Super AMOLED (300 x 112)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tỷ lệ màn hình</div><div class="spec-value">21.9:9</div></div>
+                        <div class="spec-row"><div class="spec-label">Độ bền</div><div class="spec-value">Kính siêu mỏng UTG (Ultra Thin Glass)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="camera">Camera</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Camera chính</div><div class="spec-value">12MP, f/1.8, Dual Pixel AF, OIS</div></div>
+                        <div class="spec-row"><div class="spec-label">Ultra wide</div><div class="spec-value">12MP, f/2.2, 123° FOV</div></div>
+                        <div class="spec-row"><div class="spec-label">Camera trước</div><div class="spec-value">10MP, f/2.4, 80° FOV</div></div>
+                        <div class="spec-row"><div class="spec-label">Quay video</div><div class="spec-value">4K@60fps, Super Steady</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">Pin & Sạc</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Dung lượng</div><div class="spec-value">3300 mAh (2 viên)</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc nhanh</div><div class="spec-value">15W có dây</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc không dây</div><div class="spec-value">Có (11W)</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc ngược không dây</div><div class="spec-value">Có (Wireless PowerShare)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="connectivity">Kết nối</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">4G</div><div class="spec-value">Có</div></div>
+                        <div class="spec-row"><div class="spec-label">Wi-Fi</div><div class="spec-value">Wi-Fi 6 (802.11ax)</div></div>
+                        <div class="spec-row"><div class="spec-label">Bluetooth</div><div class="spec-value">5.0</div></div>
+                        <div class="spec-row"><div class="spec-label">NFC</div><div class="spec-value">Có (Samsung Pay)</div></div>
+                        <div class="spec-row"><div class="spec-label">Cổng sạc</div><div class="spec-value">USB Type-C</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">Thiết kế</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Vật liệu</div><div class="spec-value">Kính + Nhôm</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước (mở)</div><div class="spec-value">167.3 x 73.6 x 7.2 mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước (gập)</div><div class="spec-value">87.4 x 73.6 x 17.1 mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Trọng lượng</div><div class="spec-value">183g</div></div>
+                        <div class="spec-row"><div class="spec-label">Chống nước</div><div class="spec-value">Không hỗ trợ</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Thông tin sản phẩm Samsung Galaxy Z Flip</h3>
+                <p>Samsung Galaxy Z Flip là chiếc điện thoại gập **đầu tiên** của Samsung, ra mắt năm 2020 – mở ra kỷ nguyên mới cho thiết kế di động. Với cơ chế bản lề thủy lực tiên tiến và kính siêu mỏng UTG, Z Flip gập mở mượt mà, bền bỉ.</p>
+                <p>Thiết bị sở hữu màn hình chính 6.7" Dynamic AMOLED và màn hình phụ 1.1" để xem thông báo. Camera kép 12MP + 12MP cho ảnh chất lượng, hỗ trợ chế độ **Flex Mode** – chia đôi màn hình khi gập một góc, lý tưởng để gọi video và chụp ảnh.</p>
+                <p>Galaxy Z Flip không chỉ là công nghệ – mà còn là tuyên ngôn thời trang.</p>
+            </div>
+        </div>
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Samsung Galaxy Z Flip</h1>
+            <!-- Promo Banners -->
+            <div class="promo-banners">
+                <div class="promo-banner">HÀNG XÁCH TAY - BẢO HÀNH 12 THÁNG</div>
+                <div class="promo-banner">TẶNG ỐP LƯNG CAO CẤP</div>
+            </div>
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://images.samsung.com/is/image/samsung/p6pim/ee/SM-F700FZKAEUE/gallery/ee-galaxy-z-flip-f700-sm-f700fzkaeue-266103476?$PD_GALLERY_L_JPG$">
+                    <span class="color-dot" style="background: #7b2cbf;"></span> Tím
+                </button>
+                <button class="color-btn" data-image="https://images.samsung.com/is/image/samsung/p6pim/ee/SM-F700FZKAEUE/gallery/ee-galaxy-z-flip-f700-sm-f700fzkaeue-266103478?$PD_GALLERY_L_JPG$">
+                    <span class="color-dot" style="background: #c0c0c0;"></span> Bạc
+                </button>
+                <button class="color-btn" data-image="https://images.samsung.com/is/image/samsung/p6pim/vn/sm-f700fzkaaxe/gallery/vn-galaxy-z-flip-sm-f700-sm-f700fzkaaxe-147537008?$PD_GALLERY_L_JPG$">
+                    <span class="color-dot" style="background: #000;"></span> Đen
+                </button>
+            </div>
+            <!-- Price & Stock -->
+            <div class="price-info">
+                <div class="price-label">Giá tại Thành phố Hồ Chí Minh</div>
+                <div class="price">9.990.000đ</div>
+                <div class="stock-status">Còn hàng</div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                <button style="
+                    padding: 14px 20px;
+                    background: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
+                " onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+            <!-- Warranty Info -->
+            <div class="warranty-info">
+                Bảo hành tại cửa hàng 12 tháng (hàng xách tay)<br>
+                <a href="#" style="color: #7b2cbf; text-decoration: underline;">Chính sách bảo hành chi tiết</a>
+            </div>
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 232 460</strong> để được tư vấn (8:00 - 21:30)
+            </div>
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Phụ kiện thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Ốp+lưng" alt="Ốp lưng" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Ốp lưng Galaxy Z Flip (gập)</div>
+                        <div class="product-price">450.000đ</div>
+                        <div class="product-old-price">600.000đ</div>
+                        <div class="product-discount">-25%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 3.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Miếng+dán" alt="Miếng dán" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Miếng dán UTG chính hãng</div>
+                        <div class="product-price">299.000đ</div>
+                        <div class="product-old-price">400.000đ</div>
+                        <div class="product-discount">-25%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.5 • Đã bán 1.8k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Cáp+USB-C" alt="Cáp USB-C" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Cáp sạc nhanh 15W</div>
+                        <div class="product-price">150.000đ</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 5.1k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // DOM Elements
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        // Image Gallery Logic
+        let currentImageIndex = 0;
+        const imageUrls = Array.from(document.querySelectorAll('.thumb-item img')).map(img => img.src);
+
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        // Tab Switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion for Specifications
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Color Selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    thumbItems[0].querySelector('img').src = newImage;
+                }
+            });
+        });
+
+        // Add to cart
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const productName = document.querySelector('h1')?.textContent || "Samsung Galaxy Z Flip";
+            const selectedColorBtn = document.querySelector('.color-btn.active');
+            const selectedColor = selectedColorBtn ? selectedColorBtn.textContent.trim().replace(/.*\s/, '') : "Tím";
+            const priceText = document.querySelector('.price')?.textContent || "9.990.000đ";
+            const price = parseInt(priceText.replace(/\D/g, ''));
+            const productImage = mainImage.src;
+            const productId = `samsung-galaxy-zflip-${selectedColor.toLowerCase()}`;
+
+            const product = {
+                id: productId,
+                name: productName,
+                color: selectedColor,
+                price: price,
+                image: productImage,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingIndex = cart.findIndex(item => item.id === productId);
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ HÀNG\n- ${productName}\n- Màu: ${selectedColor}`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy now
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            const productName = document.querySelector('h1')?.textContent?.trim() || "Samsung Galaxy Z Flip";
+            const selectedColorBtn = document.querySelector('.color-btn.active');
+            const selectedColor = selectedColorBtn ? selectedColorBtn.textContent.trim().replace(/.*\s/, '') : "Tím";
+            const priceText = document.querySelector('.price')?.textContent || "9.990.000đ";
+            const price = parseInt(priceText.replace(/\D/g, '')) || 9990000;
+            const productImage = mainImage.src;
+            const productId = `samsung-galaxy-zflip-${selectedColor.toLowerCase()}`;
+
+            const product = {
+                id: productId,
+                name: productName,
+                color: selectedColor,
+                price: price,
+                image: productImage,
+                quantity: 1
+            };
+
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1';
+        });
+    </script>
+</body>
+</html>

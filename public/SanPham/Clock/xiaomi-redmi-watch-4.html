@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaomi Redmi Watch 4 - Đồng hồ thông minh giá tốt</title>
+    <style>
+        /* Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        /* Main Product Section */
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.03);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            padding: 0 10px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 6px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .thumb-item.active {
+            border-color: #ff6700;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+            padding: 16px;
+            background: #fbf9f7;
+            border-radius: 12px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #ff6700;
+        }
+        .feature-item p {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0 16px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+        }
+        .tab.active {
+            background: #ff6700;
+            color: white;
+        }
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            min-height: 180px;
+        }
+        .spec-category {
+            background: #fff8f0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .spec-category::after {
+            content: "+";
+            font-size: 18px;
+        }
+        .spec-category.active::after {
+            content: "-";
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 16px;
+        }
+        .spec-details.show {
+            max-height: 600px;
+            padding: 16px;
+            margin-top: 8px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .spec-label {
+            width: 40%;
+            font-weight: 600;
+            color: #ff6700;
+        }
+        .spec-value {
+            width: 60%;
+        }
+        /* Product Info */
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .promo-banners {
+            margin: 16px 0;
+        }
+        .promo-banner {
+            background: linear-gradient(90deg, #ff6700, #ff8a3d);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .color-options {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+        .color-btn {
+            padding: 8px 16px;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .color-btn.active {
+            border-color: #ff6700;
+            background: #fff2e8;
+        }
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .price-info {
+            margin: 20px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+        .price {
+            font-size: 26px;
+            font-weight: 700;
+            color: #e53935;
+            margin: 6px 0;
+        }
+        .stock-status {
+            color: #4caf50;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        .action-buttons {
+            margin: 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .btn {
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .btn-cart {
+            background: #ff6700;
+            color: white;
+            box-shadow: 0 4px 8px rgba(255,103,0,0.3);
+        }
+        .btn-cart:hover {
+            background: #e05a00;
+        }
+        .btn-buy {
+            background: #e53935;
+            color: white;
+            box-shadow: 0 4px 8px rgba(229,57,53,0.3);
+        }
+        .btn-buy:hover {
+            background: #c62828;
+        }
+        .warranty-info, .contact-info {
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 24px 0 16px;
+        }
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+        .view-all-link {
+            color: #ff6700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 130px;
+            object-fit: contain;
+            background: #fafafa;
+        }
+        .product-info-small {
+            padding: 10px;
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e53935;
+            margin: 4px 0;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .product-features {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomiii.png" alt="Xiaomi Redmi Watch 4" class="product-image">
+            </div>
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/n/6/n65-black-front_1.png" alt="Đen">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_25__1_9.png" alt="Bạc">
+                </div>
+            </div>
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Màn hình AMOLED</h4>
+                    <p>1.95 inch, 466x466</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 300mAh</h4>
+                    <p>Sử dụng 12 ngày</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Không thấm nước</h4>
+                    <p>5 ATM (50m)</p>
+                </div>
+                <div class="feature-item">
+                    <h4>150+ chế độ tập</h4>
+                    <p>Chạy, bơi, đạp xe...</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Theo dõi sức khỏe</h4>
+                    <p>Nhịp tim, SpO2, giấc ngủ</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Kết nối Bluetooth</h4>
+                    <p>5.3, GPS trên điện thoại</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <div class="tab-content" id="specsContent">
+                <div class="spec-category" data-category="display">
+                    Màn hình
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Loại màn hình:</div>
+                        <div class="spec-value">AMOLED</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">1.95 inch</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ phân giải:</div>
+                        <div class="spec-value">466 x 466 pixels (~239 PPI)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ sáng tối đa:</div>
+                        <div class="spec-value">600 nits</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="battery">
+                    Pin & Sạc
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Dung lượng pin:</div>
+                        <div class="spec-value">300 mAh</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Thời lượng pin:</div>
+                        <div class="spec-value">~12 ngày (chế độ thường), ~7 ngày (chế độ năng lượng cao)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc:</div>
+                        <div class="spec-value">Từ tính, 2 giờ đầy</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="features">
+                    Tính năng
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Chế độ thể thao:</div>
+                        <div class="spec-value">150+ chế độ</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Theo dõi sức khỏe:</div>
+                        <div class="spec-value">Nhịp tim 24/7, SpO2, giấc ngủ, stress</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Chống nước:</div>
+                        <div class="spec-value">5 ATM (50 mét)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Thông báo:</div>
+                        <div class="spec-value">Tin nhắn, cuộc gọi, ứng dụng</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Khác:</div>
+                        <div class="spec-value">Đồng hồ thế giới, đếm ngược, điều khiển nhạc</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="connectivity">
+                    Kết nối
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Bluetooth:</div>
+                        <div class="spec-value">5.3</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">GPS:</div>
+                        <div class="spec-value">Dựa trên điện thoại (không có GPS riêng)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Hệ điều hành hỗ trợ:</div>
+                        <div class="spec-value">Android 6.0+, iOS 12.0+</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="design">
+                    Thiết kế
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Vật liệu:</div>
+                        <div class="spec-value">Khung hợp kim nhôm, dây silicone</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">45.5 x 38.7 x 10.5 mm</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trọng lượng:</div>
+                        <div class="spec-value">34g (kèm dây)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Màu sắc:</div>
+                        <div class="spec-value">Đen, Bạc</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Thông tin về Xiaomi Redmi Watch 4</h3>
+                <p>Redmi Watch 4 là chiếc đồng hồ thông minh giá tốt đến từ Xiaomi, sở hữu màn hình AMOLED lớn 1.95", pin siêu trâu lên đến 12 ngày, và hệ thống theo dõi sức khỏe toàn diện.</p>
+                <p>Với thiết kế mỏng nhẹ, vật liệu cao cấp và khả năng chống nước 5 ATM, Redmi Watch 4 phù hợp cho mọi hoạt động hằng ngày — từ làm việc, tập thể dục đến bơi lội.</p>
+                <p>Đồng hồ tương thích tốt với cả Android và iOS, hỗ trợ thông báo, điều khiển nhạc và hơn 150 chế độ thể thao để bạn theo dõi mỗi bước di chuyển.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Xiaomi Redmi Watch 4</h1>
+            <div class="promo-banners">
+                <div class="promo-banner">🎁 Tặng dây đeo silicone trị giá 199.000đ</div>
+                <div class="promo-banner">💳 Trả góp 0% qua thẻ tín dụng</div>
+            </div>
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/n/6/n65-black-front_1.png">
+                    <span class="color-dot" style="background: #121212;"></span> Đen
+                </button>
+                <button class="color-btn" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_25__1_9.png">
+                    <span class="color-dot" style="background: #e0e0e0;"></span> Bạc
+                </button>
+            </div>
+            <div class="price-info">
+                <div class="price-label">Giá tại TP.HCM</div>
+                <div class="price">1.590.000đ</div>
+                <div class="stock-status">✅ CÒN HÀNG</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-cart" id="addToCart">
+                    <i class="fas fa-shopping-cart"></i> THÊM VÀO GIỎ HÀNG
+                </button>
+                <button class="btn btn-buy" id="buyNow">
+                    <i class="fas fa-bolt"></i> MUA NGAY
+                </button>
+            </div>
+            <div class="warranty-info">
+                🔧 Bảo hành chính hãng 12 tháng tại Xiaomi Việt Nam<br>
+                📦 Đổi trả trong 30 ngày nếu lỗi nhà sản xuất
+            </div>
+            <div class="contact-info">
+                📞 Gọi ngay <strong>1900 636 888</strong> để được tư vấn (8:00 - 22:00)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+        const priceEl = document.querySelector('.price');
+
+        // Giá sản phẩm (VNĐ)
+        const basePrice = 1590000;
+
+        // Thumb click
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                thumbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const imgSrc = item.querySelector('img').src;
+                mainImage.src = imgSrc.replace(/150|120/g, '1000'); // giả định ảnh lớn có thể thay size
+            });
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion specs
+        specCategories.forEach(cat => {
+            cat.addEventListener('click', () => {
+                const isActive = cat.classList.contains('active');
+                specCategories.forEach(c => {
+                    c.classList.remove('active');
+                    c.nextElementSibling?.classList.remove('show');
+                });
+                if (!isActive) {
+                    cat.classList.add('active');
+                    cat.nextElementSibling?.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImg = btn.dataset.image;
+                if (newImg) {
+                    mainImage.src = newImg;
+                    // Cập nhật thumbnail đầu tiên
+                    thumbItems[0].querySelector('img').src = newImg;
+                }
+            });
+        });
+
+        // Add to Cart
+        document.getElementById('addToCart').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'redmi-watch-4-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'Xiaomi Redmi Watch 4',
+                color: color,
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${product.name}\n- Màu: ${color}`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy Now
+        document.getElementById('buyNow').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'redmi-watch-4-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'Xiaomi Redmi Watch 4',
+                color: color,
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1';
+        });
+
+        // Set initial price
+        priceEl.textContent = basePrice.toLocaleString('vi-VN') + 'đ';
+    </script>
+</body>
+</html>

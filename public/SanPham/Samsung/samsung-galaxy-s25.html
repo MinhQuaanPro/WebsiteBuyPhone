@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Galaxy S25 - Dự kiến ra mắt 2025 | 200MP, Snapdragon 8 Gen 4, Titan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .spec-value {
+            width: 70%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #1e90ff, #4682b4);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/42/333363/Slider/vi-vn-samsung-galaxy-s25-1.jpg" alt="Samsung Galaxy S25" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-1-638752262939476238-750x500.jpg" alt="Titan Xám">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-2-638752262949000863-750x500.jpg" alt="Titan Trắng">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-3-638752262954424406-750x500.jpg" alt="Xanh Dương">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-4-638752262960559600-750x500.jpg" alt="Vàng Đồng">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-5-638752262966636523-750x500.jpg" alt="Mặt sau">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-10-638752263004392117-750x500.jpg" alt="Camera">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-11-638752263010134881-750x500.jpg" alt="Camera">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-12-638752263016137932-750x500.jpg" alt="Camera">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-tem-98-638767070280158740-750x500.jpg" alt="Camera">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/Kit/samsung-galaxy-s25-mohop-638752268761134124.jpg" alt="Camera">
+                </div>
+            </div>
+
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Snapdragon 8 Gen 4</h4>
+                    <p>Hiệu năng AI hàng đầu 2025</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera 200MP</h4>
+                    <p>Chi tiết siêu nét, zoom lossless</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 120Hz</h4>
+                    <p>2600 nits, viền siêu mỏng</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Khung titan</h4>
+                    <p>Nhẹ hơn, bền hơn</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 4400mAh</h4>
+                    <p>Sạc nhanh 45W</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Android 15</h4>
+                    <p>7 năm cập nhật</p>
+                </div>
+                <div class="feature-item">
+                    <h4>IP68</h4>
+                    <p>Chống nước & bụi</p>
+                </div>
+                <div class="feature-item">
+                    <h4>AI Assistant</h4>
+                    <p>Kết hợp Galaxy AI</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">Cấu hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Hệ điều hành:</div><div class="spec-value">Android 15 + One UI 7 (hỗ trợ 7 năm cập nhật)</div></div>
+                        <div class="spec-row"><div class="spec-label">Chip:</div><div class="spec-value">Qualcomm Snapdragon 8 Gen 4 for Galaxy (3nm, NPU AI chuyên dụng)</div></div>
+                        <div class="spec-row"><div class="spec-label">RAM:</div><div class="spec-value">12 GB LPDDR5X</div></div>
+                        <div class="spec-row"><div class="spec-label">Bộ nhớ trong:</div><div class="spec-value">256 GB UFS 4.0</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="camera">Camera</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Camera sau:</div><div class="spec-value">Chính 200MP (ISOCELL HP4, f/1.7) + Ultra Wide 12MP (120°) + Tele 10MP (3x quang học)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tính năng:</div><div class="spec-value">AI Photo Enhancer, ProVisual Engine, Nightography, 8K video, zoom 10x hybrid</div></div>
+                        <div class="spec-row"><div class="spec-label">Camera trước:</div><div class="spec-value">12MP (f/2.2, Dual Pixel AF, quay 4K)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">Màn hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Loại:</div><div class="spec-value">Dynamic AMOLED 2X</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">6.2 inch</div></div>
+                        <div class="spec-row"><div class="spec-label">Độ phân giải:</div><div class="spec-value">1440 x 3168 pixels (QHD+)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tần số quét:</div><div class="spec-value">120Hz adaptive</div></div>
+                        <div class="spec-row"><div class="spec-label">Độ sáng:</div><div class="spec-value">2600 nits (peak)</div></div>
+                        <div class="spec-row"><div class="spec-label">Kính:</div><div class="spec-value">Gorilla Glass Victus 3</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">Pin & Sạc</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Dung lượng:</div><div class="spec-value">4400 mAh</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc có dây:</div><div class="spec-value">45W (0-100% trong ~60 phút)</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc không dây:</div><div class="spec-value">15W</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc ngược:</div><div class="spec-value">4.5W</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">Thiết kế & Kết nối</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Chất liệu:</div><div class="spec-value">Khung titan, mặt kính Gorilla Victus 3</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">146 x 70.6 x 7.2 mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Trọng lượng:</div><div class="spec-value">170g</div></div>
+                        <div class="spec-row"><div class="spec-label">Chống nước:</div><div class="spec-value">IP68</div></div>
+                        <div class="spec-row"><div class="spec-label">Kết nối:</div><div class="spec-value">5G, Wi-Fi 7, Bluetooth 5.4, NFC, UWB, USB-C 3.2</div></div>
+                        <div class="spec-row"><div class="spec-label">Âm thanh:</div><div class="spec-value">Loa stereo, không có jack 3.5mm</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Samsung Galaxy S25 – Đỉnh cao công nghệ 2025</h3>
+                <p>Galaxy S25 là flagship nhỏ gọn nhưng mạnh mẽ nhất của Samsung năm 2025, hướng đến trải nghiệm **tinh tế, hiệu năng và AI**. Với **camera 200MP**, bạn có thể chụp ảnh chi tiết đến từng sợi tóc và zoom mà không mất nét.</p>
+                <p>**Snapdragon 8 Gen 4 for Galaxy** được tối ưu cho AI, hỗ trợ các tính năng như **dịch thuật thời gian thực, chỉnh sửa ảnh thông minh, và trợ lý ảo nâng cao**. Cùng với **7 năm cập nhật phần mềm**, S25 là khoản đầu tư dài hạn.</p>
+                <p>Thiết kế **khung titan** giúp máy nhẹ hơn, bền hơn, phù hợp với người dùng cao cấp, doanh nhân và người yêu công nghệ nhỏ gọn.</p>
+                <p>⚠️ Lưu ý: Sản phẩm **dự kiến ra mắt tháng 1/2025**. Thông tin có thể thay đổi theo công bố chính thức từ Samsung.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Samsung Galaxy S25 (256GB)</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">Đặt trước giảm 1.000.000đ</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 12 tháng</div>
+            </div>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active" data-color="Titan Xám" 
+                    data-image="https://images.samsung.com/is/image/samsung/p6pim/placeholder/s25-titan-gray-front">
+                    <span class="color-dot" style="background: #555;"></span> Titan Xám
+                </button>
+                <button class="color-btn" data-color="Titan Trắng"
+                    data-image="https://images.samsung.com/is/image/samsung/p6pim/placeholder/s25-titan-white-front">
+                    <span class="color-dot" style="background: #f5f5f5; border: 1px solid #ccc;"></span> Titan Trắng
+                </button>
+                <button class="color-btn" data-color="Xanh Dương"
+                    data-image="https://images.samsung.com/is/image/samsung/p6pim/placeholder/s25-blue-front">
+                    <span class="color-dot" style="background: #1e88e5;"></span> Xanh Dương
+                </button>
+                <button class="color-btn" data-color="Vàng Đồng"
+                    data-image="https://images.samsung.com/is/image/samsung/p6pim/placeholder/s25-copper-front">
+                    <span class="color-dot" style="background: #d2691e;"></span> Vàng Đồng
+                </button>
+            </div>
+
+            <div class="price-info">
+                <div class="price-label">Giá dự kiến tại TP. Hồ Chí Minh</div>
+                <div class="price">24.990.000đ</div>
+                <div class="stock-status">CHƯA RA MẮT – Dự kiến tháng 1/2025</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #ffc107;
+                    color: #212529;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(255, 193, 7, 0.3);
+                " onmouseover="this.style.background='#e0a800'" onmouseout="this.style.background='#ffc107'">
+                    <i class="fas fa-bell" style="font-size: 20px;"></i>
+                    ĐẶT TRƯỚC NGAY
+                </button>
+                
+                <button style="
+                    padding: 14px 20px;
+                    background: #6c757d;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(108, 117, 125, 0.3);
+                " onmouseover="this.style.background='#5a6268'" onmouseout="this.style.background='#6c757d'">
+                    <i class="fas fa-info-circle" style="font-size: 20px;"></i>
+                    NHẬN THÔNG BÁO RA MẮT
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 24 tháng tại trung tâm Samsung Việt Nam<br>
+                <a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1800 588 889</strong> để được tư vấn (8:00 - 21:00)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>So sánh với flagship khác</h2>
+                <a href="#" class="view-all-link">Xem chi tiết</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://images.samsung.com/is/image/samsung/p6pim/vn/sm-s921lzfaxsv/gallery/vn-galaxy-s24-512gb-sm-s921lzfaxsv-578098067?$ORIGIN_PNG$" alt="S24" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Galaxy S24 256GB</div>
+                        <div class="product-price">19.990.000đ</div>
+                        <div class="product-old-price">22.990.000đ</div>
+                        <div class="product-discount">-13%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 12k+</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-natural-titanium-202309?wid=940&hei=1112&fmt=png-alpha&.v=1693028070213" alt="iPhone 15 Pro" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">iPhone 15 Pro</div>
+                        <div class="product-price">39.990.000đ</div>
+                        <div class="product-rating"><span class="star">★</span> 4.9 • Đã bán 8.5k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.samsung.com/is/image/samsung/p6pim/vn/sm-f956nzfaxsv/gallery/vn-galaxy-z-fold6-512gb-sm-f956nzfaxsv-578098067?$ORIGIN_PNG$" alt="Z Fold6" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Galaxy Z Fold6</div>
+                        <div class="product-price">44.990.000đ</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 2.1k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+ const imageUrls = [
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-1-638752262939476238-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-2-638752262949000863-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-3-638752262954424406-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-4-638752262960559600-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-5-638752262966636523-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-10-638752263004392117-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-11-638752263010134881-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-xanh-mint-12-638752263016137932-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/samsung-galaxy-s25-tem-98-638767070280158740-750x500.jpg',
+  'https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/42/333363/Kit/samsung-galaxy-s25-mohop-638752268761134124.jpg'
+];
+
+
+
+        let currentImageIndex = 0;
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        // Tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    thumbItems[0].querySelector('img').src = newImage;
+                }
+            });
+        });
+
+        // Đặt trước
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            alert('🔔 Cảm ơn bạn đã quan tâm!\nChức năng "Đặt trước" sẽ mở khi Samsung công bố ngày ra mắt chính thức.');
+        });
+
+        // Nhận thông báo
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            const email = prompt('Vui lòng nhập email để nhận thông báo ra mắt:');
+            if (email && email.includes('@')) {
+                alert(`✅ Cảm ơn bạn!\nChúng tôi sẽ gửi thông báo ra mắt Galaxy S25 đến: ${email}`);
+            } else {
+                alert('Vui lòng nhập email hợp lệ.');
+            }
+        });
+    </script>
+</body>
+</html>

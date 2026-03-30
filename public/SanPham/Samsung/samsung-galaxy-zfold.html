@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Galaxy Z Fold 6 512GB - Điện thoại gập cao cấp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Samsung One', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #141416;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+        }
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            background: #f0f4f8;
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .product-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.03);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 0 10px;
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 6px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #b0b8c2;
+            border-radius: 3px;
+        }
+        .thumb-item {
+            width: 70px;
+            height: 70px;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .thumb-item.active {
+            border-color: #1428a0;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 14px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #1428a0;
+        }
+        .feature-item p {
+            font-size: 17px;
+            font-weight: 600;
+            color: #141416;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin: 28px 0 20px;
+        }
+        .tab {
+            padding: 12px 24px;
+            background: #eef2f6;
+            border: none;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #5a626d;
+        }
+        .tab.active {
+            background: #1428a0;
+            color: white;
+        }
+        .tab-content {
+            padding: 24px;
+            background: white;
+            border: 1px solid #d6dae0;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            min-height: 200px;
+        }
+        .spec-category {
+            background: #f0f4fc;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin: 14px 0;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1428a0;
+        }
+        .spec-category::after {
+            content: "+";
+            font-size: 20px;
+        }
+        .spec-category.active::after {
+            content: "-";
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 20px;
+        }
+        .spec-details.show {
+            max-height: 700px;
+            padding: 20px;
+            margin-top: 8px;
+            background: #fafbff;
+            border-radius: 12px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #e8ecf1;
+        }
+        .spec-label {
+            width: 40%;
+            font-weight: 600;
+            color: #1428a0;
+        }
+        .spec-value {
+            width: 60%;
+        }
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .promo-banners {
+            margin: 20px 0;
+        }
+        .promo-banner {
+            background: linear-gradient(90deg, #1428a0, #2a5bd6);
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 14px;
+            font-size: 17px;
+        }
+        .color-options {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .color-btn {
+            padding: 10px 20px;
+            border: 2px solid #d6dae0;
+            border-radius: 24px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-btn.active {
+            border-color: #1428a0;
+            background: #f0f4fc;
+        }
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid #999;
+        }
+        .price-info {
+            margin: 24px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #7a8291;
+        }
+        .price {
+            font-size: 30px;
+            font-weight: 700;
+            color: #e02d3c;
+            margin: 8px 0;
+        }
+        .stock-status {
+            color: #00a86b;
+            font-weight: 600;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-buttons {
+            margin: 28px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .btn {
+            padding: 16px 26px;
+            font-size: 19px;
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+        .btn-cart {
+            background: #1428a0;
+            color: white;
+            box-shadow: 0 5px 12px rgba(20,40,160,0.3);
+        }
+        .btn-cart:hover {
+            background: #0f1f7a;
+        }
+        .btn-buy {
+            background: #e02d3c;
+            color: white;
+            box-shadow: 0 5px 12px rgba(224,45,60,0.3);
+        }
+        .btn-buy:hover {
+            background: #c11f2d;
+        }
+        .warranty-info, .contact-info {
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 14px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 20px;
+        }
+        .section-title h2 {
+            font-size: 19px;
+            color: #141416;
+        }
+        .view-all-link {
+            color: #1428a0;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 18px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            background: #f4f6f8;
+        }
+        .product-info-small {
+            padding: 12px;
+        }
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e02d3c;
+            margin: 4px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 360px;
+            }
+            .product-features {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Product Section -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328191657361.jpg" alt="Samsung Galaxy Z Fold 6" class="product-image">
+            </div>
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328230993390.jpg" alt="Titanium Black">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/galaxy-z-fold6-thietke-1020x570.jpg" alt="Titanium Gray">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328267339443.jpg" alt="Titanium Violet">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328244673453.jpg" alt="Titanium Violet">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328205747295.jpg" alt="Titanium Violet">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328205747295.jpg" alt="Titanium Violet">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/322777/Slider/samsung-galaxy-z-fold6-512gb638580328221843396.jpg" alt="Titanium Violet">
+                </div>
+            </div>
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Màn hình gập 7.6"</h4>
+                    <p>Dynamic AMOLED 2X, 120Hz</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chip Snapdragon 8 Gen 3</h4>
+                    <p>Hiệu năng flagship</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera 50MP</h4>
+                    <p>Chụp ảnh chuyên nghiệp</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 4400mAh</h4>
+                    <p>Sạc nhanh 25W</p>
+                </div>
+                <div class="feature-item">
+                    <h4>S Pen hỗ trợ</h4>
+                    <p>Ghi chú tức thì</p>
+                </div>
+                <div class="feature-item">
+                    <h4>IPX8</h4>
+                    <p>Chống nước khi gập</p>
+                </div>
+                <div class="feature-item">
+                    <h4>RAM 12GB</h4>
+                    <p>Đa nhiệm mượt mà</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Android 14 + One UI 6</h4>
+                    <p>Trải nghiệm liền mạch</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <div class="tab-content" id="specsContent">
+                <div class="spec-category" data-category="display">
+                    Màn hình
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Gập (Main):</div>
+                        <div class="spec-value">7.6 inch Dynamic AMOLED 2X, 120Hz, 2176x1812</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Ngoài (Cover):</div>
+                        <div class="spec-value">6.3 inch Super AMOLED, 120Hz, 2316x904</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ sáng tối đa:</div>
+                        <div class="spec-value">2600 nits (main), 2000 nits (cover)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Tính năng:</div>
+                        <div class="spec-value">Vision Booster, Eye Comfort Shield, Always On Display</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="chip">
+                    Hiệu năng
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Chip:</div>
+                        <div class="spec-value">Qualcomm Snapdragon 8 Gen 3 for Galaxy</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">RAM:</div>
+                        <div class="spec-value">12 GB LPDDR5X</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Bộ nhớ trong:</div>
+                        <div class="spec-value">512 GB UFS 4.0 (không hỗ trợ thẻ nhớ)</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="camera">
+                    Camera
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Sau:</div>
+                        <div class="spec-value">Chính 50MP OIS + Ultra wide 12MP + Tele 10MP 3x OIS</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trong (gập):</div>
+                        <div class="spec-value">10MP (dưới màn hình)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Ngoài:</div>
+                        <div class="spec-value">10MP</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Quay video:</div>
+                        <div class="spec-value">8K@30fps, 4K@60fps, HDR10+</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Tính năng:</div>
+                        <div class="spec-value">Expert RAW, Nightography, Portrait Mode, Director’s View</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="battery">
+                    Pin & Sạc
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Dung lượng:</div>
+                        <div class="spec-value">4,400 mAh (2 pin)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc có dây:</div>
+                        <div class="spec-value">25W (0-50% trong 30 phút)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc không dây:</div>
+                        <div class="spec-value">15W (sạc không dây nhanh), 4.5W (sạc ngược)</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="connectivity">
+                    Kết nối
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">5G:</div>
+                        <div class="spec-value">Sub-6 GHz + mmWave</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Wi-Fi:</div>
+                        <div class="spec-value">Wi-Fi 7 (802.11be)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Bluetooth:</div>
+                        <div class="spec-value">5.4</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Cổng:</div>
+                        <div class="spec-value">USB-C 3.2</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">SIM:</div>
+                        <div class="spec-value">2 eSIM / 1 Nano-SIM + 1 eSIM</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="design">
+                    Thiết kế
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Vật liệu:</div>
+                        <div class="spec-value">Khung hợp kim Armor Aluminum, mặt kính Victus 2, bản lề titanium</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước (gập):</div>
+                        <div class="spec-value">158.2 x 129.9 x 6.5 mm</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước (mở):</div>
+                        <div class="spec-value">158.2 x 129.9 x 13.1 mm</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trọng lượng:</div>
+                        <div class="spec-value">235g</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Chống nước:</div>
+                        <div class="spec-value">IPX8 (chỉ khi gập kín)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Hỗ trợ S Pen:</div>
+                        <div class="spec-value">Có (mua rời)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Màu sắc:</div>
+                        <div class="spec-value">Titanium Black, Titanium Gray, Titanium Violet</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Samsung Galaxy Z Fold 6 – Đột phá công nghệ gập</h3>
+                <p>Galaxy Z Fold 6 là biểu tượng của sự đổi mới, kết hợp hiệu năng flagship, màn hình gập 7.6" rực rỡ và thiết kế bền bỉ với bản lề titanium siêu nhẹ. Thiết bị lý tưởng cho người dùng chuyên nghiệp cần làm việc đa nhiệm, sáng tạo nội dung và trải nghiệm giải trí đỉnh cao.</p>
+                <p>Với bộ nhớ 512GB, bạn thoải mái cài đặt ứng dụng, lưu video 8K và tài liệu công việc. Hệ sinh thái S Pen giúp biến Z Fold 6 thành sổ tay số thông minh.</p>
+                <p>Android 14 và One UI 6 được tối ưu cho giao diện gập – chia màn hình 3 cửa sổ, kéo-thả nội dung, ứng dụng linh hoạt giữa màn hình trong và ngoài.</p>
+            </div>
+        </div>
+
+        <!-- Product Info Sidebar -->
+        <div class="product-info">
+            <h1>Samsung Galaxy Z Fold 6<br>512GB</h1>
+            <div class="promo-banners">
+                <div class="promo-banner">🎁 Tặng Samsung Care+ 1 năm</div>
+                <div class="promo-banner">💳 Trả góp 0% – Lên đến 12 tháng</div>
+            </div>
+            <div class="color-options">
+                <!-- <button class="color-btn active" data-image="https://images.samsung.com/is/image/samsung/p6pim/sg/sg-sm-f956bzkhxsp/gallery/sg-galaxy-z-fold6-f956-sm-f956bzkhxsp-thumb-581870236?$FB_TYPE_B_JPG$">
+                    <span class="color-dot" style="background: #1c1c1e;"></span> Titanium Black
+                </button> -->
+                <button class="color-btn" data-image="https://cdn.tgdd.vn/Products/Images/42/322777/samsung-galaxy-z-fold6-xam-1-1-750x500.jpg">
+                    <span class="color-dot" style="background: #a0a5ab;"></span> Titanium Gray
+                </button>
+                <button class="color-btn" data-image="https://cdn.tgdd.vn/Products/Images/42/322777/samsung-galaxy-z-fold6-pink-1-750x500.jpg">
+                    <span class="color-dot" style="background: #b7a0c0;"></span> Titanium Violet
+                </button>
+            </div>
+            <div class="price-info">
+                <div class="price-label">Giá tại TP.HCM</div>
+                <div class="price">46.990.000đ</div>
+                <div class="stock-status">✅ CÒN HÀNG – Giao trong 24h</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-cart" id="addToCart">
+                    <i class="fas fa-shopping-cart"></i> THÊM VÀO GIỎ HÀNG
+                </button>
+                <button class="btn btn-buy" id="buyNow">
+                    <i class="fas fa-bolt"></i> MUA NGAY
+                </button>
+            </div>
+            <div class="warranty-info">
+                🔧 Bảo hành chính hãng 24 tháng tại Samsung Việt Nam<br>
+                📦 Đổi trả trong 30 ngày nếu lỗi nhà sản xuất
+            </div>
+            <div class="contact-info">
+                📞 Gọi <strong>1800 588 889</strong> để được tư vấn (8:00 - 22:00)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Phụ kiện đề xuất</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=Ốp+lưng+Z+Fold+6" alt="Ốp lưng" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Ốp lưng S View chính hãng</div>
+                        <div class="product-price">1.890.000đ</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=S+Pen+Fold+Edition" alt="Bút" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">S Pen Fold Edition</div>
+                        <div class="product-price">2.490.000đ</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=Sạc+nhanh+25W" alt="Sạc" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Củ sạc nhanh 25W</div>
+                        <div class="product-price">590.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+        const priceEl = document.querySelector('.price');
+
+        // Giá cho Galaxy Z Fold 6 512GB (VNĐ - tham khảo 2024)
+        const basePrice = 46990000;
+
+        // Thumb click
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                thumbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const imgSrc = item.querySelector('img').src;
+                mainImage.src = imgSrc.replace('$FB_TYPE_B_JPG$', '$PD_GALLERY_L_JPG$');
+            });
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion specs
+        specCategories.forEach(cat => {
+            cat.addEventListener('click', () => {
+                const isActive = cat.classList.contains('active');
+                specCategories.forEach(c => {
+                    c.classList.remove('active');
+                    c.nextElementSibling?.classList.remove('show');
+                });
+                if (!isActive) {
+                    cat.classList.add('active');
+                    cat.nextElementSibling?.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImg = btn.dataset.image;
+                if (newImg) {
+                    mainImage.src = newImg.replace('$FB_TYPE_B_JPG$', '$PD_GALLERY_L_JPG$');
+                    thumbItems[0].querySelector('img').src = newImg;
+                }
+            });
+        });
+
+        // Add to Cart
+        document.getElementById('addToCart').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'galaxy-zfold6-512gb-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'Samsung Galaxy Z Fold 6 512GB',
+                color: color,
+                storage: '512GB',
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${product.name}\n- Màu: ${color}\n- Bộ nhớ: 512GB`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy Now
+        document.getElementById('buyNow').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'galaxy-zfold6-512gb-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'Samsung Galaxy Z Fold 6 512GB',
+                color: color,
+                storage: '512GB',
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1';
+        });
+
+        // Set price
+        priceEl.textContent = basePrice.toLocaleString('vi-VN') + 'đ';
+    </script>
+</body>
+</html>

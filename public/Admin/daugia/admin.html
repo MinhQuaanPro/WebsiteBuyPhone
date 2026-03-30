@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quản trị Phiên Đấu Giá</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🚀 Quản trị Phiên Đấu Giá</h1>
+    </div>
+
+    <!-- Form tạo phiên -->
+    <div class="create-section">
+      <h2>➕ Tạo Phiên Đấu Giá Mới</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="productName">Tên sản phẩm</label>
+          <input id="productName" type="text" placeholder="Ví dụ: iPhone 17 Pro Max" required />
+        </div>
+        <div class="form-group">
+          <label for="startPrice">Giá khởi điểm (VNĐ)</label>
+          <input id="startPrice" type="number" min="1" placeholder="Ví dụ: 5000000" required />
+        </div>
+        <div class="form-group">
+          <label for="duration">Thời gian (phút)</label>
+          <input id="duration" type="number" min="1" value="5" placeholder="Ví dụ: 10" />
+        </div>
+        <div class="form-group">
+          <label for="productImage">URL Hình ảnh (tùy chọn)</label>
+          <input id="productImage" type="text" placeholder="https://example.com/image.jpg" />
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="createAuction()">
+        🚀 Tạo Phiên Mới
+      </button>
+    </div>
+
+    <!-- Danh sách phiên đang mở -->
+    <h2 class="section-title">🟢 Phiên Đang Mở</h2>
+    <div id="activeAuctions" class="auctions-grid"></div>
+
+    <!-- Danh sách phiên đã kết thúc -->
+    <h2 class="section-title">🔴 Phiên Đã Kết Thúc</h2>
+    <div id="endedAuctions" class="auctions-grid"></div>
+  </div>
+
+  <script>
+    // Hàm tạo phiên đấu giá
+    function createAuction() {
+      const name = document.getElementById("productName").value.trim();
+      const price = parseFloat(document.getElementById("startPrice").value);
+      const mins = parseInt(document.getElementById("duration").value) || 5;
+      const imageUrl = document.getElementById("productImage").value.trim() || "https://via.placeholder.com/300x200?text=Không+có+hình";
+
+      if (!name || !price || price <= 0) {
+        alert("⚠️ Vui lòng nhập đầy đủ thông tin hợp lệ!");
+        return;
+      }
+
+      const now = new Date();
+      const endTime = new Date(now.getTime() + mins * 60 * 1000);
+
+      const newAuction = {
+        id: Date.now(),
+        productName: name,
+        startPrice: price,
+        currentBid: price,
+        highestBidder: null,
+        bidders: [],
+        imageUrl: imageUrl,
+        endTime: endTime.toISOString(),
+        status: "active",
+        createdAt: now.toISOString()
+      };
+
+      let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+
+      if (auctions.filter(a => a.status === "active").length >= 15) {
+        alert("⛔ Đã đạt giới hạn 15 phiên đang mở!");
+        return;
+      }
+
+      auctions.push(newAuction);
+      localStorage.setItem("auctions", JSON.stringify(auctions));
+      alert(`✅ Đã tạo phiên "${name}" thành công!`);
+      renderAdminAuctions();
+    }
+
+    // Hàm kết thúc phiên
+    function endAuction(id) {
+      if (!confirm("🔔 Bạn có chắc muốn kết thúc phiên này ngay?")) return;
+
+      let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      const auction = auctions.find(a => a.id == id);
+      if (auction) {
+        auction.status = "ended";
+        auction.endTime = new Date().toISOString();
+        localStorage.setItem("auctions", JSON.stringify(auctions));
+        renderAdminAuctions();
+      }
+    }
+
+    // Hàm xóa phiên
+    function deleteAuction(id) {
+      if (!confirm("❌ Xác nhận xóa phiên đấu giá này?")) return;
+
+      let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      auctions = auctions.filter(a => a.id != id);
+      localStorage.setItem("auctions", JSON.stringify(auctions));
+      renderAdminAuctions();
+    }
+
+    // Hàm hiển thị danh sách người tham gia
+    function showBidders(id) {
+      let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      const auction = auctions.find(a => a.id == id);
+      if (!auction) return;
+
+      const biddersList = auction.bidders.length > 0 
+        ? auction.bidders.map(b => `
+            <div style="border:1px solid #ddd; padding:8px; margin:5px; border-radius:6px;">
+              <strong>${b.name}</strong> - ${b.bid.toLocaleString()}đ<br/>
+              <small>${new Date(b.timestamp).toLocaleString('vi-VN')}</small>
+            </div>
+          `).join("")
+        : "<p>Chưa có ai đặt giá.</p>";
+
+      const popup = document.createElement('div');
+      popup.style.cssText = `
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: white; padding: 20px; border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 1000;
+        max-width: 400px; max-height: 400px; overflow-y: auto;
+        font-family: Arial, sans-serif;
+      `;
+      popup.innerHTML = `
+        <h3 style="margin-top:0;">👥 Người tham gia "${auction.productName}"</h3>
+        <div>${biddersList}</div>
+        <button onclick="this.parentNode.remove()" style="margin-top:10px; padding:8px; background:#2a9d8f; color:white; border:none; border-radius:6px; cursor:pointer;">
+          Đóng
+        </button>
+      `;
+
+      document.body.appendChild(popup);
+    }
+
+    // Render danh sách phiên
+    function renderAdminAuctions() {
+      const activeEl = document.getElementById("activeAuctions");
+      const endedEl = document.getElementById("endedAuctions");
+
+      let auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      const active = auctions.filter(a => a.status === "active");
+      const ended = auctions.filter(a => a.status === "ended");
+
+      // Render phiên đang mở
+      activeEl.innerHTML = active.map(a => {
+        const endTime = new Date(a.endTime);
+        const now = new Date();
+        const timeLeft = Math.max(0, Math.floor((endTime - now) / 1000));
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const countdown = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        return `
+          <div class="auction-card active">
+            <img src="${a.imageUrl}" alt="${a.productName}" style="width:100%; height:150px; object-fit: contain; background:#f8f9fa; border-radius:8px 8px 0 0;" />
+            <div style="padding:10px;">
+              <div class="auction-title">${a.productName}</div>
+              <div class="auction-info">Giá khởi điểm: ${a.startPrice.toLocaleString()}đ</div>
+              <div class="auction-price">Giá hiện tại: ${a.currentBid.toLocaleString()}đ</div>
+              <div class="countdown">⏳ Còn: ${countdown}</div>
+              <div class="action-buttons">
+                <button class="btn btn-warning" onclick="endAuction(${a.id})">🛑 Kết thúc</button>
+                <button class="btn btn-danger" onclick="deleteAuction(${a.id})">🗑️ Xóa</button>
+                <button class="btn" style="background:#ff9234;" onclick="showBidders(${a.id})">👀 Theo dõi</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Render phiên đã kết thúc → HIỂN THỊ ĐÚNG TÊN NGƯỜI THẮNG
+      endedEl.innerHTML = ended.map(a => `
+        <div class="auction-card ended">
+          <img src="${a.imageUrl}" alt="${a.productName}" style="width:100%; height:150px; object-fit: contain; background:#f8f9fa; border-radius:8px 8px 0 0;" />
+          <div style="padding:10px;">
+            <div class="auction-title">${a.productName}</div>
+            <div class="auction-info">Giá khởi điểm: ${a.startPrice.toLocaleString()}đ</div>
+            <div class="auction-price">Giá cuối: ${a.currentBid.toLocaleString()}đ</div>
+            <div class="auction-winner">🏆 Người thắng: <strong>${a.highestBidder?.name || "Không có"}</strong></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    document.addEventListener('DOMContentLoaded', renderAdminAuctions);
+  </script>
+</body>
+</html>

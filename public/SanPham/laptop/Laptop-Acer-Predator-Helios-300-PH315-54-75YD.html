@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Acer Predator Helios 300 PH315-54-75YD</title>
+    <style>
+        /* Giữ nguyên toàn bộ CSS bạn đã viết — không thay đổi */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .image-thumbs:hover {
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .spec-value {
+            width: 70%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .storage-options {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .storage-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .storage-btn:hover, .storage-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <!-- Product Image Carousel -->
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/44/250727/Slider/vi-vn-acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-4.jpg" alt="Acer Predator Helios 300" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <!-- Thumbnail Images -->
+            <div class="image-thumbs">
+    <div class="thumb-item active">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-1-750x500.jpg" alt="Acer Predator 1">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-2-750x500.jpg" alt="Acer Predator 2">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-3-180x125.jpg" alt="Acer Predator 3">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-4-750x500.jpg" alt="Acer Predator 4">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-5-750x500.jpg" alt="Acer Predator 5">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-7-750x500.jpg" alt="Acer Predator 6">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-8-750x500.jpg" alt="Acer Predator 7">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-11-750x500.jpg" alt="Acer Predator 8">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-12-180x125.jpg" alt="Acer Predator 9">
+    </div>
+    <div class="thumb-item">
+        <img src="https://cdn.tgdd.vn/Products/Images/44/250727/Kit/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-bh-org.jpg" alt="Acer Predator Box">
+    </div>
+</div>
+
+
+            <!-- Product Features Grid -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Intel Core i7-11800H</h4>
+                    <p>8 nhân 16 luồng</p>
+                </div>
+                <div class="feature-item">
+                    <h4>NVIDIA RTX 3060 6GB</h4>
+                    <p>Đồ họa mạnh mẽ</p>
+                </div>
+                <div class="feature-item">
+                    <h4>RAM 16GB DDR4</h4>
+                    <p>Đa nhiệm mượt</p>
+                </div>
+                <div class="feature-item">
+                    <h4>512GB SSD NVMe</h4>
+                    <p>Khởi động nhanh</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 15.6" FHD 144Hz</h4>
+                    <p>Mượt mà, không giật</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Wi-Fi 6</h4>
+                    <p>Tốc độ kết nối cao</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Hệ thống tản nhiệt 5 quạt</h4>
+                    <p>Làm mát hiệu quả</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Windows 11 Home</h4>
+                    <p>Sẵn sàng chiến game</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">
+                        Cấu hình & Bộ nhớ
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Hệ điều hành:</div>
+                            <div class="spec-value">Windows 11 Home</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">CPU:</div>
+                            <div class="spec-value">Intel Core i7-11800H (8 nhân, 16 luồng, Turbo lên 4.6GHz)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">RAM:</div>
+                            <div class="spec-value">16GB DDR4 3200MHz (2 khe, tối đa 32GB)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Ổ cứng:</div>
+                            <div class="spec-value">512GB SSD NVMe PCIe Gen4</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Card đồ họa:</div>
+                            <div class="spec-value">NVIDIA GeForce RTX 3060 6GB GDDR6 (TGP 130W)</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">
+                        Màn hình
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">15.6 inch Full HD (1920 x 1080)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tần số quét:</div>
+                            <div class="spec-value">144Hz, IPS, 3ms, 100% sRGB</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Công nghệ:</div>
+                            <div class="spec-value">Acer ComfyView, chống chói</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">
+                        Pin & Sạc
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Dung lượng pin:</div>
+                            <div class="spec-value">59Wh</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Thời lượng pin:</div>
+                            <div class="spec-value">Khoảng 4–5 giờ (sử dụng văn phòng)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Sạc:</div>
+                            <div class="spec-value">Adapter 280W, hỗ trợ sạc nhanh</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="connectivity">
+                        Cổng kết nối & Mạng
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Wi-Fi:</div>
+                            <div class="spec-value">Wi-Fi 6 (802.11ax), Bluetooth 5.2</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Cổng:</div>
+                            <div class="spec-value">1x USB-C (Thunderbolt 4), 3x USB-A 3.2, HDMI 2.1, RJ45, Jack 3.5mm, SD Card</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Webcam:</div>
+                            <div class="spec-value">HD (720p) với nắp che webcam vật lý</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">
+                        Thiết kế & Trọng lượng
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Chất liệu:</div>
+                            <div class="spec-value">Vỏ nhựa cao cấp, bàn phím RGB 4 vùng</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">363.4 x 255 x 22.9 mm</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Trọng lượng:</div>
+                            <div class="spec-value">2.3 kg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Thông tin sản phẩm Acer Predator Helios 300 PH315-54-75YD</h3>
+                <p>Laptop gaming cao cấp đến từ Acer, trang bị CPU Intel i7 thế hệ 11, GPU RTX 3060 mạnh mẽ, màn hình 144Hz mượt mà — phù hợp cho game thủ và người làm đồ họa.</p>
+                <p>Hệ thống tản nhiệt 5 quạt với công nghệ AeroBlade™ 3D giúp duy trì hiệu năng ổn định trong thời gian dài. Thiết kế đậm chất gaming với đèn nền RGB và logo Predator nổi bật.</p>
+                <p>Lý tưởng cho chơi game AAA, render video, thiết kế 3D và đa nhiệm nặng.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Acer Predator Helios 300<br>PH315-54-75YD</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">TẶNG BALO + CHUỘT GAMING</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 12 tháng</div>
+            </div>
+
+            <!-- Không có nhiều tùy chọn dung lượng cho laptop, nên bỏ phần storage-options hoặc để 512GB cố định -->
+            <div class="storage-options">
+                <button class="storage-btn active">512GB SSD</button>
+            </div>
+
+            <!-- Màu sắc: thường chỉ có đen -->
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://images.acer.com/is/image/acer/Predator_Helios_300_PH315-54_03_VN_08?$PLP$&wid=800&hei=450  ">
+                    <span class="color-dot" style="background: #333;"></span> Đen Predator
+                </button>
+            </div>
+
+            <!-- Price & Stock -->
+            <div class="price-info">
+                <div class="price-label">Giá tại Thành phố Hồ Chí Minh</div>
+                <div class="price">32.490.000đ</div>
+                <div class="stock-status">CÒN HÀNG</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+
+                <button style="
+                    padding: 14px 20px;
+                    background: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
+                " onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 2 năm tại Acer Việt Nam
+                <br><a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 1234</strong> để được tư vấn (8:00 - 22:00)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Sản phẩm thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Balo" alt="Balo" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Balo Acer Predator</div>
+                        <div class="product-price">490.000đ</div>
+                        <div class="product-old-price">790.000đ</div>
+                        <div class="product-discount">-38%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 3.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Chu%E1%BB%99t" alt="Chuột" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Chuột Gaming Acer HM</div>
+                        <div class="product-price">890.000đ</div>
+                        <div class="product-old-price">1.290.000đ</div>
+                        <div class="product-discount">-31%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 1.8k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=T%E1%BA%A3n+nhi%E1%BB%87t" alt="Tản nhiệt" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Đế tản nhiệt 5 quạt</div>
+                        <div class="product-price">350.000đ</div>
+                        <div class="product-old-price">500.000đ</div>
+                        <div class="product-discount">-30%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.5 • Đã bán 4.1k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cập nhật hình ảnh và dữ liệu phù hợp laptop
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        // Không có dung lượng khác → bỏ storageBtns hoặc để static
+        // const storageBtns = document.querySelectorAll('.storage-btn');
+
+        let currentImageIndex = 0;
+      const imageUrls = [
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-1-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-2-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-3-180x125.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-4-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-5-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-7-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-8-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-11-750x500.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-12-180x125.jpg',
+    'https://cdn.tgdd.vn/Products/Images/44/250727/Kit/acer-predator-helios-ph315-54-75yd-i7-nhqc2sv002-bh-org.jpg'
+];
+
+
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                if (i < thumbItems.length) {
+                    item.classList.toggle('active', i === index);
+                }
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            if (index < imageUrls.length) {
+                item.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    updateMainImage(currentImageIndex);
+                });
+            }
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion specs
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection (chỉ có 1 màu → giữ active mặc định)
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    if (thumbItems[0]) thumbItems[0].querySelector('img').src = newImage;
+                }
+            });
+        });
+
+        // Nút "THÊM VÀO GIỎ HÀNG"
+        document.querySelector('.action-buttons button:first-child')?.addEventListener('click', function() {
+            const productName = "Acer Predator Helios 300 PH315-54-75YD";
+            const price = 32490000;
+            const productImage = mainImage.src;
+            const productId = "acer-predator-helios-300-ph315-54-75yd";
+
+            const product = {
+                id: productId,
+                name: productName,
+                color: "Đen Predator",
+                storage: "512GB SSD",
+                price: price,
+                image: productImage,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingIndex = cart.findIndex(item => item.id === productId);
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ HÀNG!\n${productName}\n- Màu: Đen Predator\n- Dung lượng: 512GB SSD`);
+            window.location.href = '../cart.html';
+        });
+
+        // Nút "MUA NGAY"
+        document.querySelector('.action-buttons button:last-child')?.addEventListener('click', function() {
+            alert('Vui lòng chọn "THÊM VÀO GIỎ HÀNG" để tiến hành thanh toán!');
+        });
+    </script>
+</body>
+</html>

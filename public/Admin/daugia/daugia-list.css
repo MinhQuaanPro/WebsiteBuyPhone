@@ -1,0 +1,145 @@
+/* /Chucnang/daugia-list.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8f9fa;
+  color: #212529;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #264653;
+  margin-bottom: 30px;
+  letter-spacing: -0.5px;
+}
+
+.no-auctions {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+  font-size: 18px;
+}
+
+.auctions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.auction-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.auction-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: #2a9d8f;
+}
+
+.auction-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #2a9d8f;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #264653;
+  margin-bottom: 14px;
+  word-break: break-word;
+}
+
+.card-info {
+  font-size: 15px;
+  color: #495057;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.value {
+  font-weight: 600;
+}
+
+.current-bid .value {
+  color: #2a9d8f;
+  font-size: 18px;
+}
+
+.leader .value {
+  color: #e76f51;
+}
+
+.timer {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e76f51;
+  text-align: center;
+  margin: 16px 0;
+  padding: 10px;
+  background: #fff8f7;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #2a9d8f;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  margin-top: 12px;
+}
+
+.btn:hover {
+  background: #218874;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 26px;
+  }
+  .auction-card {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi Tiết Phiên Đấu Giá</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #264653;
+      margin-bottom: 15px;
+      word-break: break-word;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      background: #f8f9fa;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #e9ecef;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e9ecef;
+      font-size: 15px;
+    }
+
+    .info-label {
+      font-weight: 500;
+      color: #6c757d;
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: #2a9d8f;
+    }
+
+    .timer {
+      font-size: 28px;
+      font-weight: 800;
+      color: #e76f51;
+      margin: 20px 0;
+      letter-spacing: 1px;
+    }
+
+    .ended .timer {
+      color: #8d99ae;
+    }
+
+    .bid-form {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .bid-form input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.2s ease;
+    }
+
+    .bid-form input:focus {
+      outline: none;
+      border-color: #2a9d8f;
+      box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: #218874;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .message.error {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .message.success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .ended-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .ended-message {
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #264653;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px 15px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .product-image {
+        height: 160px;
+      }
+      .timer {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="auctionContainer">
+    <h1 id="title">Đang tải...</h1>
+    <img src="https://via.placeholder.com/500x200?text=Đang+tải+hình..." alt="Hình sản phẩm" class="product-image" id="productImage" />
+
+    <div class="info-row">
+      <span class="info-label">Giá hiện tại:</span>
+      <span class="info-value" id="currentBid">--</span>
+    </div>
+
+    <div class="info-row">
+      <span class="info-label">Người dẫn đầu:</span>
+      <span class="info-value" id="bidder">--</span>
+    </div>
+
+    <div class="timer" id="timer">--:--</div>
+
+    <div id="endedOverlay" class="ended-overlay" style="display:none;">
+      <div class="ended-message" id="winnerMessage">...</div>
+    </div>
+
+    <div class="bid-form" id="bidForm">
+      <input type="text" id="phone" placeholder="Số điện thoại (bắt buộc)" autocomplete="tel" />
+      <input type="email" id="email" placeholder="Email / Gmail (bắt buộc)" autocomplete="email" />
+      <input type="number" id="bidAmount" placeholder="Nhập giá thầu (VNĐ)" min="0" />
+      <button class="btn" onclick="placeBid()">
+        🚀 Đặt Giá Ngay
+      </button>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    let auctionId = new URLSearchParams(window.location.search).get("id");
+    let auction = null;
+    let isEnded = false;
+
+    function show_message(text, type = "info") {
+      const el = document.getElementById("message");
+      el.className = `message ${type === "error" ? "error" : "success"}`;
+      el.textContent = text;
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isValidPhone(phone) {
+      const cleaned = phone.replace(/\D/g, '');
+      return cleaned.length >= 10 && cleaned.length <= 11 && /^[0-9]+$/.test(cleaned);
+    }
+
+    function loadAuction() {
+      const auctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      auction = auctions.find(a => String(a.id) === String(auctionId));
+
+      if (!auction) {
+        document.body.innerHTML = `
+          <div style="text-align:center; padding:40px; max-width:500px; margin:40px auto; font-family: Inter, sans-serif;">
+            <h2 style="color:#e76f51;">❌ Không tìm thấy phiên!</h2>
+            <p><a href="DauGia.html" style="color:#2a9d8f; text-decoration:underline;">← Quay lại danh sách</a></p>
+          </div>
+        `;
+        return;
+      }
+
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if (!currentUser) {
+        document.body.innerHTML = `
+          <div style="text-align:center; padding:40px; max-width:500px; margin:40px auto; font-family: Inter, sans-serif;">
+            <h2 style="color:#e76f51;">🔐 Vui lòng đăng nhập!</h2>
+            <p style="margin:15px 0;">Bạn cần đăng nhập để tham gia đấu giá.</p>
+            <button onclick="window.location.href='/login.html'" 
+                    style="padding:12px 24px; background:#2a9d8f; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600;">
+              Đăng nhập ngay
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      document.getElementById("title").textContent = auction.productName;
+      document.getElementById("productImage").src = auction.imageUrl || "https://via.placeholder.com/500x200?text=Không+có+hình";
+      updateUI();
+
+      if (auction.status === "ended") {
+        isEnded = true;
+        handleAuctionEnd();
+      } else {
+        if (new Date() >= new Date(auction.endTime)) {
+          isEnded = true;
+          handleAuctionEnd();
+        } else {
+          startTimer();
+        }
+      }
+    }
+
+    function updateUI() {
+      document.getElementById("currentBid").textContent = auction.currentBid.toLocaleString() + "đ";
+      document.getElementById("bidder").textContent = auction.highestBidder?.name || "Chưa có";
+    }
+
+    function startTimer() {
+      const timerEl = document.getElementById("timer");
+      const endTime = new Date(auction.endTime);
+      const interval = setInterval(() => {
+        const now = new Date();
+        const diff = endTime - now;
+        if (diff <= 0) {
+          clearInterval(interval);
+          isEnded = true;
+          handleAuctionEnd();
+          return;
+        }
+        const m = Math.floor(diff / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        timerEl.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function handleAuctionEnd() {
+  const timerEl = document.getElementById("timer");
+  const overlay = document.getElementById("endedOverlay");
+  const winnerMsg = document.getElementById("winnerMessage");
+  const bidForm = document.getElementById("bidForm");
+
+  timerEl.textContent = "ĐÃ KẾT THÚC";
+  timerEl.classList.add("ended");
+  bidForm.style.display = "none";
+  overlay.style.display = "flex";
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isWinner = auction.highestBidder && 
+                   (auction.highestBidder.name === (currentUser?.name || currentUser?.username));
+
+  if (isWinner) {
+    // 🎯 CHUYỂN HƯỚNG NGAY LẬP TỨC ĐẾN TRANG THANH TOÁN
+    setTimeout(() => {
+      window.location.href = `order-confirmation.html?id=${auctionId}`;
+    }, 2000); // đợi 2 giây để người dùng thấy thông báo
+    winnerMsg.innerHTML = `🎉 <strong>${auction.highestBidder.name}</strong> 🎉<br/>Bạn đã thắng! Đang chuyển hướng...`;
+  } else {
+    winnerMsg.innerHTML = auction.highestBidder 
+      ? `🏆 Người thắng: ${auction.highestBidder.name} với ${auction.currentBid.toLocaleString()}đ`
+      : "🚫 Không có người tham gia";
+  }
+}
+
+    function placeBid() {
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if (!currentUser) {
+        show_message("Vui lòng đăng nhập!", "error");
+        return;
+      }
+
+      if (auction.status === "ended" || isEnded || new Date() >= new Date(auction.endTime)) {
+        show_message("Phiên đã kết thúc!", "error");
+        return;
+      }
+
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const amount = parseFloat(document.getElementById("bidAmount").value);
+
+      if (!phone) { show_message("Vui lòng nhập số điện thoại!", "error"); return; }
+      if (!isValidPhone(phone)) { show_message("Số điện thoại không hợp lệ!", "error"); return; }
+      if (!email) { show_message("Vui lòng nhập email!", "error"); return; }
+      if (!isValidEmail(email)) { show_message("Email không hợp lệ!", "error"); return; }
+      if (!amount || amount <= auction.currentBid) {
+        show_message(`Giá phải cao hơn ${auction.currentBid.toLocaleString()}đ!`, "error");
+        return;
+      }
+
+      // 🔁 LẤY DỮ LIỆU MỚI NHẤT TỪ localStorage ĐỂ TRÁNH LỖI CẬP NHẬT
+      let allAuctions = JSON.parse(localStorage.getItem("auctions")) || [];
+      const currentAuction = allAuctions.find(a => String(a.id) === String(auctionId));
+
+      if (!currentAuction) {
+        show_message("Phiên đấu giá không tồn tại!", "error");
+        return;
+      }
+
+      // ✅ CẬP NHẬT GIÁ MỚI NHẤT
+      currentAuction.currentBid = amount;
+      currentAuction.highestBidder = {
+        name: currentUser.name || currentUser.username,
+        phone: phone,
+        email: email
+      };
+
+      if (!currentAuction.bidders) currentAuction.bidders = [];
+      currentAuction.bidders.push({
+        name: currentUser.name || currentUser.username,
+        phone: phone,
+        email: email,
+        bid: amount,
+        timestamp: new Date().toISOString()
+      });
+
+      // 💾 LƯU LẠI
+      allAuctions = allAuctions.map(a => String(a.id) === String(auctionId) ? currentAuction : a);
+      localStorage.setItem("auctions", JSON.stringify(allAuctions));
+
+      // 🔄 CẬP NHẬT GIAO DIỆN NGAY LẬP TỨC
+      auction = currentAuction; // Đồng bộ biến toàn cục
+      updateUI();
+      show_message("✅ Đặt giá thành công!", "success");
+
+      // Lưu thông tin user
+      currentUser.phone = phone;
+      currentUser.email = email;
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+      // Xóa trường giá
+      document.getElementById("bidAmount").value = "";
+    }
+
+    // 🔄 ĐỒNG BỘ KHI CÓ THAY ĐỔI TỪ TAB KHÁC
+    window.addEventListener("storage", () => {
+      loadAuction(); // Tải lại toàn bộ dữ liệu
+    });
+
+    // Khởi chạy
+    document.addEventListener("DOMContentLoaded", loadAuction);
+  </script>
+</body>
+</html>

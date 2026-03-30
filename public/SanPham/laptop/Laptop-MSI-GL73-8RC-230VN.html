@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop MSI GL73 8RC-230VN - Gaming 17.3"</title>
+    <style>
+        /* Giữ nguyên toàn bộ CSS như cũ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5; color: #333; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; display: flex; gap: 20px; }
+        .product-main { flex: 2; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .product-image-container { position: relative; width: 100%; height: 400px; background: #eee; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+        .product-image { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+        .product-image:hover { transform: scale(1.02); }
+        .image-thumbs { display: flex; gap: 10px; flex-wrap: nowrap; margin-top: 10px; overflow: hidden; width: 690px; margin: 0 auto; position: relative; }
+        .image-thumbs::-webkit-scrollbar { height: 8px; }
+        .image-thumbs::-webkit-scrollbar-track { background: #f1f1f1; }
+        .image-thumbs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        .image-thumbs::-webkit-scrollbar-thumb:hover { background: #999; }
+        .thumb-item { width: 60px; height: 60px; border: 2px solid transparent; border-radius: 4px; cursor: pointer; overflow: hidden; }
+        .thumb-item.active { border-color: #007bff; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        .nav-arrows { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 10px; }
+        .nav-arrow { background: rgba(255,255,255,0.7); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .nav-arrow:hover { background: rgba(255,255,255,0.9); }
+        .product-features { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .feature-item { text-align: center; padding: 10px; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .feature-item h4 { font-size: 14px; margin-bottom: 5px; color: #007bff; }
+        .feature-item p { font-size: 16px; font-weight: bold; }
+        .tabs { display: flex; gap: 10px; margin: 20px 0; border-bottom: 1px solid #ddd; }
+        .tab { padding: 10px 20px; background: #f0f0f0; border: 1px solid #ddd; border-bottom: none; border-radius: 6px 6px 0 0; cursor: pointer; font-weight: 500; }
+        .tab.active { background: #007bff; color: white; border-color: #007bff; }
+        .tab-content { padding: 20px; background: white; border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px; min-height: 200px; }
+        .spec-section { margin-top: 20px; }
+        .spec-category { background: #f5f5f5; padding: 12px 15px; border-radius: 6px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .spec-category:hover { background: #e9e9e9; }
+        .spec-category::after { content: '+'; font-size: 18px; transition: transform 0.3s; }
+        .spec-category.active::after { content: '-'; transform: rotate(180deg); }
+        .spec-details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 15px; margin-bottom: 10px; }
+        .spec-details.show { max-height: 500px; padding: 15px 15px 10px; }
+        .spec-row { display: flex; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .spec-label { width: 30%; font-weight: 600; color: #007bff; }
+        .spec-value { width: 70%; }
+        .product-info { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .promo-banners { margin-bottom: 20px; }
+        .promo-banner { width: 100%; height: 80px; background: linear-gradient(45deg, #ff6b6b, #ffa500); border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px; }
+        .price-info { margin: 20px 0; }
+        .price-label { font-size: 14px; color: #666; }
+        .price { font-size: 24px; font-weight: bold; color: #d9534f; margin: 5px 0; }
+        .stock-status { color: #d9534f; font-weight: bold; margin: 10px 0; }
+        .warranty-info { margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 14px; }
+        .contact-info { display: flex; align-items: center; gap: 10px; margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 6px; }
+        .contact-icon { color: #007bff; font-size: 18px; }
+        .section-title { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 15px; padding-bottom: 10px; border-bottom: 2px solid #007bff; }
+        .section-title h2 { font-size: 18px; color: #333; }
+        .view-all-link { color: #007bff; text-decoration: none; font-size: 14px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .product-card { background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .product-card:hover { transform: translateY(-2px); }
+        .product-image-small { width: 100%; height: 150px; object-fit: contain; background: #f9f9f9; }
+        .product-info-small { padding: 10px; }
+        .product-name { font-size: 14px; font-weight: 500; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .product-price { font-size: 16px; font-weight: bold; color: #d9534f; margin: 5px 0; }
+        .product-old-price { font-size: 14px; color: #999; text-decoration: line-through; margin-right: 10px; }
+        .product-discount { font-size: 14px; color: #5cb85c; font-weight: bold; }
+        .product-rating { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; margin-top: 5px; }
+        .star { color: #ffcc00; }
+        .product-sold { font-size: 12px; color: #999; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .product-image-container { height: 300px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Main -->
+        <div class="product-main">
+            <!-- Product Image -->
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/44/202440/Slider/gl73-8rc-230vn-(1).jpg" alt="MSI GL73 8RC-230VN" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="image-thumbs">
+  <div class="thumb-item active">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-1-750x500.jpg" alt="MSI GL73 ảnh 1">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-2-750x500.jpg" alt="MSI GL73 ảnh 2">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-3-750x500.jpg" alt="MSI GL73 ảnh 3">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-4-750x500.jpg" alt="MSI GL73 ảnh 4">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-5-750x500.jpg" alt="MSI GL73 ảnh 5">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-7-750x500.jpg" alt="MSI GL73 ảnh 6">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-10-750x500.jpg" alt="MSI GL73 ảnh 7">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-12-750x500.jpg" alt="MSI GL73 ảnh 8">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-13-750x500.jpg" alt="MSI GL73 ảnh 9">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-14-750x500.jpg" alt="MSI GL73 ảnh 10">
+  </div>
+</div>
+
+
+            <!-- Features -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Intel Core i7-8750H</h4>
+                    <p>6 nhân 12 luồng</p>
+                </div>
+                <div class="feature-item">
+                    <h4>NVIDIA GTX 1050 4GB</h4>
+                    <p>Chơi game mượt</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 17.3" Full HD</h4>
+                    <p>1920x1080, Anti-Glare</p>
+                </div>
+                <div class="feature-item">
+                    <h4>8GB RAM DDR4</h4>
+                    <p>Nâng cấp tối đa 32GB</p>
+                </div>
+                <div class="feature-item">
+                    <h4>128GB SSD + 1TB HDD</h4>
+                    <p>Khởi động nhanh</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Bàn phím RGB</h4>
+                    <p>Đa màu sắc</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Cooler Boost 5</h4>
+                    <p>Làm mát hiệu quả</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Windows 10</h4>
+                    <p>Bản quyền</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <!-- Specs -->
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">Cấu hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">CPU:</div><div class="spec-value">Intel Core i7-8750H (6C/12T, 2.2GHz up to 4.1GHz)</div></div>
+                        <div class="spec-row"><div class="spec-label">RAM:</div><div class="spec-value">8GB DDR4 2666MHz (2 khe, tối đa 32GB)</div></div>
+                        <div class="spec-row"><div class="spec-label">Ổ cứng:</div><div class="spec-value">128GB SSD NVMe + 1TB HDD 7200RPM</div></div>
+                        <div class="spec-row"><div class="spec-label">VGA:</div><div class="spec-value">NVIDIA GeForce GTX 1050 4GB GDDR5</div></div>
+                        <div class="spec-row"><div class="spec-label">Màn hình:</div><div class="spec-value">17.3" Full HD (1920x1080), IPS-Level, Anti-Glare</div></div>
+                        <div class="spec-row"><div class="spec-label">Hệ điều hành:</div><div class="spec-value">Windows 10 Home bản quyền</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">Thiết kế & Cổng kết nối</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Cổng xuất hình:</div><div class="spec-value">HDMI, mini DisplayPort</div></div>
+                        <div class="spec-row"><div class="spec-label">Cổng USB:</div><div class="spec-value">1x USB 3.1 Gen2 Type-C, 2x USB 3.1 Gen1, 1x USB 2.0</div></div>
+                        <div class="spec-row"><div class="spec-label">Kết nối:</div><div class="spec-value">Wi-Fi 5 (802.11ac), Bluetooth 5.0</div></div>
+                        <div class="spec-row"><div class="spec-label">Webcam:</div><div class="spec-value">HD (720p)</div></div>
+                        <div class="spec-row"><div class="spec-label">Pin:</div><div class="spec-value">6-cell 51Wh</div></div>
+                        <div class="spec-row"><div class="spec-label">Trọng lượng:</div><div class="spec-value">2.5 kg</div></div>
+                        <div class="spec-row"><div class="spec-label">Màu sắc:</div><div class="spec-value">Đen</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="cooling">Làm mát & Bàn phím</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Hệ thống làm mát:</div><div class="spec-value">Cooler Boost 5 (2 quạt, 6 ống dẫn nhiệt)</div></div>
+                        <div class="spec-row"><div class="spec-label">Bàn phím:</div><div class="spec-value">RGB đơn vùng, hành trình phím 2.5mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Loa:</div><div class="spec-value">2 loa stereo, hỗ trợ Nahimic Audio</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>MSI GL73 8RC-230VN – Laptop Gaming 17.3" Mạnh Mẽ</h3>
+                <p>Laptop MSI GL73 8RC-230VN được trang bị CPU Intel Core i7 thế hệ 8, VGA rời GTX 1050 4GB, RAM 8GB và ổ cứng SSD+HDD kép – mang đến hiệu năng vượt trội cho gaming, đồ họa và đa nhiệm.</p>
+                <p>Màn hình lớn 17.3" Full HD cho trải nghiệm giải trí và chơi game sống động. Hệ thống tản nhiệt Cooler Boost 5 giúp máy luôn mát dù hoạt động ở tải cao.</p>
+                <p>Thiết kế đậm chất gaming với logo đỏ rực, bàn phím RGB, phù hợp với game thủ và sinh viên công nghệ.</p>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <h1>MSI GL73 8RC-230VN</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">Tặng túi chống sốc cao cấp</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 12 tháng</div>
+            </div>
+
+            <!-- Loại bỏ chọn màu và dung lượng vì cấu hình cố định -->
+            <!-- Có thể thêm "Cấu hình tiêu chuẩn" nếu muốn -->
+
+            <div class="price-info">
+                <div class="price-label">Giá tại Thành phố Hồ Chí Minh</div>
+                <div class="price">22.990.000đ</div>
+                <div class="stock-status">Còn hàng</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="padding: 14px 20px; background: #28a745; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);" 
+                        onmouseover="this.style.background='#218838'" 
+                        onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                
+                <button style="padding: 14px 20px; background: #dc3545; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);" 
+                        onmouseover="this.style.background='#c82333'" 
+                        onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 24 tháng tại trung tâm MSI Việt Nam<br>
+                <a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 232 460</strong> để được tư vấn (8:00 - 21:30)
+            </div>
+
+            <!-- Sản phẩm thường mua cùng -->
+            <div class="section-title">
+                <h2>Sản phẩm thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Chu%E1%BB%99t" alt="Chuột" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Chuột Gaming MSI Clutch GM11</div>
+                        <div class="product-price">399.000đ</div>
+                        <div class="product-old-price">599.000đ</div>
+                        <div class="product-discount">-33%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 2.1k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=B%E1%BA%A3o%20h%C3%A0nh" alt="Bảo hành" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Gói bảo hành mở rộng 12 tháng</div>
+                        <div class="product-price">1.200.000đ</div>
+                        <div class="product-rating"><span class="star">★</span> 4.9 • Đã bán 856</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=T%C3%BAi" alt="Túi" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Túi đựng laptop MSI 17.3"</div>
+                        <div class="product-price">250.000đ</div>
+                        <div class="product-old-price">450.000đ</div>
+                        <div class="product-discount">-44%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 3.4k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cập nhật dữ liệu cho laptop
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+
+        // Ảnh cho laptop
+       const imageUrls = [
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-1-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-2-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-3-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-4-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-5-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-7-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-10-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-12-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-13-750x500.jpg",
+  "https://cdn.tgdd.vn/Products/Images/44/202440/msi-gl73-8rc-230vn-den-14-750x500.jpg"
+];
+
+
+        let currentImageIndex = 0;
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        // Tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Nút "THÊM VÀO GIỎ HÀNG"
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const product = {
+                id: "msi-gl73-8rc-230vn",
+                name: "MSI GL73 8RC-230VN",
+                price: 22990000,
+                image: mainImage.src,
+                quantity: 1,
+                specs: "i7-8750H / GTX 1050 / 8GB / 128GB SSD + 1TB HDD"
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(p => p.id === product.id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ Đã thêm vào giỏ hàng:\n${product.name}\nGiá: ${product.price.toLocaleString('vi-VN')}đ`);
+            window.location.href = '../cart.html';
+        });
+
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            alert('Tính năng "MUA NGAY" đang được phát triển. Vui lòng thêm vào giỏ hàng trước!');
+        });
+    </script>
+</body>
+</html>

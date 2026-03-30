@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng ký tài khoản</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .register-container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 5px;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      background-color: #007BFF;
+      color: white;
+      font-size: 16px;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .login-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    .login-link a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    .message {
+      margin: 10px 0;
+      text-align: center;
+      font-weight: 600;
+    }
+    .message.error {
+      color: red;
+    }
+    .message.success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Đăng ký tài khoản</h2>
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="username">Tên người dùng</label>
+        <input type="text" id="username" name="username" required minlength="3" placeholder="Nhập tên người dùng" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Nhập email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" name="password" required minlength="6" placeholder="Nhập mật khẩu" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Xác nhận mật khẩu</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6" placeholder="Nhập lại mật khẩu" />
+      </div>
+      <button type="submit">Đăng ký</button>
+      <div class="message" id="message"></div>
+    </form>
+    <div class="login-link">
+      Đã có tài khoản? <a href="login.html">Đăng nhập ngay</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const username = form.username.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      const confirmPassword = form.confirmPassword.value;
+
+      messageDiv.textContent = '';
+      messageDiv.className = 'message';
+
+      if (password !== confirmPassword) {
+        messageDiv.textContent = 'Mật khẩu và xác nhận mật khẩu không khớp!';
+        messageDiv.classList.add('error');
+        return;
+      }
+
+      // Gửi dữ liệu đăng ký lên server
+      try {
+        const res = await fetch('http://localhost:3000/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          messageDiv.textContent = 'Đăng ký thành công! Bạn có thể đăng nhập ngay.';
+          messageDiv.classList.add('success');
+          form.reset();
+        } else {
+          messageDiv.textContent = data.message || 'Có lỗi xảy ra!';
+          messageDiv.classList.add('error');
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Lỗi kết nối tới server!';
+        messageDiv.classList.add('error');
+      }
+    });
+  </script>
+</body>
+</html>

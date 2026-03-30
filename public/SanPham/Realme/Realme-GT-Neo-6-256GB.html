@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realme GT Neo 6 256GB - Chính hãng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .image-thumbs:hover {
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #0056b3;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 40%;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .spec-value {
+            width: 60%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .storage-options {
+            display: none; /* Realme GT Neo 6 có 256GB và 512GB, nhưng trang này chỉ 256GB */
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="data:image/jpeg;base64,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" alt="Realme GT Neo 6" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6.jpg" alt="Tím">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6_2_.jpg" alt="Xanh">
+                </div>
+            </div>
+
+            <!-- Product Features -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Snapdragon 8s Gen 3</h4>
+                    <p>Hiệu năng cao cấp</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 1.5K AMOLED</h4>
+                    <p>6.78", 120Hz</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Sạc siêu nhanh 120W</h4>
+                    <p>0-100% trong 24 phút</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera chính 50MP</h4>
+                    <p>Sony IMX890</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 5500mAh</h4>
+                    <p>Siêu trâu</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Thiết kế năng động</h4>
+                    <p>Nặng 191g</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Wi-Fi 7</h4>
+                    <p>Kết nối mạnh</p>
+                </div>
+                <div class="feature-item">
+                    <h4>256GB UFS 4.0</h4>
+                    <p>Tốc độ cao</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Giới thiệu sản phẩm</div>
+            </div>
+
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">
+                        Cấu hình & Hiệu năng
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Chip xử lý:</div>
+                            <div class="spec-value">Qualcomm Snapdragon 8s Gen 3</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">GPU:</div>
+                            <div class="spec-value">Adreno 735</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">RAM:</div>
+                            <div class="spec-value">12GB LPDDR5X</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Bộ nhớ trong:</div>
+                            <div class="spec-value">256GB UFS 4.0</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Hệ điều hành:</div>
+                            <div class="spec-value">realme UI 5.0 (dựa trên Android 14)</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="camera">
+                        Camera
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Camera sau:</div>
+                            <div class="spec-value">50MP (góc rộng, Sony IMX890, OIS) + 8MP (siêu rộng)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Camera trước:</div>
+                            <div class="spec-value">16MP</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tính năng:</div>
+                            <div class="spec-value">Chế độ Nightography, AI HDR, Chụp RAW</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">
+                        Màn hình
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">6.78 inch AMOLED 1.5K</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Độ phân giải:</div>
+                            <div class="spec-value">2780 x 1264 pixels (~453 ppi)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tần số quét:</div>
+                            <div class="spec-value">120Hz LTPO</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Độ sáng tối đa:</div>
+                            <div class="spec-value">6000 nits (Peak HDR)</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">
+                        Pin & Sạc
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Dung lượng pin:</div>
+                            <div class="spec-value">5500 mAh</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Sạc nhanh:</div>
+                            <div class="spec-value">120W SUPERVOOC (0-100% trong 24 phút)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Sạc không dây:</div>
+                            <div class="spec-value">Không hỗ trợ</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="connectivity">
+                        Kết nối & Thiết kế
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Chống nước/bụi:</div>
+                            <div class="spec-value">IP54 (chống bắn tóe)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Wi-Fi:</div>
+                            <div class="spec-value">Wi-Fi 7</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Bluetooth:</div>
+                            <div class="spec-value">5.4</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">163.7 x 76.1 x 8.2 mm</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Trọng lượng:</div>
+                            <div class="spec-value">191g</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Realme GT Neo 6 – Hiệu năng bá đạo, sạc thần tốc</h3>
+                <p>Realme GT Neo 6 là chiếc smartphone hiệu năng cao với chip Snapdragon 8s Gen 3, màn hình AMOLED 1.5K 120Hz siêu sáng 6000 nits, pin 5500mAh và công nghệ sạc nhanh 120W chỉ mất 24 phút để đầy pin.</p>
+                <p>Camera chính Sony IMX890 50MP hỗ trợ OIS, chụp đêm xuất sắc. Thiết kế trẻ trung, mỏng nhẹ, phù hợp game thủ và người dùng năng động.</p>
+                <p>Giá cực tốt trong phân khúc – lựa chọn lý tưởng cho ai tìm kiếm hiệu năng cao với ngân sách hợp lý.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Realme GT Neo 6 256GB</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">TẶNG ỐP LƯNG + CƯỜNG LỰC</div>
+                <div class="promo-banner">TRẢ GÓP 0% - DUYỆT NHANH TRONG 5 PHÚT</div>
+            </div>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6.jpg">
+                    <span class="color-dot" style="background: #710d99;"></span> Tím Huyền Bí
+                </button>
+                <button class="color-btn" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6_2_.jpg">
+                    <span class="color-dot" style="background: #4CAF50;"></span> Xanh Năng Lượng
+                </button>
+            </div>
+
+            <!-- Price & Stock -->
+            <div class="price-info">
+                <div class="price-label">Giá tại Thành phố Hồ Chí Minh</div>
+                <div class="price">11.990.000đ</div>
+                <div class="stock-status">CÒN HÀNG</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+                " onmouseover="this.style.background='#0069d9'" onmouseout="this.style.background='#007bff'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng Realme 12 tháng<br>
+                <a href="#" style="color: #007bff; text-decoration: underline;">Xem trung tâm bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 232 460</strong> để được tư vấn (8:00 - 22:00)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        const price = 11990000;
+        function formatPrice(p) {
+            return p.toLocaleString('vi-VN') + 'đ';
+        }
+
+        const imageUrls = [
+            "data:image/jpeg;base64,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",
+            "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6.jpg",
+            "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-neo-6_2_.jpg",
+        ];
+
+        let currentImageIndex = 0;
+
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    thumbItems[0].querySelector('img').src = newImage;
+                }
+            });
+        });
+
+        // Thêm vào giỏ hàng
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const productName = "Realme GT Neo 6 256GB";
+            const colorBtn = document.querySelector('.color-btn.active');
+            const color = colorBtn ? colorBtn.textContent.trim() : "Đen Huyền Bí";
+            const productImage = mainImage.src;
+            const productId = `realme-gt-neo-6-256gb-${color.toLowerCase().replace(/\s+/g, '-')}`;
+
+            const product = {
+                id: productId,
+                name: productName,
+                color: color,
+                storage: "256GB",
+                price: price,
+                image: productImage,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(product);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${productName}\n- Màu: ${color}\n- Số lượng: ${existingIndex !== -1 ? cart[existingIndex].quantity : 1}`);
+            window.location.href = '../cart.html';
+        });
+
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            alert('🚀 Chức năng "MUA NGAY" đang được phát triển!\nVui lòng chọn "THÊM VÀO GIỎ HÀNG".');
+        });
+    </script>
+</body>
+</html>

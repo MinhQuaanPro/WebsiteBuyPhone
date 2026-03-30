@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chat Nhóm Chung</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* GIỮ NGUYÊN TOÀN BỘ CSS CỦA BẠN */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #2a9d8f;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .chat-area {
+            height: 500px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #e6f7ee;
+            max-width: 80%;
+        }
+        .message.admin {
+            background: #e3f2fd;
+            margin-left: auto;
+        }
+        .message .user {
+            font-weight: bold;
+            color: #2a9d8f;
+        }
+        .message .time {
+            font-size: 0.8em;
+            color: #777;
+            margin-left: 6px;
+        }
+        .input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        .input-area button {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .input-area button:hover {
+            opacity: 0.9;
+        }
+
+        /* 👇 THÊM: HIỂN THỊ THÔNG BÁO KHI BỊ CHẶN */
+        .banned-notice {
+            text-align: center;
+            padding: 15px;
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+            border-radius: 8px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-comments"></i> Chat Nhóm Chung (User + Admin)
+        </div>
+        <div class="chat-area" id="chat-area"></div>
+        <div class="input-area" id="input-section">
+            <input type="text" id="message-input" placeholder="Nhập tin nhắn..." maxlength="200">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+   <script>
+    // 📦 DANH SÁCH SẢN PHẨM (rút gọn để minh họa)
+    const allProducts = [
+        { name: "iPhone 17 Pro Max 256GB", price: "29.990.000đ", spec: "Titanium, A18 Pro, 5x zoom quang" },
+        { name: "Samsung Galaxy S24 Ultra 512GB", price: "26.990.000đ", spec: "S Pen, Snapdragon 8 Gen 3" },
+        { name: "Google Pixel 8 Pro 256GB", price: "24.990.000đ", spec: "AI chụp ảnh, cập nhật 7 năm" },
+        { name: "iPhone 11 128GB", price: "9.990.000đ", spec: "Chip A13, pin tốt, giá rẻ" }
+    ];
+
+  // 📚 CƠ SỞ TRI THỨC (đã mở rộng)
+const knowledgeBase = [
+    {
+        keywords: ['chào', 'xin chào', 'hello', 'hi', 'alo'],
+        response: 'Xin chào! 😊 Tôi có thể giúp gì bạn về sản phẩm, đấu giá, nhiệm vụ hay voucher?'
+    },
+    {
+        keywords: ['đấu giá', 'tham gia đấu giá', 'phiên đấu giá'],
+        response: 'Để tham gia đấu giá:\n1️⃣ Đăng nhập\n2️⃣ Đặt cọc 10% giá khởi điểm\n3️⃣ Vào phòng và đặt giá\nBạn muốn xem sản phẩm đang đấu giá?'
+    },
+    {
+        keywords: ['sản phẩm', 'danh sách', 'có gì'],
+        response: `Hiện có ${allProducts.length} sản phẩm đang mở đấu giá. Bạn muốn xem theo:\n• Giá (VD: "dưới 20 triệu")\n• Thương hiệu (iPhone, Samsung...)\n• Nhu cầu (chụp ảnh, chơi game...)\n• Màu sắc (VD: "iPhone màu xanh")`
+    },
+    {
+        keywords: ['thông tin', 'chi tiết', 'mô tả', 'cấu hình'],
+        response: 'Vui lòng nói rõ tên sản phẩm (VD: "thông tin iPhone 17 Pro Max"). Tôi sẽ gửi bạn:\n• Hình ảnh\n• Cấu hình kỹ thuật\n• Màu sắc có sẵn\n• Giá & ưu đãi hiện tại!'
+    },
+    {
+        keywords: ['giá', 'bao nhiêu', 'giá bao nhiêu'],
+        response: 'Vui lòng nói rõ tên sản phẩm (VD: "iPhone 17 Pro Max giá bao nhiêu?"). Tôi sẽ trả lời chính xác kèm ưu đãi!'
+    },
+    {
+        keywords: ['so sánh', 'so sánh sản phẩm'],
+        response: 'Bạn có thể so sánh tối đa 3 sản phẩm!\n📌 Cách làm:\n1. Chọn sản phẩm (VD: iPhone 17 Pro, Galaxy S24 Ultra)\n2. Nhấn nút “So sánh”\n3. Xem bảng so sánh chi tiết (giá, cấu hình, **màu sắc**, camera...)\nBạn muốn so sánh sản phẩm nào?'
+    },
+    {
+        keywords: ['màu', 'màu sắc', 'có màu gì', 'mẫu màu'],
+        response: 'Vui lòng cho biết tên sản phẩm (VD: "iPhone 17 Pro Max có màu gì?"). Tôi sẽ liệt kê tất cả màu sắc đang có sẵn kèm ảnh minh họa!'
+    },
+    {
+        keywords: ['nhiệm vụ', 'làm nhiệm vụ', 'nhận điểm'],
+        response: 'Kiếm điểm bằng cách:\n✅ Xem chi tiết sản phẩm (+5 điểm)\n✅ So sánh 2+ sản phẩm (+10 điểm)\n✅ Chia sẻ sản phẩm (+5 điểm)\n✅ Tham gia đấu giá (+15 điểm)\n→ Đổi điểm lấy voucher giảm giá!'
+    },
+    {
+        keywords: ['voucher', 'mã giảm giá'],
+        response: 'Đổi điểm thành voucher:\n• 50 điểm = 50.000đ\n• 100 điểm = 100.000đ\n• 200 điểm = 250.000đ\nÁp dụng khi mua trực tiếp, không dùng cho đấu giá.'
+    },
+    {
+        keywords: ['giỏ hàng', 'cart'],
+        response: 'Giỏ hàng và đấu giá là 2 tính năng riêng biệt. Voucher chỉ áp dụng khi mua trực tiếp tại giỏ hàng.'
+    },
+    {
+        keywords: ['thanh toán', 'trả tiền'],
+        response: 'Thanh toán sau trúng đấu giá qua MoMo, VNPay hoặc chuyển khoản. Hệ thống sẽ hướng dẫn chi tiết.'
+    },
+    {
+        keywords: ['giao hàng', 'ship'],
+        response: 'Giao hàng toàn quốc trong 2–5 ngày. Phí ship tính theo trọng lượng & khu vực (miễn phí đơn >2 triệu).'
+    },
+    {
+        keywords: ['admin', 'liên hệ'],
+        response: 'Liên hệ admin qua:\n✉️ Email: admin@phonehub.vn\n💬 Chat Admin (trong menu người dùng)'
+    }
+];
+
+    // 🧠 HÀM TRẢ LỜI
+    function getAIResponse(userInput) {
+        const input = userInput.toLowerCase().trim();
+
+        // Kiểm tra sản phẩm
+        const productMatch = allProducts.find(p => 
+            input.includes(p.name.toLowerCase())
+        );
+
+        if (productMatch) {
+            return `📱 **${productMatch.name}**\n💰 Giá: ${productMatch.price}\n⚙️ Nổi bật: ${productMatch.spec}\n\nBạn muốn:\n• Xem chi tiết (+5 điểm)\n• So sánh với sản phẩm khác\n• Tham gia đấu giá?`;
+        }
+
+        // Tìm trong cơ sở tri thức
+        for (const item of knowledgeBase) {
+            for (const keyword of item.keywords) {
+                if (input.includes(keyword)) {
+                    return item.response;
+                }
+            }
+        }
+
+        return 'Xin lỗi, tôi chưa hiểu câu hỏi này. 😅\nBạn có thể hỏi:\n• Sản phẩm cụ thể (VD: "iPhone 17 Pro có gì?")\n• So sánh 2-3 thiết bị\n• Cách tham gia đấu giá\n• Làm nhiệm vụ đổi voucher';
+    }
+
+    // 🖥️ GIAO DIỆN - ĐÃ SỬA LỖI!
+    const chatArea = document.getElementById('chat-area'); // ✅ ĐÃ SỬA
+    const messageInput = document.getElementById('message-input');
+
+    function appendMessage(text, sender) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+        chatArea.appendChild(msgDiv);
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text) return;
+
+        appendMessage(text, 'user');
+        messageInput.value = '';
+
+        setTimeout(() => {
+            const reply = getAIResponse(text);
+            appendMessage(reply, 'ai');
+        }, 300);
+    }
+
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    // ✅ LỜI CHÀO TỰ ĐỘNG — CHẠY SAU KHI TRANG TẢI XONG
+    window.addEventListener('DOMContentLoaded', () => {
+        appendMessage("Xin chào! Tôi là trợ lý ảo của hệ thống đấu giá PhoneHub. 😊\nTôi có thể giúp bạn:\n• Tìm sản phẩm phù hợp\n• So sánh cấu hình\n• Hướng dẫn đấu giá\n• Làm nhiệm vụ đổi voucher\nBạn cần hỗ trợ gì?", "ai");
+    });
+</script>
+</body>
+</html>

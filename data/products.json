@@ -1,0 +1,13 @@
+[
+  { "id": 1, "name": "Điện thoại 1", "category": "Điện thoại" },
+  { "id": 2, "name": "Điện thoại 2", "category": "Điện thoại" },
+  { "id": 3, "name": "Điện thoại 3", "category": "Điện thoại" },
+  { "id": 4, "name": "Điện thoại 4", "category": "Điện thoại" },
+  { "id": 5, "name": "Điện thoại 5", "category": "Điện thoại" },
+  { "id": 6, "name": "Điện thoại 6", "category": "Điện thoại" },
+  { "id": 7, "name": "Điện thoại 7", "category": "Điện thoại" },
+  { "id": 8, "name": "Điện thoại 8", "category": "Điện thoại" },
+  { "id": 9, "name": "Điện thoại 9", "category": "Điện thoại" },
+  { "id": 10, "name": "Điện thoại 10", "category": "Điện thoại" }
+ 
+]

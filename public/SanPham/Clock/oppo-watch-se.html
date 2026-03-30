@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPPO Watch SE - Đồng hồ thông minh 1.69 inch</title>
+    <style>
+        /* Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        /* Main Product Section */
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #f0f7ff;
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .product-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.04);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 0 10px;
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 6px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 3px;
+        }
+        .thumb-item {
+            width: 65px;
+            height: 65px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .thumb-item.active {
+            border-color: #0ea5e9;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+            padding: 18px;
+            background: #f0f9ff;
+            border-radius: 14px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #0ea5e9;
+        }
+        .feature-item p {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 24px 0 18px;
+        }
+        .tab {
+            padding: 10px 22px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #475569;
+        }
+        .tab.active {
+            background: #0ea5e9;
+            color: white;
+        }
+        .tab-content {
+            padding: 22px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            min-height: 180px;
+        }
+        .spec-category {
+            background: #f0f9ff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin: 12px 0;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #0c4a6e;
+        }
+        .spec-category::after {
+            content: "+";
+            font-size: 18px;
+            color: #0ea5e9;
+        }
+        .spec-category.active::after {
+            content: "-";
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            padding: 0 18px;
+        }
+        .spec-details.show {
+            max-height: 600px;
+            padding: 18px;
+            margin-top: 8px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .spec-label {
+            width: 40%;
+            font-weight: 600;
+            color: #0ea5e9;
+        }
+        .spec-value {
+            width: 60%;
+        }
+        /* Product Info */
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .promo-banners {
+            margin: 18px 0;
+        }
+        .promo-banner {
+            background: linear-gradient(90deg, #0ea5e9, #38bdf8);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .color-options {
+            display: flex;
+            gap: 14px;
+            margin: 18px 0;
+            flex-wrap: wrap;
+        }
+        .color-btn {
+            padding: 10px 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 22px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-btn.active {
+            border-color: #0ea5e9;
+            background: #f0f9ff;
+        }
+        .color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .price-info {
+            margin: 22px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #dc2626;
+            margin: 8px 0;
+        }
+        .stock-status {
+            color: #10b981;
+            font-weight: 600;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-buttons {
+            margin: 26px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .btn {
+            padding: 16px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .btn-cart {
+            background: #0ea5e9;
+            color: white;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.4);
+        }
+        .btn-cart:hover {
+            background: #0284c7;
+        }
+        .btn-buy {
+            background: #dc2626;
+            color: white;
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+        }
+        .btn-buy:hover {
+            background: #b91c1c;
+        }
+        .warranty-info, .contact-info {
+            padding: 16px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin: 18px 0;
+            font-size: 14px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 26px 0 18px;
+        }
+        .section-title h2 {
+            font-size: 18px;
+            color: #1e293b;
+        }
+        .view-all-link {
+            color: #0ea5e9;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 130px;
+            object-fit: contain;
+            background: #f8fafc;
+        }
+        .product-info-small {
+            padding: 12px;
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 17px;
+            font-weight: 700;
+            color: #dc2626;
+            margin: 4px 0;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .product-features {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/template_dongho_final_copy.jpg" alt="OPPO Watch SE" class="product-image">
+            </div>
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/v/dvfdvu_2_.jpg" alt="Đen">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/v/dvfdvu.jpg" alt="Tím">
+                </div>
+            </div>
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Màn hình 1.69 inch</h4>
+                    <p>AMOLED độ sáng cao</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 400mAh</h4>
+                    <p>Sử dụng 10 ngày</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Kết nối Bluetooth 5.0</h4>
+                    <p>Ổn định, tiết kiệm pin</p>
+                </div>
+                <div class="feature-item">
+                    <h4>100+ chế độ thể thao</h4>
+                    <p>Chạy, bơi, yoga...</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Theo dõi sức khỏe</h4>
+                    <p>Nhịp tim, SpO2, giấc ngủ</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chống nước 5 ATM</h4>
+                    <p>An toàn khi bơi</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <div class="tab-content" id="specsContent">
+                <div class="spec-category" data-category="display">
+                    Màn hình
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Loại màn hình:</div>
+                        <div class="spec-value">AMOLED cảm ứng</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">1.69 inch</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ phân giải:</div>
+                        <div class="spec-value">240 x 280 pixels</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ sáng tối đa:</div>
+                        <div class="spec-value">500 nits</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="battery">
+                    Pin & Sạc
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Dung lượng pin:</div>
+                        <div class="spec-value">400 mAh</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Thời lượng pin:</div>
+                        <div class="spec-value">~10 ngày (chế độ thường), ~5 ngày (chế độ năng lượng cao)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc:</div>
+                        <div class="spec-value">Từ tính, đầy trong ~2 giờ</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="features">
+                    Tính năng
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Chế độ thể thao:</div>
+                        <div class="spec-value">100+ chế độ (chạy, đi bộ, bơi, đạp xe...)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Theo dõi sức khỏe:</div>
+                        <div class="spec-value">Nhịp tim 24/7, SpO2, giấc ngủ, stress</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Thông báo:</div>
+                        <div class="spec-value">Cuộc gọi, tin nhắn, Zalo, Facebook, Messenger...</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Chống nước:</div>
+                        <div class="spec-value">5 ATM (50 mét)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Khác:</div>
+                        <div class="spec-value">Điều khiển nhạc, tìm điện thoại, đồng hồ thế giới</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="connectivity">
+                    Kết nối
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Bluetooth:</div>
+                        <div class="spec-value">5.0</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">GPS:</div>
+                        <div class="spec-value">Dựa trên điện thoại (không có GPS độc lập)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Hệ điều hành hỗ trợ:</div>
+                        <div class="spec-value">Android 6.0+, iOS 10.0+</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="design">
+                    Thiết kế
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Vật liệu:</div>
+                        <div class="spec-value">Khung hợp kim nhôm, dây silicone</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">43.5 x 35.5 x 11.2 mm</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trọng lượng:</div>
+                        <div class="spec-value">35g (kèm dây)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Màu sắc:</div>
+                        <div class="spec-value">Đen, Trắng</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Giới thiệu OPPO Watch SE</h3>
+                <p>OPPO Watch SE là chiếc đồng hồ thông minh giá tốt, hướng đến trải nghiệm người dùng tối ưu với thiết kế thời thượng, màn hình AMOLED 1.69 inch sắc nét và pin lên đến 10 ngày.</p>
+                <p>Đồng hồ hỗ trợ hơn 100 chế độ thể thao, theo dõi sức khỏe toàn diện và khả năng chống nước 5 ATM – lý tưởng cho cả tập luyện và cuộc sống hằng ngày.</p>
+                <p>Tương thích mượt mà với cả Android và iOS, OPPO Watch SE là lựa chọn thông minh cho người dùng hiện đại.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>OPPO Watch SE</h1>
+            <div class="promo-banners">
+                <div class="promo-banner">🎁 Tặng ngay ốp lưng điện thoại trị giá 299.000đ</div>
+                <div class="promo-banner">💳 Trả góp 0% qua thẻ tín dụng</div>
+            </div>
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/v/dvfdvu_2_.jpg">
+                    <span class="color-dot" style="background: #111827;"></span> Đen
+                </button>
+                <button class="color-btn" data-image="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/v/dvfdvu.jpg">
+                    <span class="color-dot" style="background: #a222c9;"></span> Tím
+                </button>
+            </div>
+            <div class="price-info">
+                <div class="price-label">Giá tại TP.HCM</div>
+                <div class="price">2.290.000đ</div>
+                <div class="stock-status">✅ CÒN HÀNG – Giao trong 24h</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-cart" id="addToCart">
+                    <i class="fas fa-shopping-cart"></i> THÊM VÀO GIỎ HÀNG
+                </button>
+                <button class="btn btn-buy" id="buyNow">
+                    <i class="fas fa-bolt"></i> MUA NGAY
+                </button>
+            </div>
+            <div class="warranty-info">
+                🔧 Bảo hành chính hãng 12 tháng tại OPPO Việt Nam<br>
+                📦 Đổi trả miễn phí trong 7 ngày nếu lỗi nhà sản xuất
+            </div>
+            <div class="contact-info">
+                📞 Gọi ngay <strong>1800 6969</strong> để được tư vấn miễn phí (8:00 - 22:00)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+        const priceEl = document.querySelector('.price');
+
+        // Giá sản phẩm (VNĐ)
+        const basePrice = 2290000;
+
+        // Thumb selection
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                thumbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const imgSrc = item.querySelector('img').src;
+                mainImage.src = imgSrc;
+            });
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion for specs
+        specCategories.forEach(cat => {
+            cat.addEventListener('click', () => {
+                const isActive = cat.classList.contains('active');
+                specCategories.forEach(c => {
+                    c.classList.remove('active');
+                    c.nextElementSibling?.classList.remove('show');
+                });
+                if (!isActive) {
+                    cat.classList.add('active');
+                    cat.nextElementSibling?.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImg = btn.dataset.image;
+                if (newImg) {
+                    mainImage.src = newImg;
+                    // Cập nhật thumbnail đầu tiên
+                    thumbItems[0].querySelector('img').src = newImg;
+                }
+            });
+        });
+
+        // Add to Cart
+        document.getElementById('addToCart').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'oppo-watch-se-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'OPPO Watch SE',
+                color: color,
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${product.name}\n- Màu: ${color}`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy Now
+        document.getElementById('buyNow').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'oppo-watch-se-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'OPPO Watch SE',
+                color: color,
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1
+            };
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1';
+        });
+
+        // Set price
+        priceEl.textContent = basePrice.toLocaleString('vi-VN') + 'đ';
+    </script>
+</body>
+</html>

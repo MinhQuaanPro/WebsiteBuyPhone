@@ -1,0 +1,285 @@
+/* /dau-gia/style.css - PHIÊN BẢN HIỆN ĐẠI */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8f9fa;
+  color: #212529;
+  line-height: 1.6;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 30px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2a9d8f;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* FORM TẠO PHIÊN */
+.create-section {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 1px solid #dee2e6;
+}
+
+.create-section h2 {
+  font-size: 20px;
+  color: #264653;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 0 -7.5px;
+}
+
+.form-group {
+  flex: 1 1 200px;
+  padding: 0 7.5px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #495057;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: #2a9d8f;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #218874;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: #e76f51;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #d64d36;
+  transform: translateY(-1px);
+}
+
+.btn-warning {
+  background: #ff9234;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #f57c00;
+  transform: translateY(-1px);
+}
+
+/* DANH SÁCH PHIÊN */
+.section-title {
+  font-size: 20px;
+  color: #264653;
+  margin: 30px 0 15px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #2a9d8f;
+  border-radius: 3px;
+}
+
+.auctions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.auction-card {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.auction-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-color: #adb5bd;
+}
+
+.auction-card.active {
+  border-left: 4px solid #2a9d8f;
+}
+
+.auction-card.ended {
+  border-left: 4px solid #8d99ae;
+  background: #f8f9fa;
+}
+
+.auction-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #264653;
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.auction-info {
+  font-size: 14px;
+  color: #495057;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.auction-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2a9d8f;
+  margin: 10px 0;
+}
+
+.auction-winner {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 8px 0;
+}
+
+.countdown {
+  font-size: 14px;
+  color: #e76f51;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  justify-content: space-between;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .auction-card {
+    padding: 15px;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+}
+/* === Form tạo phiên - thiết kế theo mẫu === */
+
+.create-section .form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 0 -7.5px;
+}
+
+.create-section .form-group {
+  flex: 1 1 200px;
+  padding: 0 7.5px;
+}
+
+.create-section .form-group label {
+  display: block;
+  font-size: 14px;
+  color: #495057;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.create-section .form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+}
+
+.create-section .form-group input:focus {
+  outline: none;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+}

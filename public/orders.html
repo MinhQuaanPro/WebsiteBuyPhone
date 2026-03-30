@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Đặt hàng</title>
+</head>
+<body>
+  <h1>Đặt hàng</h1>
+  <form id="orderForm">
+    <label>
+      Mã sản phẩm:
+      <input type="number" id="productId" required />
+    </label><br/>
+    <label>
+      Số lượng:
+      <input type="number" id="quantity" required />
+    </label><br/>
+    <h3>Thông tin khách hàng (nếu có)</h3>
+    <label>
+      Tên khách hàng:
+      <input type="text" id="customerName" />
+    </label><br/>
+    <label>
+      Email khách hàng:
+      <input type="email" id="customerEmail" />
+    </label><br/>
+    <label>
+      Số điện thoại:
+      <input type="text" id="customerPhone" />
+    </label><br/>
+    <button type="submit">Gửi đơn hàng</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const productId = Number(document.getElementById('productId').value);
+      const quantity = Number(document.getElementById('quantity').value);
+      const name = document.getElementById('customerName').value.trim();
+      const email = document.getElementById('customerEmail').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+
+      const orderData = { productId, quantity };
+      if (name && email) {
+        orderData.customer = { name, email };
+        if (phone) orderData.customer.phone = phone;
+      }
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert('Đặt hàng thành công!');
+          form.reset();
+        } else {
+          alert('Lỗi: ' + data.message);
+        }
+      } catch (error) {
+        alert('Lỗi mạng hoặc server');
+      }
+    });
+  </script>
+</body>
+</html>

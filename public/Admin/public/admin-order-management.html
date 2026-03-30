@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Quản lý đơn hàng - Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+            color: white;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .content {
+            padding: 24px;
+        }
+        .no-orders {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+        .order-card {
+            border-left: 4px solid #2a9d8f;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 20px;
+            background: #fafafa;
+            position: relative;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: #e63946;
+            font-size: 18px;
+        }
+        .customer-info {
+            background: #e6f7ee;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+        .order-info {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .status-select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            background: white;
+            min-width: 160px;
+        }
+        .updated {
+            color: #2a9d8f;
+            font-size: 13px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .auto-refresh {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-clipboard-list"></i> Quản lý đơn hàng</h1>
+            <button class="back-btn" onclick="window.location.href='admin.html'">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </button>
+        </header>
+        <div class="content">
+            <div class="auto-refresh">🔄 Tự động cập nhật mỗi 5 giây</div>
+            <div id="orders-list">
+                Đang tải...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STATUS_OPTIONS = [
+            { value: 'pending', label: 'Chưa xác nhận' },
+            { value: 'confirmed', label: 'Đã xác nhận' },
+            { value: 'preparing', label: 'Đang chuẩn bị hàng' },
+            { value: 'shipping', label: 'Đang giao hàng' },
+            { value: 'delivered', label: 'Giao hàng thành công' },
+            { value: 'cancelled', label: 'Đã hủy' },
+            { value: 'returned', label: 'Hoàn / trả hàng' }
+        ];
+
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleString('vi-VN');
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('orders-list');
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            
+            // Nếu không có orderHistory, thử lấy lastOrder
+            if (orderHistory.length === 0) {
+                const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+                if (lastOrder.orderId) {
+                    orderHistory = [lastOrder];
+                }
+            }
+
+            if (orderHistory.length === 0) {
+                container.innerHTML = '<div class="no-orders">Chưa có đơn hàng nào.</div>';
+                return;
+            }
+
+            // Sắp xếp: đơn mới nhất trên cùng
+            orderHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            let html = '';
+            orderHistory.forEach(order => {
+                const { orderId, timestamp, total, customer, status = 'pending', updatedAt } = order;
+                const name = customer?.name || "Khách hàng";
+                const phone = customer?.phone || "Chưa cung cấp";
+                const address = customer?.address || "Chưa có địa chỉ";
+
+                // Tạo option select
+                let options = '';
+                STATUS_OPTIONS.forEach(opt => {
+                    options += `<option value="${opt.value}" ${status === opt.value ? 'selected' : ''}>${opt.label}</option>`;
+                });
+
+                html += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span>📦 Đơn hàng #${orderId}</span>
+                            <span>💰 ${total.toLocaleString('vi-VN')}đ</span>
+                        </div>
+                        <div class="customer-info">
+                            👤 <strong>${name}</strong> | 📞 ${phone} | 🏠 ${address}
+                        </div>
+                        <div class="order-info">
+                            📅 <strong>Thời gian đặt:</strong> ${timestamp}
+                        </div>
+                        ${updatedAt ? `<div class="updated">🕒 <strong>Cập nhật:</strong> ${formatDate(updatedAt)}</div>` : ''}
+                        <div class="status-row">
+                            <strong>Trạng thái:</strong>
+                            <select class="status-select" data-order-id="${orderId}">
+                                ${options}
+                            </select>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // Gắn sự kiện
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderId = this.dataset.orderId;
+                    const newStatus = this.value;
+
+                    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+                    const orderIndex = orderHistory.findIndex(o => o.orderId === orderId);
+                    
+                    if (orderIndex !== -1) {
+                        orderHistory[orderIndex].status = newStatus;
+                        orderHistory[orderIndex].updatedAt = new Date().toLocaleString('vi-VN');
+                        localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+                        // Cập nhật lastOrder nếu cần
+                        const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+                        if (lastOrder.orderId === orderId) {
+                            lastOrder.status = newStatus;
+                            lastOrder.updatedAt = new Date().toLocaleString('vi-VN');
+                            localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+                        }
+                        
+                            // 👇 THÊM DÒNG NÀY NGAY SAU KHI LƯU DỮ LIỆU
+                            localStorage.setItem('lastOrderUpdate', new Date().toISOString());
+
+                        // Hiệu ứng đổi màu
+                        this.style.backgroundColor = '#e6f7ee';
+                        setTimeout(() => this.style.backgroundColor = '', 600);
+                    }
+                });
+            });
+        }
+
+        // Tự động làm mới
+        setInterval(renderOrders, 5000);
+        document.addEventListener('DOMContentLoaded', renderOrders);
+    </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tài khoản của tôi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2a9d8f;
+      margin-bottom: 20px;
+    }
+    .info-item {
+      margin: 12px 0;
+      font-size: 18px;
+    }
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+    .logout-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .logout-btn:hover {
+      background: #c0392b;
+    }
+    .back-home {
+      display: inline-block;
+      margin-top: 10px;
+      color: #2a9d8f;
+      text-decoration: none;
+    }
+    .back-home:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Thông tin tài khoản</h1>
+    <div id="userInfo">
+      <!-- Sẽ được điền bằng JS -->
+    </div>
+    <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
+    <a href="../index.html" class="back-home">← Quay về trang chủ</a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const userName = localStorage.getItem("userName");
+      const authToken = localStorage.getItem("authToken");
+
+      const userInfoDiv = document.getElementById("userInfo");
+
+      if (!authToken || !userName) {
+        userInfoDiv.innerHTML = "<p style='color:red;'>Bạn chưa đăng nhập. Vui lòng <a href='login.html'>đăng nhập</a>.</p>";
+        document.getElementById("logoutBtn").style.display = "none";
+        return;
+      }
+
+      // Hiển thị thông tin
+      userInfoDiv.innerHTML = `
+        <div class="info-item">
+          <span class="info-label">Tên:</span> ${userName}
+        </div>
+        <!-- Bạn có thể thêm email, số điện thoại... nếu lưu trong localStorage -->
+      `;
+    });
+
+    // Xử lý đăng xuất
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+      // Xóa tất cả dữ liệu liên quan đến đăng nhập
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("currentUser");     // nếu có
+      localStorage.removeItem("rememberUser");   // nếu có
+
+      alert("Bạn đã đăng xuất thành công!");
+      window.location.href = "../index.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>So sánh điện thoại</title>
+    <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif; 
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa; 
+      color: #343a40; 
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px; 
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background: #fff;
+      padding: 15px 0; 
+      border-bottom: 1px solid #e9ecef; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+    }
+
+    header .container { 
+      display: flex;
+      justify-content: center; 
+      align-items: center;
+    }
+
+    nav {
+      background: #343a40; 
+      color: #fff;
+      padding: 12px 0;
+      margin-bottom: 25px; 
+    }
+
+    nav ul {
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline;
+      margin: 0 15px; 
+    }
+
+    nav a {
+      color: #f8f9fa; 
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 0; 
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #ffd700; 
+    }
+    nav a img{
+      vertical-align: middle;
+      margin-right: 5px; 
+    }
+
+    .comparison-section {
+      background: #fff;
+      padding: 25px; 
+      margin-bottom: 30px;
+      border-radius: 8px; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08); 
+    }
+
+    .comparison-section h1 {
+      color: #212529; 
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 28px; 
+      font-weight: 500; 
+    }
+    .comparison-section p { 
+      text-align: center;
+      color: #6c757d; 
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+
+    .comparison-section h2 { 
+      color: #007bff; 
+      margin-top: 35px;
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 2px solid #007bff; 
+      padding-bottom: 10px;
+      display: inline-block; 
+    }
+
+    .comparison-selectors {
+      display: flex;
+      justify-content: space-between; 
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+      gap: 20px; 
+    }
+
+    .selector-group {
+      flex: 1; 
+      min-width: 280px; 
+      background-color: #f8f9fa; 
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid #dee2e6;
+    }
+
+    .selector-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600; 
+      color: #495057;
+    }
+
+    .selector-group select {
+      width: 100%;
+      padding: 12px; 
+      border: 1px solid #ced4da; 
+      border-radius: 5px;
+      box-sizing: border-box;
+      background-color: #fff;
+      font-size: 15px;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .selector-group select:focus {
+      border-color: #007bff; 
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); 
+    }
+
+    .comparison-actions {
+      text-align: center;
+      margin-bottom: 35px;
+      margin-top: 15px; 
+    }
+    .comparison-actions button {
+      color: white;
+      padding: 12px 28px; 
+      border: none;
+      border-radius: 5px; 
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 8px 5px; 
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+    }
+    .comparison-actions button:hover {
+      transform: translateY(-1px); 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    }
+    .comparison-actions button:active {
+      transform: translateY(0px);
+    }
+
+    .comparison-actions button#compareBtn {
+      background-color: #007bff; 
+    }
+    .comparison-actions button#compareBtn:hover {
+      background-color: #0056b3;
+    }
+
+    .comparison-actions button#addPhoneBtn {
+      background-color: #28a745; 
+    }
+    .comparison-actions button#addPhoneBtn:hover {
+      background-color: #1e7e34;
+    }
+    .comparison-actions button#addPhoneBtn:disabled {
+      background-color: #6c757d;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .comparison-actions button#resetBtn {
+      background-color: #dc3545; 
+    }
+    .comparison-actions button#resetBtn:hover {
+      background-color: #b02a37;
+    }
+
+    .comparison-results-table {
+      overflow-x: auto; 
+    }
+
+    .comparison-results-table table {
+      width: 100%;
+      border-collapse: separate; 
+      border-spacing: 0; 
+      margin-top: 20px;
+      border: 1px solid #dee2e6; 
+      border-radius: 6px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .comparison-results-table th,
+    .comparison-results-table td {
+      border-bottom: 1px solid #e9ecef; 
+      padding: 15px; 
+      text-align: left;
+      vertical-align: middle; 
+      font-size: 15px;
+    }
+    .comparison-results-table th:not(:first-child), 
+    .comparison-results-table td:not(:first-child) { 
+      border-left: 1px solid #e9ecef; 
+      text-align: center; 
+    }
+
+    .comparison-results-table th { 
+      background-color: #f8f9fa; 
+      font-weight: 600;
+      color: #343a40;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    .comparison-results-table th:first-child { 
+      background-color: #e9ecef; 
+      color: #212529;
+      position: sticky; 
+      left: 0;
+      z-index: 1;
+      text-align: left;
+    }
+
+    .comparison-results-table tbody tr:last-child td {
+      border-bottom: none; 
+    }
+
+    .comparison-results-table tbody tr:hover {
+      background-color: #f1f3f5; 
+    }
+
+    .comparison-results-table td:first-child { 
+      font-weight: 500;
+      color: #495057;
+      background-color: #f8f9fa; 
+      position: sticky;
+      left: 0;
+      z-index: 1; 
+    }
+
+    .comparison-results-table .product-image {
+      max-width: 120px; 
+      height: auto; 
+      max-height: 120px;
+      display: block;
+      margin: 0 auto 10px auto; 
+      border-radius: 4px;
+      border: 1px solid #ddd; 
+      padding: 3px;
+      background: #fff;
+    }
+
+    .comparison-results-table del { 
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+
+    .footer {
+      background-color: #343a40; 
+      padding: 40px 0; 
+      border-top: 3px solid #ffd700; 
+      color: #adb5bd; 
+      font-size: 14px;
+      margin-top: 40px; 
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .footer-column {
+      flex: 1;
+      min-width: 220px;
+      margin: 15px;
+    }
+
+    .footer-column h4 {
+      font-size: 17px;
+      margin-bottom: 18px;
+      color: #fff; 
+      font-weight: 500;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-column ul li a, .footer-column p a {
+      color: #ced4da; 
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-column p a:hover, .footer-column ul li a:hover {
+      color: #ffd700; 
+      text-decoration: none; 
+    }
+
+    .footer-column p {
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .back-button {
+      margin-bottom: 15px;
+    }
+
+    .back-button button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .back-button button:hover {
+      background-color: #0056b3;
+    }
+
+    .auction-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .comparison-results-table th:first-child,
+      .comparison-results-table td:first-child {
+          font-size: 14px; 
+      }
+      .comparison-results-table .product-image {
+          max-width: 100px;
+          max-height: 100px;
+      }
+       .comparison-results-table th, .comparison-results-table td {
+          padding: 12px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .comparison-selectors {
+          flex-direction: column;
+          gap: 15px; 
+      }
+      .selector-group {
+          min-width: 100%; 
+          margin-bottom: 0; 
+      }
+      .comparison-results-table td img.product-image {
+          max-width: 80px; 
+      }
+       .comparison-results-table th, .comparison-results-table td {
+          font-size: 14px;
+          padding: 10px;
+      }
+      .comparison-section h1 { font-size: 24px; }
+      .comparison-section h2 { font-size: 20px; }
+      .comparison-actions button { font-size: 15px; padding: 10px 20px;}
+    }
+
+    @media (max-width: 576px) {
+      .container {
+          width: 95%;
+          padding: 0 10px;
+      }
+      nav ul li { margin: 0 8px;}
+      nav a { font-size: 15px;}
+
+      .comparison-results-table .product-image {
+          max-width: 60px;
+      }
+      .comparison-results-table th, .comparison-results-table td {
+          font-size: 13px;
+          padding: 8px;
+      }
+      .footer-column {
+          min-width: 100%; 
+          text-align: center;
+      }
+      .footer-column ul {
+          padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+
+  <main class="container">
+    <section class="comparison-section">
+      <div class="back-button">
+        <button onclick="goBack()">← Về trang chủ</button>
+      </div>
+      <h1>So Sánh Điện Thoại</h1>
+      <p>Chọn hai hoặc ba sản phẩm để so sánh thông số kỹ thuật chi tiết.</p>
+
+      <div class="comparison-selectors">
+        <div class="selector-group">
+          <label for="phone1">Chọn điện thoại 1:</label>
+          <select id="phone1">
+            <option value="">-- Chọn sản phẩm --</option>
+          </select>
+        </div>
+        <div class="selector-group">
+          <label for="phone2">Chọn điện thoại 2:</label>
+          <select id="phone2">
+            <option value="">-- Chọn sản phẩm --</option>
+          </select>
+        </div>
+        <div class="selector-group" id="selector-group-3" style="display: none;">
+          <label for="phone3">Chọn điện thoại 3:</label>
+          <select id="phone3">
+            <option value="">-- Chọn sản phẩm --</option>
+          </select>
+        </div>
+      </div>
+      <div class="comparison-actions">
+        <button id="compareBtn">So Sánh</button>
+        <button id="addPhoneBtn">Thêm sản phẩm để so sánh (tối đa 3)</button>
+        <button id="resetBtn" style="display: none;">Chọn lại</button>
+      </div>
+
+      <div id="comparison-results" class="comparison-results-table" style="display:none;">
+        <div id="recommendation-area" style="display:none; margin-top: 30px; padding: 20px; background-color: #e9f5ff; border-radius: 8px; border: 1px solid #b3d7f2;">
+          <h3 style="color: #0056b3; margin-bottom: 15px; text-align:center;">Gợi ý lựa chọn</h3>
+          <div id="recommendation-content"></div>
+          <p style="font-size: 0.9em; color: #555; margin-top: 15px; text-align: center;">
+            <em>Lưu ý: Đây là những gợi ý dựa trên thông số kỹ thuật được liệt kê. Lựa chọn tốt nhất sẽ phụ thuộc vào nhu cầu, sở thích và ngân sách cá nhân của bạn. Hãy cân nhắc kỹ trước khi quyết định!</em>
+          </p>
+        </div>
+        <h2>Kết quả so sánh</h2>
+        <table>
+          <thead>
+            <tr id="comparison-header-row">
+              <th>Tính năng</th>
+            </tr>
+          </thead>
+          <tbody id="comparison-body">
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+
+
+
+
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const products = [
+      {
+          id: "iphone16",
+          name: "iPhone 16 Series",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-16-1.png",
+          price: "19.999.000₫",
+          originalPrice: "22.390.000₫",
+          gift: "Nhận ngay quà 500.000₫",
+          specs: {
+              "Màn hình": "OLED 6.1 inch, Super Retina XDR",
+              "Camera sau": "Chính 48MP & Phụ 12MP",
+              "Camera trước": "12MP",
+              "CPU": "Apple A18 Bionic (dự kiến)",
+              "RAM": "8GB (dự kiến)",
+              "Bộ nhớ trong": "128GB/256GB/512GB",
+              "Pin": "Khoảng 3500 mAh",
+              "Hệ điều hành": "iOS 18 (dự kiến)"
+          }
+      },
+      {
+          id: "samsungS25Ultra",
+          name: "Samsung Galaxy S25 Ultra",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-samsung-galaxy-s25-utra_13_.png",
+          price: "28.990.000₫",
+          originalPrice: "31.500.000₫",
+          gift: "Tai nghe Galaxy Buds Pro",
+          specs: {
+              "Màn hình": "Dynamic AMOLED 2X 6.8 inch, QHD+",
+              "Camera sau": "Chính 200MP, Siêu rộng 12MP, Tele 10MP (3x), Tele 50MP (5x)",
+              "Camera trước": "40MP",
+              "CPU": "Snapdragon 8 Gen 4 for Galaxy (dự kiến)",
+              "RAM": "12GB/16GB",
+              "Bộ nhớ trong": "256GB/512GB/1TB",
+              "Pin": "5000 mAh, Sạc nhanh 45W",
+              "Hệ điều hành": "Android 15 with One UI 7 (dự kiến)"
+          }
+      },
+      {
+          id: "oppoReno12Pro",
+          name: "Oppo Reno12 Pro",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_6__2_114.png",
+          price: "14.990.000₫",
+          originalPrice: "16.000.000₫",
+          gift: "Sạc dự phòng 10.000mAh",
+          specs: {
+              "Màn hình": "AMOLED 6.7 inch, FHD+",
+              "Camera sau": "Chính 50MP, Siêu rộng 8MP, Tele 32MP",
+              "Camera trước": "32MP",
+              "CPU": "MediaTek Dimensity 9200+ (dự kiến)",
+              "RAM": "12GB",
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "4800 mAh, Sạc nhanh 80W",
+              "Hệ điều hành": "Android 15 with ColorOS 15 (dự kiến)"
+          }
+      },
+      {
+          id: "xiaomi15",
+          name: "Xiaomi 15",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/m/image_1262703569.jpg",
+          price: "18.500.000₫",
+          originalPrice: "20.000.000₫",
+          gift: "Voucher 300.000đ",
+          specs: {
+              "Màn hình": "LTPO AMOLED 6.36 inch",
+              "Camera sau": "Chính 50MP (Leica), Siêu rộng 50MP, Tele 50MP",
+              "Camera trước": "32MP",
+              "CPU": "Snapdragon 8 Gen 4 (dự kiến)",
+              "RAM": "12GB",
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "4700 mAh, Sạc nhanh 90W",
+              "Hệ điều hành": "Android 15 with HyperOS (dự kiến)"
+          }
+      },
+      {
+          id: "googlePixel9Pro",
+          name: "Google Pixel 9 Pro",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-google-pixel-9-pro.png", 
+          price: "24.500.000₫",
+          originalPrice: "26.000.000₫",
+          gift: "Ốp lưng chính hãng",
+          specs: {
+              "Màn hình": "LTPO OLED 6.7 inch, QHD+",
+              "Camera sau": "Chính 50MP, Siêu rộng 48MP, Tele 48MP (5x optical zoom)",
+              "Camera trước": "10.8MP",
+              "CPU": "Google Tensor G4 (dự kiến)",
+              "RAM": "12GB/16GB",
+              "Bộ nhớ trong": "128GB/256GB/512GB",
+              "Pin": "5050 mAh, Sạc nhanh có dây và không dây",
+              "Hệ điều hành": "Android 15",
+              "Tính năng đặc biệt": "AI Camera, Magic Eraser, Titan Security Chip"
+          }
+      },
+      {
+          id: "samsungGalaxyA56",
+          name: "Samsung Galaxy A56 5G",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-samsung-galaxy-a56_2__2.png", 
+          price: "9.890.000₫",
+          originalPrice: "10.500.000₫",
+          gift: "Tai nghe không dây",
+          specs: {
+              "Màn hình": "Super AMOLED 6.5 inch, FHD+, 120Hz",
+              "Camera sau": "Chính 64MP OIS, Siêu rộng 12MP, Macro 5MP",
+              "Camera trước": "32MP",
+              "CPU": "Exynos 1480 (dự kiến)",
+              "RAM": "8GB",
+              "Bộ nhớ trong": "128GB/256GB",
+              "Pin": "5000 mAh, Sạc nhanh 25W",
+              "Hệ điều hành": "Android 15 with One UI 7",
+              "Kháng nước/bụi": "IP67"
+          }
+      },
+      {
+          id: "xiaomiRedmiNote14Pro",
+          name: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-xiaomi-redmi-note-14_3__2.png",
+          image: "image/phone7.jpg", 
+          price: "7.490.000₫",
+          originalPrice: "8.200.000₫",
+          gift: "Củ sạc nhanh 67W",
+          specs: {
+              "Màn hình": "AMOLED 6.67 inch, 1.5K, 120Hz",
+              "Camera sau": "Chính 200MP OIS, Siêu rộng 8MP, Macro 2MP",
+              "Camera trước": "16MP",
+              "CPU": "Snapdragon 7s Gen 3 (dự kiến)",
+              "RAM": "8GB/12GB",
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "5100 mAh, Sạc nhanh 67W",
+              "Hệ điều hành": "Android 15 with HyperOS"
+          }
+      },
+      {
+          id: "vivoX100s",
+          name: "Vivo X100s",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/v/i/vivo_3_1.png", 
+          price: "16.990.000₫",
+          originalPrice: "18.000.000₫",
+          gift: "Bảo hành mở rộng",
+          specs: {
+              "Màn hình": "AMOLED LTPO 6.78 inch, 120Hz",
+              "Camera sau": "Chính 50MP (Zeiss), Siêu rộng 50MP, Tele 64MP (3x optical)",
+              "Camera trước": "32MP",
+              "CPU": "MediaTek Dimensity 9300+",
+              "RAM": "12GB/16GB",
+              "Bộ nhớ trong": "256GB/512GB/1TB",
+              "Pin": "5100 mAh, Sạc nhanh 100W",
+              "Hệ điều hành": "Android 15 with Funtouch OS"
+          }
+      },
+      {
+          id: "realmeGT6",
+          name: "Realme GT 6",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/r/e/realme-gt-5_4__1_1.png", 
+          price: "13.500.000₫",
+          originalPrice: "14.990.000₫",
+          gift: "Phiếu mua hàng 500k",
+          specs: {
+              "Màn hình": "AMOLED 6.74 inch, 144Hz, FHD+",
+              "Camera sau": "Chính 50MP (Sony IMX890 OIS), Siêu rộng 8MP, Macro 2MP",
+              "Camera trước": "16MP",
+              "CPU": "Snapdragon 8 Gen 3 (phiên bản rút gọn hoặc Gen 2)",
+              "RAM": "12GB/16GB",
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "5500 mAh, Sạc nhanh 120W",
+              "Hệ điều hành": "Android 15 with Realme UI"
+          }
+      },
+      {
+          id: "iphoneSE4",
+          name: "iPhone SE 4 (2025)",
+          image: "https://www.duchuymobile.com/images/variant_image/73/iphone-se-2025-vn-a.jpg", 
+          price: "12.990.000₫",
+          originalPrice: "13.500.000₫",
+          gift: "Cáp sạc Type-C",
+          specs: {
+              "Màn hình": "OLED 6.1 inch (dự kiến, thiết kế giống iPhone 14)",
+              "Camera sau": "Đơn 12MP (hoặc 48MP crop)", 
+              "Camera trước": "12MP",
+              "CPU": "Apple A16 Bionic (dự kiến)",
+              "RAM": "6GB (dự kiến)", 
+              "Bộ nhớ trong": "128GB/256GB",
+              "Pin": "Khoảng 3200 mAh (dự kiến)", 
+              "Hệ điều hành": "iOS 18 (dự kiến)",
+              "Bảo mật": "Face ID (dự kiến)"
+          }
+      },
+      {
+          id: "nothingPhone3",
+          name: "Nothing Phone (3)",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-nothing-phone-3.3.png", 
+          price: "15.990.000₫",
+          originalPrice: "17.000.000₫",
+          gift: "Tai nghe Nothing Ear (a)",
+          specs: {
+              "Màn hình": "Flexible AMOLED 6.7 inch, 120Hz",
+              "Camera sau": "Chính 50MP, Siêu rộng 50MP",
+              "Camera trước": "32MP",
+              "CPU": "Snapdragon 8s Gen 3 (dự kiến)",
+              "RAM": "12GB", 
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "4800 mAh, Sạc nhanh có dây 65W, không dây 15W",
+              "Hệ điều hành": "Android 15 with Nothing OS 3.0",
+              "Tính năng đặc biệt": "Glyph Interface cải tiến, thiết kế trong suốt"
+          }
+      },
+      {
+          id: "asusZenfone12",
+          name: "ASUS Zenfone 12",
+          image: "https://dlcdnwebimgs.asus.com/gain/01341433-1435-4b02-b1a8-8bf944a69fa7/w800/fwebp", 
+          price: "17.500.000₫",
+          originalPrice: "18.900.000₫",
+          gift: "Đế sạc không dây",
+          specs: {
+              "Màn hình": "AMOLED 5.9 inch, 144Hz (Compact phone)",
+              "Camera sau": "Chính 50MP (Gimbal OIS), Siêu rộng 13MP",
+              "Camera trước": "32MP",
+              "CPU": "Snapdragon 8 Gen 4 (dự kiến)",
+              "RAM": "12GB/16GB",
+              "Bộ nhớ trong": "256GB/512GB",
+              "Pin": "4500 mAh, Sạc nhanh 67W",
+              "Hệ điều hành": "Android 15 with ZenUI"
+          }
+      },
+      {
+          id: "honorMagic7",
+          name: "Honor Magic7 Ultimate",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-honor-magic-7-pro-1.jpg", 
+          price: "29.990.000₫",
+          originalPrice: "32.000.000₫",
+          gift: "Đồng hồ Honor Watch GS 4",
+          specs: {
+              "Màn hình": "LTPO OLED 6.81 inch, Quad-Curved, 120Hz",
+              "Camera sau": "Chính 50MP (cảm biến 1-inch), Siêu rộng 50MP, Tele 180MP Periscope (zoom quang 3.5x, zoom số 100x)",
+              "Camera trước": "12MP + 3D Depth Camera",
+              "CPU": "Snapdragon 8 Gen 4 (dự kiến)",
+              "RAM": "16GB",
+              "Bộ nhớ trong": "512GB/1TB",
+              "Pin": "5600 mAh (Silicon-carbon), Sạc nhanh 100W có dây, 66W không dây",
+              "Hệ điều hành": "Android 15 with MagicOS 9.0"
+          }
+      },
+      {
+          id: "sonyXperia1VII",
+          name: "Sony Xperia 1 VII",
+          image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-sony-xperia-1-vii_1_.png", 
+          price: "33.000.000₫",
+          originalPrice: "35.000.000₫",
+          gift: "Tai nghe Sony WH-1000XM6",
+          specs: {
+              "Màn hình": "4K HDR OLED 6.5 inch, 21:9 CinemaWide, 120Hz",
+              "Camera sau": "Chính 48MP (Exmor T), Siêu rộng 12MP, Tele 12MP (zoom quang liên tục 85-170mm)",
+              "Camera trước": "12MP",
+              "CPU": "Snapdragon 8 Gen 4 (dự kiến)",
+              "RAM": "16GB", 
+              "Bộ nhớ trong": "256GB/512GB (hỗ trợ thẻ microSD)",
+              "Pin": "5000 mAh, Sạc nhanh 30W",
+              "Hệ điều hành": "Android 15",
+              "Tính năng đặc biệt": "Photography Pro, Cinematography Pro, Cổng cắm tai nghe 3.5mm"
+          }
+      }
+    ];
+
+    const phoneSelectors = [
+      document.getElementById('phone1'),
+      document.getElementById('phone2'),
+      document.getElementById('phone3')
+    ];
+    const compareBtn = document.getElementById('compareBtn');
+    const addPhoneBtn = document.getElementById('addPhoneBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const comparisonResultsDiv = document.getElementById('comparison-results');
+    const comparisonHeaderRow = document.getElementById('comparison-header-row');
+    const comparisonBody = document.getElementById('comparison-body');
+    const selectorGroup3 = document.getElementById('selector-group-3');
+    const recommendationArea = document.getElementById('recommendation-area');
+    const recommendationContent = document.getElementById('recommendation-content');
+
+    let numberOfPhonesToCompare = 2;
+
+    // === HÀM CỘNG ĐIỂM CHO NHIỆM VỤ SO SÁNH ===
+    function awardCompareTaskPoints() {
+      const TASK_ID = 5; // ID nhiệm vụ "So sánh sản phẩm"
+
+      let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+      if (!currentUser) return false;
+
+      if (currentUser.doneTasks && currentUser.doneTasks.includes(TASK_ID)) {
+        return false; // Đã cộng rồi
+      }
+
+      currentUser.points = (currentUser.points || 0) + 30;
+      if (!Array.isArray(currentUser.doneTasks)) currentUser.doneTasks = [];
+      currentUser.doneTasks.push(TASK_ID);
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+      // Cập nhật toàn cục nếu cần
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const idx = users.findIndex(u => u.username === currentUser.username);
+      if (idx >= 0) {
+        users[idx] = currentUser;
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+
+      // Thông báo (bạn có thể xóa nếu không muốn)
+      alert("✅ Bạn nhận +30 điểm vì đã so sánh sản phẩm!");
+      return true;
+    }
+
+    function parsePrice(priceString) {
+      if (!priceString) return Infinity;
+      return parseInt(priceString.replace(/[.₫]/g, ''));
+    }
+
+    function parseBattery(batterySpec) {
+      if (!batterySpec) return 0;
+      const match = batterySpec.match(/(\d+)\s*mAh/i);
+      return match ? parseInt(match[1]) : 0;
+    }
+
+    function parseRAM(ramSpec) {
+      if (!ramSpec) return 0;
+      const matches = ramSpec.match(/\d+/g);
+      if (matches) {
+        return Math.max(...matches.map(num => parseInt(num)));
+      }
+      return 0;
+    }
+
+    function parseMainCameraMP(cameraSpec) {
+      if (!cameraSpec) return 0;
+      let match = cameraSpec.match(/Chính\s*(\d+)MP/i);
+      if (match) return parseInt(match[1]);
+      match = cameraSpec.match(/Đơn\s*(\d+)MP/i);
+      if (match) return parseInt(match[1]);
+      match = cameraSpec.match(/(\d+)MP\s*&\s*Phụ/i);
+      if (match) return parseInt(match[1]);
+      match = cameraSpec.match(/^(\d+)MP/i);
+      if (match) return parseInt(match[1]);
+      return 0;
+    }
+
+    function populateSelectors() {
+      phoneSelectors.forEach(selector => {
+        if (!selector) return;
+        while (selector.options.length > 1) {
+          selector.remove(1);
+        }
+        products.forEach(product => {
+          const option = document.createElement('option');
+          option.value = product.id;
+          option.textContent = product.name;
+          selector.appendChild(option);
+        });
+      });
+    }
+
+    addPhoneBtn.addEventListener('click', () => {
+      if (numberOfPhonesToCompare < 3) {
+        numberOfPhonesToCompare++;
+        selectorGroup3.style.display = 'block';
+        if (numberOfPhonesToCompare === 3) {
+          addPhoneBtn.disabled = true;
+          addPhoneBtn.textContent = "So sánh tối đa 3 sản phẩm";
+        }
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      phoneSelectors.forEach(selector => {
+        if (selector) selector.value = "";
+      });
+      comparisonResultsDiv.style.display = 'none';
+      recommendationArea.style.display = 'none';
+      recommendationContent.innerHTML = '';
+      comparisonHeaderRow.innerHTML = '<th>Tính năng</th>';
+      comparisonBody.innerHTML = '';
+      compareBtn.disabled = false;
+      resetBtn.style.display = 'none';
+      if (selectorGroup3) selectorGroup3.style.display = 'none';
+      numberOfPhonesToCompare = 2;
+      addPhoneBtn.disabled = false;
+      addPhoneBtn.textContent = "Thêm sản phẩm để so sánh (tối đa 3)";
+    });
+
+    compareBtn.addEventListener('click', () => {
+      const selectedProductIds = [];
+      phoneSelectors.forEach((selector, index) => {
+        if (selector && index < numberOfPhonesToCompare && selector.value) {
+          selectedProductIds.push(selector.value);
+        }
+      });
+
+      if (selectedProductIds.length < 2) {
+        alert('Vui lòng chọn ít nhất hai sản phẩm để so sánh.');
+        return;
+      }
+
+      const uniqueProductIds = [...new Set(selectedProductIds)];
+      if (uniqueProductIds.length !== selectedProductIds.length) {
+        alert('Vui lòng chọn các sản phẩm khác nhau để so sánh.');
+        return;
+      }
+
+      const currentSelectedProducts = uniqueProductIds.map(id => products.find(p => p.id === id)).filter(p => p);
+
+      if (currentSelectedProducts.length >= 2) {
+        displayComparison(currentSelectedProducts);
+        generateRecommendation(currentSelectedProducts);
+        compareBtn.disabled = true;
+        resetBtn.style.display = 'inline-block';
+
+        // ✅✅✅ GỌI HÀM CỘNG ĐIỂM Ở ĐÂY — NGAY KHI SO SÁNH THÀNH CÔNG ✅✅✅
+        awardCompareTaskPoints();
+      } else {
+        alert('Không đủ thông tin sản phẩm hợp lệ để so sánh.');
+        comparisonResultsDiv.style.display = 'none';
+        recommendationArea.style.display = 'none';
+      }
+    });
+
+    function displayComparison(selectedProductsToDisplay) {
+      comparisonResultsDiv.style.display = 'block';
+      comparisonHeaderRow.innerHTML = '<th>Tính năng</th>';
+      comparisonBody.innerHTML = '';
+
+      selectedProductsToDisplay.forEach(product => {
+        const th = document.createElement('th');
+        let headerHTML = product.name;
+        if (product.image) {
+          headerHTML = `<img src="${product.image}" alt="${product.name}" class="product-image"><br>${product.name}`;
+        }
+        th.innerHTML = headerHTML;
+        comparisonHeaderRow.appendChild(th);
+      });
+
+      const allSpecKeys = new Set();
+      const predefinedKeys = ["Giá", "Giá gốc", "Quà tặng"];
+      predefinedKeys.forEach(key => allSpecKeys.add(key));
+      selectedProductsToDisplay.forEach(p => {
+        if (p.specs) {
+          Object.keys(p.specs).forEach(key => allSpecKeys.add(key));
+        }
+      });
+
+      allSpecKeys.forEach(specKey => {
+        const tr = document.createElement('tr');
+        const tdFeature = document.createElement('td');
+        tdFeature.className = 'spec-name';
+        tdFeature.textContent = specKey;
+        tr.appendChild(tdFeature);
+
+        selectedProductsToDisplay.forEach(product => {
+          const td = document.createElement('td');
+          let value = '-';
+          if (product) {
+            if (predefinedKeys.includes(specKey)) {
+              switch (specKey) {
+                case "Giá": value = product.price || '-'; break;
+                case "Giá gốc": value = product.originalPrice ? `<del>${product.originalPrice}</del>` : '-'; break;
+                case "Quà tặng": value = product.gift || '-'; break;
+              }
+            } else if (product.specs && product.specs[specKey]) {
+              value = product.specs[specKey];
+            }
+          }
+          td.innerHTML = value;
+          tr.appendChild(td);
+        });
+        comparisonBody.appendChild(tr);
+      });
+
+      comparisonResultsDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function generateRecommendation(selectedProducts) {
+      recommendationContent.innerHTML = '';
+      if (selectedProducts.length < 2) {
+        recommendationArea.style.display = 'none';
+        return;
+      }
+
+      let recommendationsHTML = '<ul>';
+
+      const sortedByPrice = [...selectedProducts].sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+      if (sortedByPrice.length > 0 && parsePrice(sortedByPrice[0].price) !== Infinity) {
+        recommendationsHTML += `<li><strong>Ưu tiên ngân sách:</strong> Nếu bạn tìm kiếm lựa chọn tiết kiệm nhất, <strong>${sortedByPrice[0].name}</strong> với giá ${sortedByPrice[0].price} có vẻ là một khởi đầu tốt.`;
+        if (sortedByPrice.length > 1 && parsePrice(sortedByPrice[1].price) !== Infinity && (parsePrice(sortedByPrice[1].price) - parsePrice(sortedByPrice[0].price)) < 2000000) {
+          recommendationsHTML += ` Tuy nhiên, <strong>${sortedByPrice[1].name}</strong> cũng có mức giá khá cạnh tranh.`;
+        }
+        recommendationsHTML += `</li>`;
+      }
+
+      const sortedByCamera = [...selectedProducts]
+        .map(p => ({ ...p, mainMP: parseMainCameraMP(p.specs["Camera sau"]) }))
+        .filter(p => p.mainMP > 0)
+        .sort((a, b) => b.mainMP - a.mainMP);
+
+      if (sortedByCamera.length > 0) {
+        recommendationsHTML += `<li><strong>Chất lượng Camera:</strong> Về camera chính, <strong>${sortedByCamera[0].name}</strong> nổi bật với ${sortedByCamera[0].mainMP}MP.`;
+        if (sortedByCamera[0].specs["Camera sau"] && /OIS|Zeiss|Leica/i.test(sortedByCamera[0].specs["Camera sau"])) {
+          recommendationsHTML += ` Máy này cũng có vẻ được trang bị công nghệ ổn định hình ảnh hoặc ống kính chất lượng.`;
+        }
+        if (sortedByCamera.length > 1 && sortedByCamera[1].mainMP > 0 && sortedByCamera[0].mainMP !== sortedByCamera[1].mainMP) {
+          recommendationsHTML += ` Tiếp theo có thể kể đến <strong>${sortedByCamera[1].name}</strong> với ${sortedByCamera[1].mainMP}MP.`;
+        }
+        recommendationsHTML += `</li>`;
+      }
+
+      const sortedByBattery = [...selectedProducts]
+        .map(p => ({ ...p, batteryLife: parseBattery(p.specs["Pin"]) }))
+        .filter(p => p.batteryLife > 0)
+        .sort((a, b) => b.batteryLife - a.batteryLife);
+
+      if (sortedByBattery.length > 0) {
+        recommendationsHTML += `<li><strong>Thời lượng Pin:</strong> Nếu pin "trâu" là ưu tiên, <strong>${sortedByBattery[0].name}</strong> với ${sortedByBattery[0].specs["Pin"]} có vẻ là lựa chọn hàng đầu.`;
+        if (sortedByBattery.length > 1 && sortedByBattery[1].batteryLife > 0 && sortedByBattery[0].batteryLife !== sortedByBattery[1].batteryLife) {
+          recommendationsHTML += ` <strong>${sortedByBattery[1].name}</strong> (${sortedByBattery[1].specs["Pin"]}) cũng cung cấp thời lượng pin tốt.`;
+        }
+        recommendationsHTML += `</li>`;
+      }
+
+      const sortedByRAM = [...selectedProducts]
+        .map(p => ({ ...p, ramAmount: parseRAM(p.specs["RAM"]) }))
+        .filter(p => p.ramAmount > 0)
+        .sort((a, b) => b.ramAmount - a.ramAmount);
+
+      if (sortedByRAM.length > 0) {
+        recommendationsHTML += `<li><strong>Hiệu năng & Đa nhiệm (RAM):</strong> Cho nhu cầu đa nhiệm và hiệu năng mượt mà, <strong>${sortedByRAM[0].name}</strong> với ${sortedByRAM[0].specs["RAM"]} RAM là một ứng cử viên sáng giá.`;
+        if (sortedByRAM.length > 1 && sortedByRAM[1].ramAmount > 0 && sortedByRAM[0].ramAmount !== sortedByRAM[1].ramAmount) {
+          recommendationsHTML += ` <strong>${sortedByRAM[1].name}</strong> (${sortedByRAM[1].specs["RAM"]}) cũng cung cấp dung lượng RAM tốt.`;
+        }
+        recommendationsHTML += `</li>`;
+      }
+
+      let generalPicks = {};
+      [...sortedByPrice.slice(0,1), ...sortedByCamera.slice(0,1), ...sortedByBattery.slice(0,1), ...sortedByRAM.slice(0,1)].forEach(p => {
+        if (p) {
+          generalPicks[p.id] = (generalPicks[p.id] || 0) + 1;
+        }
+      });
+
+      const bestOverallCandidates = Object.entries(generalPicks)
+        .sort(([,a],[,b]) => b-a)
+        .filter(([,count]) => count >= 2);
+
+      if (bestOverallCandidates.length > 0) {
+        const overallWinnerId = bestOverallCandidates[0][0];
+        const overallWinner = products.find(p => p.id === overallWinnerId);
+        if (overallWinner) {
+          recommendationsHTML += `<li><strong>Lựa chọn cân bằng:</strong> <strong>${overallWinner.name}</strong> có vẻ là một lựa chọn khá cân bằng khi xét trên nhiều yếu tố như giá, camera, pin hoặc RAM.</li>`;
+        }
+      } else if (sortedByPrice.length > 0) {
+        recommendationsHTML += `<li><strong>Cân nhắc chung:</strong> Dựa trên các thông số, <strong>${sortedByPrice[0].name}</strong> có thể là một điểm khởi đầu tốt để bạn xem xét kỹ hơn.</li>`;
+      }
+
+      recommendationsHTML += '</ul>';
+      recommendationContent.innerHTML = recommendationsHTML;
+      recommendationArea.style.display = 'block';
+      recommendationArea.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    populateSelectors();
+  });
+</script>
+</body>
+</html>

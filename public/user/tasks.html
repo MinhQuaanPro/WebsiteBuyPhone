@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nhiệm vụ</title>
+<link rel="stylesheet" href="https0s://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background: #f5f7fa;
+        color: #333;
+        padding: 20px;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        padding: 30px;
+        margin-top: 30px;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #2a9d8f;
+    }
+    
+    h1 {
+        font-size: 28px;
+        color: #212529;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+    }
+    
+    .points-badge {
+        background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+    
+    .tasks-container {
+        margin: 25px 0;
+    }
+    
+    .task-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s;
+        border-left: 4px solid #2a9d8f;
+    }
+    
+    .task-item.completed {
+        border-left: 4px solid #4cc950;
+        opacity: 0.85;
+    }
+    
+    .task-info {
+        flex: 1;
+    }
+    
+    .task-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #212529;
+    }
+    
+    .task-desc {
+        color: #6c757d;
+        font-size: 14px;
+    }
+    
+    .task-points {
+        font-weight: bold;
+        color: #e63946;
+        font-size: 16px;
+    }
+    
+    .task-actions {
+        margin-left: 15px;
+    }
+    
+    .action-btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+    
+    .btn-primary {
+        background: #2a9d8f;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #218874;
+    }
+    
+    .btn-secondary {
+        background: #e9ecef;
+        color: #495057;
+    }
+    
+    .btn-secondary:hover {
+        background: #dee2e6;
+    }
+    
+    .btn-disabled {
+        background: #adb5bd;
+        cursor: not-allowed;
+    }
+    
+    .voucher-section {
+        background: #e6f7ee;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 25px 0;
+        text-align: center;
+    }
+    
+    .voucher-title {
+        font-size: 18px;
+        color: #2a9d8f;
+        margin-bottom: 10px;
+    }
+    
+    .voucher-btn {
+        padding: 10px 25px;
+        background: #2a9d8f;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .voucher-btn:disabled {
+        background: #adb5bd;
+        cursor: not-allowed;
+    }
+    
+    .voucher-btn:hover:not(:disabled) {
+        background: #218874;
+        transform: scale(1.03);
+    }
+    
+    .back-btn {
+        display: block;
+        margin: 25px auto 0;
+        padding: 12px 25px;
+        background: #e63946;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .back-btn:hover {
+        background: #c1121f;
+    }
+    
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+        z-index: 1000;
+    }
+    
+    .notification.success {
+        background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+    }
+    
+    .notification.error {
+        background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+    }
+    
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateX(0); }
+        to { opacity: 0; transform: translateX(100%); }
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            margin: 15px;
+            padding: 20px;
+        }
+        
+        .task-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .task-actions {
+            margin: 15px 0 0 0;
+        }
+    }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Nhiệm vụ của bạn</h1>
+      <div class="user-info">
+        <i class="fas fa-coins"></i>
+        <span class="points-badge">Điểm: <span id="user-points">0</span></span>
+      </div>
+    </div>
+    
+    <div class="tasks-container">
+      <ul id="task-list">
+        <!-- Các nhiệm vụ sẽ được tạo tự động -->
+      </ul>
+    </div>
+    
+    <div class="voucher-section">
+      <div class="voucher-title">Đổi voucher ngay</div>
+      <button id="redeem" class="voucher-btn" disabled>Đổi voucher (100 điểm)</button>
+      <p id="voucher-msg" style="margin-top: 10px; color: #2a9d8f; font-weight: 500;"></p>
+    </div>
+    
+    <button id="back-btn" class="back-btn">◄ Quay lại trang chính</button>
+  </div>
+
+  <script>
+    // DOM Elements
+    const taskList = document.getElementById('task-list');
+    const userPointsElement = document.getElementById('user-points');
+    const redeemBtn = document.getElementById('redeem');
+    const voucherMsg = document.getElementById('voucher-msg');
+    const backBtn = document.getElementById('back-btn');
+    
+    // State
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    
+    // Tasks data
+    const tasks = [
+      {id:1, name:"Đăng ký tài khoản", points:50, desc: "Hoàn thành đăng ký tài khoản mới"},
+      {id:2, name:"Đăng nhập lần đầu", points:10, desc: "Đăng nhập vào hệ thống lần đầu tiên"},
+      {id:3, name:"Xem chi tiết điện thoại", points:150, desc: "Xem thông tin chi tiết của một sản phẩm điện thoại"},
+      {id:4, name:"Tham gia đấu giá", points:10, desc: "Nhấn nút 'Tham gia' trong danh sách đấu giá"},
+      {id:5, name:"So sánh sản phẩm", points:30, desc: "So sánh 2 điện thoại để nhận điểm"}
+    ];
+    
+    // Check if user is logged in
+    if (!currentUser) {
+      alert("Vui lòng đăng nhập để xem nhiệm vụ!");
+      window.location.href = 'index_user.html';
+    }
+    
+    // Render tasks
+    function renderTasks() {
+      taskList.innerHTML = '';
+      
+      tasks.forEach(task => {
+        const isCompleted = currentUser.doneTasks && currentUser.doneTasks.includes(task.id);
+        
+        const taskItem = document.createElement('li');
+        taskItem.className = `task-item ${isCompleted ? 'completed' : ''}`;
+        taskItem.innerHTML = `
+          <div class="task-info">
+            <div class="task-name">${task.name} <span class="task-points">(+${task.points} điểm)</span></div>
+            <div class="task-desc">${task.desc}</div>
+          </div>
+          <div class="task-actions">
+            ${isCompleted ? 
+              '<button class="action-btn btn-secondary" disabled>Đã hoàn thành</button>' : 
+              (task.id === 3 ? 
+                '<button class="action-btn btn-primary" id="task-3-btn">Làm nhiệm vụ</button>' :
+               (task.id === 4 ?
+                '<button class="action-btn btn-primary" id="task-4-btn">Làm nhiệm vụ</button>' :
+               (task.id === 5 ?
+                '<button class="action-btn btn-primary" id="task-5-btn">Làm nhiệm vụ</button>' :
+                '<button class="action-btn btn-secondary" disabled>Chờ hệ thống</button>'
+              )))}
+          </div>
+        `;
+        
+        taskList.appendChild(taskItem);
+      });
+      
+      // Gán sự kiện cho nút nhiệm vụ 3 (xem sản phẩm)
+      const task3Btn = document.getElementById('task-3-btn');
+      if (task3Btn) {
+        task3Btn.addEventListener('click', () => {
+          window.location.href = 'view-products-task.html';
+        });
+      }
+
+      // Gán sự kiện cho nút nhiệm vụ 4 (tham gia đấu giá)
+      const task4Btn = document.getElementById('task-4-btn');
+      if (task4Btn) {
+        task4Btn.addEventListener('click', () => {
+           window.location.href = '../Admin/daugia/index.html';
+        });
+      }
+
+      // Gán sự kiện cho nút nhiệm vụ 5 (so sánh)
+      const task5Btn = document.getElementById('task-5-btn');
+      if (task5Btn) {
+        task5Btn.addEventListener('click', () => {
+          window.location.href = 'compare.html';
+        });
+      }
+    }
+    
+    // Update points display
+    function updatePoints() {
+      userPointsElement.textContent = currentUser.points;
+      redeemBtn.disabled = currentUser.points < 100;
+    }
+    
+    // Redeem voucher
+    redeemBtn.addEventListener('click', function() {
+      if (currentUser.points >= 100) {
+        currentUser.points -= 100;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+        if (userIndex >= 0) {
+          users[userIndex] = currentUser;
+          localStorage.setItem("users", JSON.stringify(users));
+        }
+        
+        updatePoints();
+        showNotification("✅ Đổi voucher thành công! -100 điểm", "success");
+        voucherMsg.textContent = "Đã đổi thành công voucher 50.000₫";
+        
+        setTimeout(() => {
+          voucherMsg.textContent = "";
+        }, 3000);
+      }
+    });
+    
+    // Back to main page
+    backBtn.addEventListener('click', function() {
+      window.location.href = 'index_user.html';
+    });
+    
+    // Show notification
+    function showNotification(message, type) {
+      const existingNotification = document.querySelector('.notification');
+      if (existingNotification) existingNotification.remove();
+      
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}"></i> ${message}`;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 3000);
+    }
+    
+    // Initialize
+    function init() {
+      if (!currentUser.doneTasks) {
+        currentUser.doneTasks = [];
+        
+        const isLoggedInBefore = localStorage.getItem("isLoggedInBefore");
+        if (isLoggedInBefore) {
+          currentUser.doneTasks.push(2);
+        } else {
+          localStorage.setItem("isLoggedInBefore", "true");
+        }
+        
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+        if (userIndex >= 0) {
+          users[userIndex] = currentUser;
+          localStorage.setItem("users", JSON.stringify(users));
+        }
+      }
+      
+      renderTasks();
+      updatePoints();
+
+      // 🔔 HIỂN THỊ THÔNG BÁO CHO NHIỆM VỤ MỚI HOÀN THÀNH
+      const lastDoneTasks = JSON.parse(localStorage.getItem("lastDoneTasks")) || [];
+      const newTasks = currentUser.doneTasks.filter(id => !lastDoneTasks.includes(id));
+
+      newTasks.forEach(taskId => {
+        const task = tasks.find(t => t.id === taskId);
+        if (task) {
+          showNotification(`✅ Hoàn thành: ${task.name} (+${task.points} điểm)`, "success");
+        }
+      });
+
+      // Lưu trạng thái hiện tại để so sánh lần tới
+      localStorage.setItem("lastDoneTasks", JSON.stringify(currentUser.doneTasks));
+    }
+    
+    // Load
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

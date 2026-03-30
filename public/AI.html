@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chat AI giới thiệu sản phẩm</title>
+<style>
+:root {
+  --bg: #0f1724;
+  --card: #0b1220;
+  --accent: #06b6d4;
+  --muted: #94a3b8;
+  --glass: rgba(255,255,255,0.03);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(180deg,#071024 0%, #071729 100%);
+  color: #e6eef6;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.7);
+}
+.panel {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px;
+}
+h1 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+label {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+input, select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: transparent;
+  color: inherit;
+  font-size: 15px;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--accent);
+  color: #012;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+}
+.btn:active { transform: scale(0.97); }
+.small { font-size: 13px; color: var(--muted); }
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 78vh;
+}
+.chat-window {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+}
+.msg {
+  max-width: 90%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 8px 0;
+  line-height: 1.45;
+  word-wrap: break-word;
+  white-space: pre-line; 
+}
+
+.user { align-self: flex-end; background: linear-gradient(90deg,#1f2937,#111827); color: #e6eef6; }
+.bot { align-self: flex-start; background: linear-gradient(90deg,#062b3a,#063248); color: #e6f9ff; }
+.controls { display: flex; gap: 8px; margin-top: 10px; }
+.actions { display: flex; gap: 8px; align-items: center; }
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.pill { background: var(--glass); padding: 6px 8px; border-radius: 999px; font-size: 13px; }
+footer { margin-top: 10px; color: var(--muted); font-size: 13px; }
+.preset-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.preset { background: rgba(255,255,255,0.03); padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+.top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+.hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: 1fr; }
+  .chat { height: auto; min-height: 65vh; }
+  .controls { flex-direction: column; }
+  .controls input { width: 100%; }
+  .controls button { width: 100%; }
+  .btn { width: 100%; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel">
+    <div class="top-row">
+      <h1>AI Chat — Giới thiệu & So sánh</h1>
+      <div class="pill">Offline / Mobile</div>
+    </div>
+
+    <label>Tên sản phẩm</label>
+    <input id="name" value=" " />
+
+    <label>Danh mục / Loại</label>
+    <input id="category" value=" " />
+
+
+    <label>Giá</label>
+    <input id="price" value=" " />
+
+    <label>Phong cách giới thiệu</label>
+    <select id="tone">
+      <option value="friendly">Thân thiện</option>
+      <option value="professional">Chuyên nghiệp</option>
+      <option value="luxury">Sang trọng</option>
+      <option value="fun">Năng động</option>
+    </select>
+
+    <label>Khách hàng mục tiêu</label>
+    <input id="audience" value="" />
+
+    <div class="meta">
+      <div class="small">Mẫu nhanh:</div>
+      <div class="preset-list">
+        <div class="preset" data-pres="fast">Ngắn</div>
+        <div class="preset" data-pres="detail">Chi tiết</div>
+        <div class="preset" data-pres="social">Mạng xã hội</div>
+        <div class="preset" data-pres="email">Email bán hàng</div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+      <button class="btn" id="generate">Tạo lời giới thiệu</button>
+      <button class="btn" id="compare" style="background:#1e293b;color:var(--accent);border:1px solid rgba(255,255,255,0.04)">So sánh 2 sản phẩm</button>
+      <button class="btn" id="clear" style="background:transparent;color:var(--accent);border:1px solid rgba(255,255,255,0.04)">Xoá chat</button>
+      
+      <a href="index.html"
+        class="btn"
+        style="background:#0f5bd6;color:var(--accent);border:1px solid rgba(255,255,255,0.04);text-align:center;">
+        Trở về danh sách
+      </a>
+    </div>
+
+    <div class="hint">Hoạt động offline — chạy tốt trên điện thoại.</div>
+  </div>
+
+  <div class="panel chat">
+    <div class="top-row" style="margin-bottom:8px">
+      <h1>Hộp Chat</h1>
+      <div class="actions">
+        <button class="btn" id="copyAll">Copy</button>
+        <button class="btn" id="exportTxt" style="background:transparent;color:var(--accent);border:1px solid rgba(255,255,255,0.04)">Xuất .txt</button>
+      </div>
+    </div>
+
+    <div id="chatWindow" class="chat-window" aria-live="polite"></div>
+
+    <div class="controls">
+      <input id="userInput" placeholder="Nhập câu hỏi hoặc chỉnh sửa..." />
+      <button class="btn" id="send">Gửi</button>
+      <button class="btn" id="regen">Tạo lại</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// === Danh sách điện thoại HỢP LỆ ===
+const VALID_PHONES = [
+  "iPhone XS Max",
+  "iPhone 11",
+  "iPhone 11 Pro",
+  "iPhone 11 Pro Max",
+  "iPhone SE (2020)",
+  "iPhone 12 mini",
+  "iPhone 12",
+  "iPhone 12 Pro",
+  "iPhone 12 Pro Max",
+  "iPhone 13 mini",
+  "iPhone 13",
+  "iPhone 13 Pro",
+  "iPhone 13 Pro Max",
+  "iPhone SE (2022)",
+  "iPhone 14",
+  "iPhone 14 Plus",
+  "iPhone 14 Pro",
+  "iPhone 14 Pro Max",
+  "iPhone 15",
+  "iPhone 15 Plus",
+  "iPhone 14 Pro Max",
+  "iPhone 14 Pro",
+  "Samsung Galaxy S24 Ultra",
+  "Samsung Galaxy S24",
+  "Samsung Galaxy S23 Ultra",
+  "Samsung Galaxy S23",
+  "Samsung Galaxy S22 Ultra",
+  "Samsung Galaxy S22",
+  "Samsung Galaxy Z Fold 5",
+  "Samsung Galaxy Z Fold 4",
+  "Samsung Galaxy Z Flip 5",
+  "Samsung Galaxy Z Flip 4",
+  "Samsung Galaxy A54",
+  "Samsung Galaxy A34",
+  "Samsung Galaxy A24",
+  "Samsung Galaxy A15",
+  "Samsung Galaxy A14",
+  "Samsung Galaxy M34",
+  "Samsung Galaxy M14",
+  "Google Pixel 8 Pro",
+  "Google Pixel 8",
+  "Google Pixel 8a",
+  "Google Pixel 7 Pro",
+  "Google Pixel 7",
+  "Google Pixel 7a",
+  "Google Pixel 6 Pro",
+  "Google Pixel 6",
+  "Google Pixel 6a",
+  "Google Pixel 5",
+  "Google Pixel 5a",
+  "Google Pixel 4 XL",
+  "Google Pixel 4",
+  "Google Pixel 4a",
+  "Google Pixel 3 XL",
+  "Google Pixel 3",
+  "Google Pixel 3a",
+  "Xiaomi 14 Pro",
+  "Xiaomi Redmi Note 13",
+  "Xiaomi Redmi Note 12",
+  "Oppo Find X7",
+  "Oppo Reno 11",
+  "Oppo Reno 10",
+  "Vivo X100 Pro",
+  "Vivo V30",
+  "Vivo Y100",
+  "Realme GT 5",
+  "Realme C55",
+  "Huawei P60 Pro",
+  "Huawei Mate 60 Pro",
+  "Sony Xperia 1 V",
+  "OnePlus 12",
+  "Motorola Edge 40",
+  "Nokia G42",
+  "Galaxy S24",
+  "Galaxy Z Fold",
+  "Pixel 8"
+];
+
+//  CƠ SỞ DỮ LIỆU TÍNH NĂNG (tự động)
+const PHONE_DATABASE = {
+  
+//nhà samsung
+"Samsung Galaxy S24 Ultra": {
+  features: ["Chip Snapdragon 8 Gen 3 for Galaxy", "Camera 200MP", "Bút S-Pen", "Màn hình 120Hz"],
+  price: "33.990.000₫",
+  audience: "Doanh nhân, người dùng cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Gray", "Violet", "Yellow"]
+},
+
+"Samsung Galaxy S24": {
+  features: ["Chip Exynos 2400", "Camera 50MP", "Màn hình 120Hz", "Thiết kế cao cấp"],
+  price: "22.990.000₫",
+  audience: "Người dùng Android cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Gray", "Violet", "Yellow"]
+},
+
+"Samsung Galaxy S23 Ultra": {
+  features: ["Chip Snapdragon 8 Gen 2", "Camera 200MP", "S-Pen", "Zoom 100x"],
+  price: "26.990.000₫",
+  audience: "Nhiếp ảnh, người dùng chuyên nghiệp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Green", "Cream", "Lavender"]
+},
+
+"Samsung Galaxy S23": {
+  features: ["Snapdragon 8 Gen 2", "Camera 50MP", "Màn hình AMOLED", "Hiệu năng mạnh"],
+  price: "18.990.000₫",
+  audience: "Người dùng phổ thông cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Green", "Cream", "Lavender"]
+},
+
+"Samsung Galaxy S22 Ultra": {
+  features: ["Chip Exynos 2200", "Camera 108MP", "Bút S-Pen", "Màn hình cong"],
+  price: "19.990.000₫",
+  audience: "Người dùng Samsung lâu năm",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "White", "Green", "Burgundy"]
+},
+
+"Samsung Galaxy S22": {
+  features: ["Chip Exynos 2200", "Camera 50MP", "Thiết kế nhỏ gọn", "Màn hình AMOLED"],
+  price: "14.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Green", "Pink"]
+},
+
+"Samsung Galaxy Z Fold 5": {
+  features: ["Màn hình gập lớn", "Snapdragon 8 Gen 2", "Đa nhiệm mạnh", "Thiết kế cao cấp"],
+  price: "40.990.000₫",
+  audience: "Doanh nhân, công việc",
+  category: "Điện thoại gập cao cấp",
+  colors: ["Black", "Blue", "Cream"]
+},
+
+"Samsung Galaxy Z Fold 4": {
+  features: ["Màn hình gập", "Snapdragon 8+ Gen 1", "Đa nhiệm", "Camera cao cấp"],
+  price: "32.990.000₫",
+  audience: "Người thích công nghệ",
+  category: "Điện thoại gập cao cấp",
+  colors: ["Black", "Gray", "Green"]
+},
+
+"Samsung Galaxy Z Flip 5": {
+  features: ["Thiết kế gập nhỏ gọn", "Màn hình phụ lớn", "Snapdragon 8 Gen 2", "Thời trang"],
+  price: "25.990.000₫",
+  audience: "Giới trẻ, thời trang",
+  category: "Điện thoại gập cao cấp",
+  colors: ["Black", "Mint", "Cream", "Lavender"]
+},
+
+"Samsung Galaxy Z Flip 4": {
+  features: ["Thiết kế gập", "Snapdragon 8+ Gen 1", "Nhỏ gọn", "Camera tốt"],
+  price: "18.990.000₫",
+  audience: "Người thích điện thoại gập",
+  category: "Điện thoại gập cao cấp",
+  colors: ["Black", "Blue", "Pink", "Purple"]
+},
+
+"Samsung Galaxy A54": {
+  features: ["Camera 50MP", "Pin 5000mAh", "Màn hình AMOLED", "Chống nước IP67"],
+  price: "8.990.000₫",
+  audience: "Học sinh, sinh viên",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Green", "Violet"]
+},
+
+"Samsung Galaxy A34": {
+  features: ["Màn hình AMOLED", "Pin 5000mAh", "Camera ổn", "Giá tốt"],
+  price: "6.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "Silver", "Green", "Purple"]
+},
+
+"Samsung Galaxy A24": {
+  features: ["Màn hình AMOLED", "Pin lớn", "Camera 50MP", "Giá rẻ"],
+  price: "4.990.000₫",
+  audience: "Học sinh, sinh viên",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "Blue", "Green"]
+},
+
+"Samsung Galaxy A15": {
+  features: ["Pin 5000mAh", "Màn hình lớn", "Giá rẻ", "Dùng ổn định"],
+  price: "3.990.000₫",
+  audience: "Người dùng cơ bản",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "Blue", "Light Green"]
+},
+
+"Samsung Galaxy A14": {
+  features: ["Pin trâu", "Màn hình lớn", "Giá rất rẻ", "Dễ sử dụng"],
+  price: "3.490.000₫",
+  audience: "Người lớn tuổi",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "Silver", "Green"]
+},
+
+"Samsung Galaxy M34": {
+  features: ["Pin 6000mAh", "Màn hình 120Hz", "Camera 50MP", "Pin cực trâu"],
+  price: "6.490.000₫",
+  audience: "Người cần pin lâu",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "Blue", "Green"]
+},
+
+"Samsung Galaxy M14": {
+  features: ["Pin 6000mAh", "Giá rẻ", "Dùng bền", "Màn hình lớn"],
+  price: "3.790.000₫",
+  audience: "Người dùng cơ bản",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "Blue", "Silver"]
+},
+
+
+// nhà táo 
+"iPhone XS Max": {
+  features: ["Màn hình OLED 6.5 inch", "Chip A12 Bionic", "Face ID", "Camera kép 12MP"],
+  price: "12.990.000₫",
+  audience: "Người dùng iOS cơ bản, học sinh sinh viên",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold"]
+},
+
+"iPhone 11": {
+  features: ["Chip A13 Bionic", "Camera kép 12MP", "Pin bền bỉ", "Hiệu năng ổn định"],
+  price: "10.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Yellow", "Green", "Purple"]
+},
+
+"iPhone 11 Pro": {
+  features: ["Chip A13 Bionic", "Camera 3 ống kính", "Màn hình OLED", "Chụp ảnh ban đêm"],
+  price: "14.990.000₫",
+  audience: "Người thích chụp ảnh",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Green"]
+},
+
+"iPhone 11 Pro Max": {
+  features: ["Chip A13 Bionic", "Pin lớn", "Camera 3 ống kính", "Màn hình OLED 6.5 inch"],
+  price: "15.990.000₫",
+  audience: "Người dùng lâu dài, pin trâu",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Green"]
+},
+
+"iPhone SE (2020)": {
+  features: ["Chip A13 Bionic", "Thiết kế nhỏ gọn", "Touch ID", "Giá rẻ"],
+  price: "7.990.000₫",
+  audience: "Người thích nhỏ gọn",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Red"]
+},
+
+"iPhone 12 mini": {
+  features: ["Chip A14 Bionic", "Màn hình OLED", "Thiết kế nhỏ gọn", "Hỗ trợ 5G"],
+  price: "9.990.000₫",
+  audience: "Người tay nhỏ, thích gọn nhẹ",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Green", "Purple"]
+},
+
+"iPhone 12": {
+  features: ["Chip A14 Bionic", "Màn hình OLED", "Camera kép", "Hỗ trợ 5G"],
+  price: "11.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Green", "Purple"]
+},
+
+"iPhone 12 Pro": {
+  features: ["Chip A14 Bionic", "Camera 3 ống kính", "LiDAR", "Thiết kế thép"],
+  price: "14.990.000₫",
+  audience: "Dân văn phòng, nhiếp ảnh",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Blue"]
+},
+
+"iPhone 12 Pro Max": {
+  features: ["Chip A14 Bionic", "Pin lớn", "Camera tốt nhất dòng 12", "Màn hình 6.7 inch"],
+  price: "15.990.000₫",
+  audience: "Người dùng cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Blue"]
+},
+
+"iPhone 13 mini": {
+  features: ["Chip A15 Bionic", "Pin cải thiện", "Màn hình OLED", "Thiết kế nhỏ"],
+  price: "10.990.000₫",
+  audience: "Người thích gọn nhẹ",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Pink", "Green"]
+},
+
+"iPhone 13": {
+  features: ["Chip A15 Bionic", "Camera nâng cấp", "Pin tốt", "Màn hình OLED"],
+  price: "12.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Pink", "Green"]
+},
+
+"iPhone 13 Pro": {
+  features: ["Chip A15 Bionic", "Màn hình 120Hz", "Camera Pro", "Quay video ProRes"],
+  price: "16.990.000₫",
+  audience: "Người sáng tạo nội dung",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Blue", "Green"]
+},
+
+"iPhone 13 Pro Max": {
+  features: ["Chip A15 Bionic", "Pin rất trâu", "Màn hình 120Hz", "Camera cao cấp"],
+  price: "17.990.000₫",
+  audience: "Người dùng cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Blue", "Green"]
+},
+
+"iPhone SE (2022)": {
+  features: ["Chip A15 Bionic", "Touch ID", "Nhỏ gọn", "Giá tốt"],
+  price: "8.990.000₫",
+  audience: "Người thích nút home",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Red"]
+},
+
+"iPhone 14": {
+  features: ["Chip A15 Bionic", "Camera cải tiến", "An toàn va chạm", "Pin ổn"],
+  price: "13.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Purple", "Yellow"]
+},
+
+"iPhone 14 Plus": {
+  features: ["Màn hình lớn", "Pin rất trâu", "Chip A15 Bionic", "Camera kép"],
+  price: "15.990.000₫",
+  audience: "Người thích màn hình lớn",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Red", "Blue", "Purple", "Yellow"]
+},
+
+"iPhone 14 Pro": {
+  features: ["Chip A16 Bionic", "Dynamic Island", "Camera 48MP", "Màn hình 120Hz"],
+  price: "18.990.000₫",
+  audience: "Người dùng cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Purple"]
+},
+
+"iPhone 14 Pro Max": {
+  features: ["Chip A16 Bionic", "Pin trâu", "Camera 48MP", "Dynamic Island"],
+  price: "19.990.000₫",
+  audience: "Người dùng cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Silver", "Gold", "Purple"]
+},
+
+"iPhone 15": {
+  features: ["Chip A16 Bionic", "Camera 48MP", "Cổng USB-C", "Thiết kế mới"],
+  price: "22.990.000₫",
+  audience: "Người dùng Apple",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Blue", "Green", "Yellow", "Pink"]
+},
+
+"iPhone 15 Plus": {
+  features: ["Màn hình lớn", "Pin trâu", "Camera 48MP", "USB-C"],
+  price: "25.990.000₫",
+  audience: "Người thích pin lâu",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Blue", "Green", "Yellow", "Pink"]
+},
+
+"iPhone 15 Pro Max": {
+  features: [
+    "Chip A17 Pro mạnh nhất thế giới",
+    "Màn hình lớn 6.7 inch 120Hz",
+    "Khung titanium siêu bền",
+    "Camera 48MP zoom quang 5x",
+    "Quay video chuyên nghiệp"
+  ],
+  price: "34.990.000₫",
+  audience: "Người dùng cao cấp, sáng tạo nội dung, doanh nhân",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Blue", "Yellow", "Pink", "Green"]
+},
+
+
+//google pixel
+// google pixel
+"Google Pixel 8 Pro": {
+  features: ["Chip Google Tensor G3", "Camera AI hàng đầu", "Màn hình 120Hz", "Android thuần"],
+  price: "27.990.000₫",
+  audience: "Nhiếp ảnh gia, người thích Android gốc",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Blue", "Porcelain"]
+},
+
+"Google Pixel 8": {
+  features: ["Chip Tensor G3", "Camera AI", "Màn hình 120Hz", "Android thuần"],
+  price: "20.990.000₫",
+  audience: "Người dùng Android cao cấp",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "Gray", "Rose"]
+},
+
+"Google Pixel 8a": {
+  features: ["Chip Tensor G3", "Camera AI", "Giá dễ tiếp cận", "Android thuần"],
+  price: "13.990.000₫",
+  audience: "Sinh viên, người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Blue", "Green"]
+},
+
+"Google Pixel 7 Pro": {
+  features: ["Chip Tensor G2", "Camera zoom xa", "Màn hình 120Hz", "Android thuần"],
+  price: "18.990.000₫",
+  audience: "Người thích chụp ảnh",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "White", "Hazel"]
+},
+
+"Google Pixel 7": {
+  features: ["Chip Tensor G2", "Camera AI", "Hiệu năng ổn định", "Android thuần"],
+  price: "14.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Lemongrass"]
+},
+
+"Google Pixel 7a": {
+  features: ["Chip Tensor G2", "Camera tốt", "Giá hợp lý", "Android thuần"],
+  price: "11.990.000₫",
+  audience: "Sinh viên, người dùng cơ bản",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "White", "Blue"]
+},
+
+"Google Pixel 6 Pro": {
+  features: ["Chip Tensor G1", "Camera AI", "Màn hình cong", "Thiết kế cao cấp"],
+  price: "15.990.000₫",
+  audience: "Người thích Android gốc",
+  category: "Điện thoại cao cấp",
+  colors: ["Black", "White", "Gold"]
+},
+
+"Google Pixel 6": {
+  features: ["Chip Tensor G1", "Camera AI", "Thiết kế độc lạ", "Android thuần"],
+  price: "12.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "Green", "Red"]
+},
+
+"Google Pixel 6a": {
+  features: ["Chip Tensor G1", "Camera AI", "Giá rẻ", "Android thuần"],
+  price: "9.990.000₫",
+  audience: "Sinh viên",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Green"]
+},
+
+"Google Pixel 5": {
+  features: ["Thiết kế nhỏ gọn", "Camera AI", "Android thuần", "Ổn định"],
+  price: "8.990.000₫",
+  audience: "Người thích nhỏ gọn",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "Green"]
+},
+
+"Google Pixel 5a": {
+  features: ["Camera AI", "Pin tốt", "Android thuần", "Giá dễ mua"],
+  price: "7.990.000₫",
+  audience: "Người dùng phổ thông",
+  category: "Điện thoại tầm trung",
+  colors: ["Black", "Green"]
+},
+
+"Google Pixel 4 XL": {
+  features: ["Camera AI", "Màn hình lớn", "Face Unlock", "Android thuần"],
+  price: "6.990.000₫",
+  audience: "Người thích màn hình lớn",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Orange"]
+},
+
+"Google Pixel 4": {
+  features: ["Camera AI", "Face Unlock", "Thiết kế gọn", "Android thuần"],
+  price: "5.990.000₫",
+  audience: "Người dùng cơ bản",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Orange"]
+},
+
+"Google Pixel 4a": {
+  features: ["Camera AI", "Nhỏ gọn", "Giá rẻ", "Android thuần"],
+  price: "5.490.000₫",
+  audience: "Sinh viên",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Blue"]
+},
+
+"Google Pixel 3 XL": {
+  features: ["Camera AI", "Màn hình lớn", "Android thuần", "Ổn định"],
+  price: "4.990.000₫",
+  audience: "Người dùng tiết kiệm",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White"]
+},
+
+"Google Pixel 3": {
+  features: ["Camera AI", "Thiết kế gọn", "Android thuần", "Ổn định"],
+  price: "4.490.000₫",
+  audience: "Người dùng cơ bản",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White"]
+},
+
+"Google Pixel 3a": {
+  features: ["Camera AI", "Giá rẻ", "Android thuần", "Dễ dùng"],
+  price: "3.990.000₫",
+  audience: "Học sinh, sinh viên",
+  category: "Điện thoại giá rẻ",
+  colors: ["Black", "White", "Purple"]
+}
+
+
+};
+
+const chatWindow = document.getElementById("chatWindow");
+const userInput = document.getElementById("userInput");
+
+let currentProduct = null;
+let productA = null;
+let productB = null;
+let isCollectingForCompare = false;
+
+function addMessage(content, type="bot") {
+  const msg = document.createElement("div");
+  msg.className = `msg ${type}`;
+  msg.textContent = content;
+  chatWindow.appendChild(msg);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function detectBrand(name) {
+  const lower = name.toLowerCase();
+  const brands = {
+    apple: ["iphone", "apple"],
+    samsung: ["galaxy", "samsung"],
+    oppo: ["oppo"],
+    xiaomi: ["xiaomi", "mi", "redmi", "poco"],
+    huawei: ["huawei"],
+    vivo: ["vivo"],
+    realme: ["realme"],
+    nokia: ["nokia"],
+    sony: ["sony", "xperia"],
+    asus: ["asus", "rog phone", "zenfone"],
+    google: ["google", "pixel"],
+    oneplus: ["oneplus"],
+    motorola: ["motorola", "moto"],
+    infinix: ["infinix"],
+    tecno: ["tecno"],
+    lenovo: ["lenovo"],
+    meizu: ["meizu"],
+    zte: ["zte", "nubia", "red magic"],
+    honor: ["honor"],
+    htc: ["htc"]
+  };
+  for (const [brand, keywords] of Object.entries(brands)) {
+    if (keywords.some(k => lower.includes(k))) {
+      return brand;
+    }
+  }
+  return "generic";
+}
+
+// ✅ Lấy dữ liệu sản phẩm — TỰ ĐỘNG LẤY TÍNH NĂNG TỪ DB
+function getCurrentProductData() {
+  const name = document.getElementById("name").value.trim();
+  
+  //màu đt
+  const normalizedName = Object.keys(PHONE_DATABASE).find(
+  key => key.toLowerCase() === name.toLowerCase()
+  );
+
+const db = normalizedName ? PHONE_DATABASE[normalizedName] : {};
+
+
+  const category = document.getElementById("category").value.trim() || db.category || "Điện thoại thông minh";
+  const price = document.getElementById("price").value.trim() || db.price || "";
+  const tone = document.getElementById("tone").value;
+  const audience = document.getElementById("audience").value.trim() || db.audience || "Người dùng phổ thông";
+  const brand = detectBrand(name);
+  const features = db.features || [];
+  const colors = db.colors || [];
+  return { name, category, features, price, tone, audience, brand, colors };
+
+}
+
+
+// Tự động điền khi gõ tên
+document.getElementById("name").addEventListener("input", function() {
+  const name = this.value.trim();
+  const db = PHONE_DATABASE[name];
+  if (db) {
+    document.getElementById("category").value = db.category || "Điện thoại thông minh";
+    document.getElementById("price").value = db.price || "";
+    document.getElementById("audience").value = db.audience || "Người dùng phổ thông";
+  }
+});
+
+function createIntro(preset="detail", product = null) {
+  if (!product) product = getCurrentProductData();
+  const { name, category, features, price, tone, audience, brand } = product;
+
+  let style = "";
+  if (tone === "friendly") style = "Viết thân thiện, gần gũi.";
+  if (tone === "professional") style = "Ngôn ngữ chuyên nghiệp, bán hàng.";
+  if (tone === "luxury") style = "Ngôn ngữ sang trọng, tinh tế.";
+  if (tone === "fun") style = "Ngôn ngữ năng động, vui tươi.";
+
+  let emoji = "📱";
+  if (brand === "apple") emoji = "🍎";
+  else if (brand === "samsung") emoji = "🌌";
+
+  let intro = "";
+  if (preset === "fast") {
+    intro = `${name} — lựa chọn hoàn hảo cho ${audience}.`;
+  } else if (preset === "detail") {
+    intro = `${emoji} ${name} — ${category} dành cho ${audience}.  
+${features.map(f=>"• "+f).join("\n")}${price?`\n💰 Giá: ${price}`:""}`;
+  } else if (preset === "social") {
+    intro = `${emoji} ${name} đã có mặt!  
+${features[0] || "Hiệu năng đỉnh cao."}  
+${price?`Chỉ ${price}`:""} — phù hợp cho ${audience}! #${category.replace(/\s+/g,"")}`;
+  } else if (preset === "email") {
+    intro = `Xin chào! 👋  
+Bạn đang tìm ${category.toLowerCase()} phù hợp với ${audience}?  
+Hãy xem ${name}:  
+${features.slice(0,3).map(f=>"- "+f).join("\n")}  
+${price?`Giá chỉ ${price}.`:""}  
+Liên hệ ngay để biết thêm chi tiết!`;
+  }
+
+  return intro + `\n\n(${style})`;
+}
+
+function isValidPhoneName(name) {
+  if (!name) return false;
+  const lower = name.toLowerCase();
+  return VALID_PHONES.some(valid =>
+    valid.toLowerCase().includes(lower) || lower.includes(valid.toLowerCase())
+  );
+}
+
+// === TẠO GIỚI THIỆU ===
+document.getElementById("generate").onclick = () => {
+  const product = getCurrentProductData();
+  const name = product.name;
+
+  if (!name) {
+    addMessage("❌ Vui lòng nhập tên sản phẩm!", "bot");
+    return;
+  }
+
+  if (!isValidPhoneName(name)) {
+    addMessage(`❌ Không tìm thấy điện thoại "${name}".Có thể sản phẩm này đã hết hàng hoặc không còn bán nữa. Vui lòng nhập tên điện thoại có thật (ví dụ: iPhone 15, Galaxy S24...).`, "bot");
+    return;
+  }
+
+  addMessage("Đang tạo lời giới thiệu...", "bot");
+  setTimeout(()=>{
+    const intro = createIntro("detail", product);
+    currentProduct = product;
+    addMessage(intro, "bot");
+    addMessage("Bạn muốn hỏi gì về sản phẩm này? Ví dụ: 'Tính năng?', 'So sánh?'", "bot");
+  },600);
+};
+
+// === SO SÁNH HAI SẢN PHẨM ===
+document.getElementById("compare").onclick = () => {
+  const product = getCurrentProductData();
+  const name = product.name;
+
+  if (!name) {
+    addMessage("❌ Vui lòng nhập tên sản phẩm trước khi so sánh!", "bot");
+    return;
+  }
+
+  if (!isValidPhoneName(name)) {
+    addMessage(`❌ Không tìm thấy điện thoại "${name}". Có thể sản phẩm này đã hết hàng hoặc không còn bán nữa. Vui lòng nhập tên điện thoại có thật.`, "bot");
+    return;
+  }
+
+  if (!isCollectingForCompare) {
+    productA = product;
+    isCollectingForCompare = true;
+    addMessage(`✅ Đã lưu sản phẩm A: ${productA.name}`, "bot");
+    addMessage(`👉 Bây giờ hãy đổi tên thành điện thoại thứ hai (ví dụ: iPhone 15 Pro), rồi nhấn lại nút "So sánh 2 sản phẩm".`, "bot");
+  } else {
+    productB = product;
+    addMessage("🔁 Đang so sánh hai sản phẩm...", "bot");
+    setTimeout(() => {
+      addMessage(generateComparison(productA, productB), "bot");
+      isCollectingForCompare = false;
+      currentProduct = productB;
+    }, 500);
+  }
+};
+
+function generateComparison(a, b) {
+  const lines = [];
+  lines.push("📊 **SO SÁNH HAI SẢN PHẨM**");
+  lines.push("");
+  lines.push(`🔹 **${a.name}** ↔ **${b.name}**`);
+  lines.push("");
+
+  lines.push("💰 **Giá**:");
+  lines.push(`- ${a.name}: ${a.price || "Chưa có"}`);
+  lines.push(`- ${b.name}: ${b.price || "Chưa có"}`);
+  lines.push("");
+
+  lines.push("⚡ **Tính năng nổi bật**:");
+  lines.push(`- ${a.name}:`);
+  (a.features.length ? a.features : ["Chưa có"]).forEach(f => lines.push(`  • ${f}`));
+  lines.push(`- ${b.name}:`);
+  (b.features.length ? b.features : ["Chưa có"]).forEach(f => lines.push(`  • ${f}`));
+  lines.push("");
+
+  lines.push("🎯 **Khách hàng mục tiêu**:");
+  lines.push(`- ${a.name}: ${a.audience}`);
+  lines.push(`- ${b.name}: ${b.audience}`);
+  lines.push("");
+
+  const isFoldVsIPhone = 
+    (a.name.toLowerCase().includes("z fold") && b.name.toLowerCase().includes("iphone 15 pro")) ||
+    (b.name.toLowerCase().includes("z fold") && a.name.toLowerCase().includes("iphone 15 pro"));
+
+  lines.push("💡 **Gợi ý chọn mua**:");
+
+const suggestions = suggestChoice(a, b);
+
+if (suggestions.length > 0) {
+  suggestions.forEach(s => lines.push(`- ${s}`));
+} else {
+  lines.push("- Cả hai máy đều phù hợp cho nhu cầu phổ thông, hãy chọn theo sở thích thương hiệu.");
+}
+
+  if (isFoldVsIPhone) {
+    lines.push("📱 **Samsung Galaxy Z Fold 5**: điện thoại gập – mở ra thành tablet, phù hợp:");
+    lines.push("  • Làm việc đa nhiệm (2–3 app)");
+    lines.push("  • Giải trí trên màn hình 7.6\"");
+    lines.push("  • Sáng tạo nội dung, đọc sách");
+    lines.push("");
+    lines.push("🍎 **iPhone 15 Pro**: flagship truyền thống – hiệu năng đỉnh, hệ sinh thái liền mạch:");
+    lines.push("  • Chụp ảnh/video chuyên nghiệp");
+    lines.push("  • Dùng lâu dài (5–7 năm)");
+    lines.push("  • Tích hợp mượt với iPad/Mac");
+    lines.push("");
+    lines.push("👉 Chọn **Z Fold 5** nếu bạn muốn đổi mới, đa nhiệm.");
+    lines.push("👉 Chọn **iPhone 15 Pro** nếu bạn ưu tiên ổn định, hệ sinh thái.");
+  } else if (a.brand === "apple" && b.brand === "samsung") {
+    lines.push(`- Chọn ${a.name} nếu bạn ưu tiên hệ sinh thái Apple.`);
+    lines.push(`- Chọn ${b.name} nếu bạn thích tùy chỉnh và màn hình đẹp.`);
+  } else if (a.brand === "samsung" && b.brand === "apple") {
+    lines.push(`- Chọn ${b.name} nếu bạn ưu tiên hệ sinh thái Apple.`);
+    lines.push(`- Chọn ${a.name} nếu bạn thích tùy chỉnh và màn hình đẹp.`);
+  } else {
+    lines.push(`- ${a.name}: phù hợp nếu bạn cần ${a.features.slice(0,2).join(", ") || "các tính năng cơ bản"}.`);
+    lines.push(`- ${b.name}: phù hợp nếu bạn cần ${b.features.slice(0,2).join(", ") || "các tính năng cơ bản"}.`);
+  }
+
+  return lines.join("\n");
+}
+
+function suggestChoice(a, b) {
+  const suggest = [];
+
+  // 💰 So sánh giá
+  if (a.price && b.price) {
+    const priceA = parseInt(a.price.replace(/\D/g, ""));
+    const priceB = parseInt(b.price.replace(/\D/g, ""));
+    if (priceA < priceB) {
+      suggest.push(`💰 **${a.name}** rẻ hơn, phù hợp nếu bạn muốn tiết kiệm chi phí.`);
+    } else if (priceB < priceA) {
+      suggest.push(`💰 **${b.name}** rẻ hơn, phù hợp nếu bạn muốn tiết kiệm chi phí.`);
+    }
+  }
+
+  // 📸 Camera
+  if (a.features.join().toLowerCase().includes("camera") &&
+      !b.features.join().toLowerCase().includes("camera")) {
+    suggest.push(`📸 **${a.name}** phù hợp hơn nếu bạn ưu tiên chụp ảnh/quay video.`);
+  }
+
+  if (b.features.join().toLowerCase().includes("camera") &&
+      !a.features.join().toLowerCase().includes("camera")) {
+    suggest.push(`📸 **${b.name}** phù hợp hơn nếu bạn ưu tiên chụp ảnh/quay video.`);
+  }
+
+  // 🔋 Pin
+  if (a.features.join().toLowerCase().includes("pin")) {
+    suggest.push(`🔋 **${a.name}** phù hợp với người cần pin trâu.`);
+  }
+  if (b.features.join().toLowerCase().includes("pin")) {
+    suggest.push(`🔋 **${b.name}** phù hợp với người cần pin trâu.`);
+  }
+
+  // 📱 Gập
+  if (a.name.toLowerCase().includes("fold")) {
+    suggest.push(`📱 **${a.name}** phù hợp cho đa nhiệm, làm việc nhiều ứng dụng.`);
+  }
+  if (b.name.toLowerCase().includes("fold")) {
+    suggest.push(`📱 **${b.name}** phù hợp cho đa nhiệm, làm việc nhiều ứng dụng.`);
+  }
+
+  // 🍎 Hệ sinh thái Apple
+  if (a.brand === "apple") {
+    suggest.push(`🍎 **${a.name}** phù hợp nếu bạn dùng iPhone/iPad/Mac và thích hệ sinh thái Apple.`);
+  }
+  if (b.brand === "apple") {
+    suggest.push(`🍎 **${b.name}** phù hợp nếu bạn dùng iPhone/iPad/Mac và thích hệ sinh thái Apple.`);
+  }
+
+  // 🤖 Android tuỳ biến
+  if (a.brand === "samsung" || a.brand === "google") {
+    suggest.push(`🤖 **${a.name}** phù hợp nếu bạn thích Android và khả năng tuỳ biến.`);
+  }
+  if (b.brand === "samsung" || b.brand === "google") {
+    suggest.push(`🤖 **${b.name}** phù hợp nếu bạn thích Android và khả năng tuỳ biến.`);
+  }
+
+  return suggest;
+}
+
+
+// === CÁC NÚT KHÁC ===
+document.getElementById("clear").onclick = () => {
+  chatWindow.innerHTML = "";
+  currentProduct = null;
+  productA = null;
+  productB = null;
+  isCollectingForCompare = false;
+};
+
+document.getElementById("send").onclick = () => {
+  const text = userInput.value.trim();
+  if(!text) return;
+
+  addMessage(text, "user");
+
+  const productToUse = currentProduct || getCurrentProductData();
+  if (!currentProduct && (!productToUse.name || !isValidPhoneName(productToUse.name))) {
+    addMessage("Vui lòng tạo lời giới thiệu từ điện thoại có thật trước!", "bot");
+    userInput.value = "";
+    return;
+  }
+
+  const reply = generateAnswer(text, productToUse);
+  setTimeout(() => addMessage(reply, "bot"), 500);
+  userInput.value = "";
+};
+
+document.getElementById("regen").onclick = () => {
+  if (currentProduct) {
+    addMessage(createIntro("detail", currentProduct), "bot");
+  } else {
+    addMessage("Vui lòng tạo lời giới thiệu trước.", "bot");
+  }
+};
+
+document.querySelectorAll(".preset").forEach(p => {
+  p.onclick = () => {
+    const productToUse = currentProduct || getCurrentProductData();
+    if (productToUse.name && isValidPhoneName(productToUse.name)) {
+      addMessage(createIntro(p.dataset.pres, productToUse), "bot");
+    } else {
+      addMessage("Vui lòng tạo lời giới thiệu từ điện thoại có thật trước.", "bot");
+    }
+  };
+});
+
+document.getElementById("copyAll").onclick = () => {
+  const text = Array.from(chatWindow.querySelectorAll(".msg")).map(m => m.textContent).join("\n\n");
+  navigator.clipboard.writeText(text).then(() => alert("Đã copy nội dung!"));
+};
+
+document.getElementById("exportTxt").onclick = () => {
+  const text = Array.from(chatWindow.querySelectorAll(".msg")).map(m => m.textContent).join("\n\n");
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "gioi_thieu_san_pham.txt";
+  a.click();
+};
+
+// === TRẢ LỜI THEO THƯƠNG HIỆU 
+function generateAnswer(question, product) {
+  const { name, category, features, price, audience, brand, colors } = product;
+  const qLower = question.toLowerCase();
+
+  if (
+    qLower.includes("màu") ||
+    qLower.includes("màu sắc") ||
+    qLower.includes("có màu gì")
+  ) {
+    if (colors && colors.length > 0) {
+      return `🎨 ${name} hiện có các màu: ${colors.join(", ")}.`;
+    } else {
+      return `⚠️ Hiện mình chưa có thông tin màu sắc cho ${name}.`;
+    }
+  }
+
+  const brandPhrases = {
+    apple: {
+      os: "iOS",
+      ecosystem: "hệ sinh thái Apple liền mạch với iPhone, iPad, Mac, AirPods.",
+      cameraNote: "camera chân thực, chụp đêm tốt, xử lý bởi chip A-series.",
+      design: "thiết kế cao cấp, bền bỉ.",
+      batteryNote: "pin tối ưu tốt nhờ iOS.",
+      colorNote: "Đen, Trắng, Xanh, Vàng,…",
+      warranty: "1 năm chính hãng Apple."
+    },
+    samsung: {
+      os: "Android (One UI)",
+      ecosystem: "tích hợp tốt với Galaxy Watch, Buds và SmartThings.",
+      cameraNote: "zoom tốt, màu sắc rực rỡ.",
+      design: "màn hình đẹp, dòng Z có thiết kế gập.",
+      batteryNote: "pin lớn và sạc nhanh.",
+      colorNote: "Xanh Phantom, Tím, Bạc,…",
+      warranty: "12 tháng chính hãng Samsung."
+    },
+    oppo: { os: "Android (ColorOS)", ecosystem: "liên kết với OPPO Watch, Enco Buds.", cameraNote: "chụp đẹp, da tự nhiên, nhiều chế độ AI.", design: "mỏng nhẹ, bo cong dễ cầm.", batteryNote: "sạc nhanh VOOC nổi tiếng.", colorNote: "Xanh, Đen, Tím,…", warranty: "Bảo hành 12 tháng chính hãng." },
+    xiaomi: { os: "Android (MIUI / HyperOS)", ecosystem: "kết nối tốt với Xiaomi AIoT.", cameraNote: "cấu hình mạnh giá tốt, camera đa ống kính.", design: "hiện đại, trẻ trung.", batteryNote: "pin trâu, sạc nhanh 67W–120W.", colorNote: "Đen, Xanh, Bạc,…", warranty: "12 tháng chính hãng Xiaomi." },
+    huawei: { os: "HarmonyOS / EMUI", ecosystem: "đồng bộ tốt với Huawei Watch, FreeBuds.", cameraNote: "camera Leica nổi tiếng.", design: "mặt lưng sang trọng.", batteryNote: "pin tốt, tối ưu hiệu năng cao.", colorNote: "Xanh, Vàng, Đen,…", warranty: "12 tháng chính hãng Huawei." },
+    vivo: { os: "Android (FuntouchOS)", ecosystem: "kết nối với Vivo Watch và tai nghe TWS.", cameraNote: "camera selfie đẹp hàng đầu.", design: "mỏng nhẹ, nhiều màu trẻ trung.", batteryNote: "pin khá, sạc nhanh.", colorNote: "Xanh, Hồng, Tím,…", warranty: "12 tháng chính hãng." },
+    realme: { os: "Android (realme UI)", ecosystem: "hệ sinh thái realme AIoT.", cameraNote: "camera ổn trong tầm giá.", design: "năng động, nhiều phiên bản đặc biệt.", batteryNote: "pin lớn + sạc nhanh.", colorNote: "Xanh, Vàng, Đen,…", warranty: "12 tháng." },
+    nokia: { os: "Android One", ecosystem: "tối giản, dễ dùng.", cameraNote: "ổn định, bền bỉ.", design: "trâu bò, chắc chắn.", batteryNote: "pin rất bền.", colorNote: "Đen, Xanh,…", warranty: "12 tháng." },
+    sony: { os: "Android (giao diện Sony)", ecosystem: "kết nối với PS5, Sony Headphones.", cameraNote: "camera quay phim rất tốt.", design: "cá tính, vuông vức.", batteryNote: "tối ưu ổn.", colorNote: "Đen, Tím,…", warranty: "12 tháng." },
+    asus: { os: "Android (ZenUI / ROG UI)", ecosystem: "liên kết với laptop ASUS và phụ kiện ROG.", cameraNote: "ổn, tập trung vào hiệu năng.", design: "cứng cáp, đặc biệt mạnh mẽ với ROG Phone.", batteryNote: "pin lớn 6000mAh.", colorNote: "Đen, Xanh,…", warranty: "12 tháng." },
+    google: { os: "Android gốc", ecosystem: "Google Home, Chromecast, Pixel Watch.", cameraNote: "Pixel nổi tiếng với chất lượng ảnh tự nhiên.", design: "độc lạ, nhận dạng riêng.", batteryNote: "khá tốt.", colorNote: "Xanh Mint, Than, Trắng,…", warranty: "12 tháng." },
+    oneplus: { os: "OxygenOS", ecosystem: "kết nối với OnePlus Buds và Watch.", cameraNote: "camera Hasselblad.", design: "mỏng nhẹ, cao cấp.", batteryNote: "sạc nhanh SUPERVOOC.", colorNote: "Xanh, Đen,…", warranty: "12 tháng." },
+    motorola: { os: "Android thuần", ecosystem: "Moto Hub.", cameraNote: "ổn định.", design: "bền bỉ, cứng cáp.", batteryNote: "pin lớn, bền.", colorNote: "Đen, Xanh,…", warranty: "12 tháng." },
+    infinix: { os: "XOS (Android)", ecosystem: "Infinix AIoT.", cameraNote: "tốt trong tầm giá.", design: "mỏng nhẹ, trẻ trung.", batteryNote: "pin trâu.", colorNote: "Xanh, Đen,…", warranty: "12 tháng." },
+    tecno: { os: "HiOS (Android)", ecosystem: "Tecno AIoT.", cameraNote: "khá tốt giá rẻ.", design: "nhiều màu bắt mắt.", batteryNote: "pin lớn.", colorNote: "Xanh, Vàng,…", warranty: "12 tháng." },
+    lenovo: { os: "Android", ecosystem: "Lenovo tablet, laptop.", cameraNote: "ổn.", design: "bền bỉ.", batteryNote: "tốt.", colorNote: "Đen, Xanh,…", warranty: "12 tháng." },
+    meizu: { os: "FlymeOS", ecosystem: "Meizu AIoT.", cameraNote: "tốt trong tầm giá.", design: "đẹp, tối giản.", batteryNote: "ổn.", colorNote: "Xanh, Trắng,…", warranty: "12 tháng." },
+    zte: { os: "MyOS", ecosystem: "ZTE AIoT.", cameraNote: "quay chụp tốt với Nubia / RedMagic.", design: "gaming mạnh mẽ (RedMagic).", batteryNote: "pin lớn, tản nhiệt tốt.", colorNote: "Đen, Đỏ,…", warranty: "12 tháng." },
+    honor: { os: "MagicOS", ecosystem: "Honor Band, Honor Laptop.", cameraNote: "đẹp, màu sắc chuẩn.", design: "mỏng nhẹ, cao cấp.", batteryNote: "tối ưu tốt.", colorNote: "Xanh, Đen,…", warranty: "12 tháng." },
+    htc: { os: "Android", ecosystem: "HTC Vive.", cameraNote: "ổn.", design: "độc đáo, logo lớn.", batteryNote: "khá tốt.", colorNote: "Đen, Bạc,…", warranty: "12 tháng." },
+    generic: {
+      os: "hệ điều hành phổ biến",
+      ecosystem: "hệ sinh thái thiết bị",
+      cameraNote: "camera chất lượng.",
+      design: "thiết kế hiện đại.",
+      batteryNote: "pin đủ dùng.",
+      colorNote: "nhiều màu sắc.",
+      warranty: "liên hệ để biết thêm."
+    }
+  };
+
+  const phrase = brandPhrases[brand] || brandPhrases.generic;
+
+  if (qLower.includes("hệ điều hành") || qLower.includes("os") || qLower.includes("chạy")) {
+    return `${name} chạy ${phrase.os}, mang lại trải nghiệm mượt mà và ổn định.`;
+  }
+  if (qLower.includes("hệ sinh thái") || qLower.includes("liên kết") || qLower.includes("kết nối")) {
+    return `Sản phẩm tích hợp tốt trong ${phrase.ecosystem}`;
+  }
+  if (qLower.includes("thiết kế") || qLower.includes("vẻ ngoài") || qLower.includes("ngoại hình")) {
+    return `Về thiết kế, ${phrase.design}`;
+  }
+  if (qLower.includes("camera") || qLower.includes("chụp ảnh")) {
+    const hasCamera = features.some(f => f.toLowerCase().includes("camera"));
+    if (hasCamera) return `Có, ${name} được trang bị camera sắc nét, ${phrase.cameraNote}`;
+    else return `Thông tin camera chưa được liệt kê, nhưng thường ${name} ${phrase.cameraNote}`;
+  }
+  if (qLower.includes("giá") || qLower.includes("bao nhiêu")) {
+    return price ? `Giá của ${name} là ${price}.` : `Hiện tại chưa có thông tin giá.`;
+  }
+
+  // ✅ ĐÃ CẬP NHẬT: Trả lời dạng đoạn văn cho Apple & Samsung khi hỏi "tính năng"
+  if (qLower.includes("tính năng") || qLower.includes("nổi bật")) {
+    // Xử lý đặc biệt cho Apple (iPhone)
+    if (brand === "apple") {
+      return `${name} là flagship cao cấp của Apple, nổi bật với chip A17 Pro mạnh mẽ, thiết kế khung titanium siêu bền và sang trọng. Camera chính 48MP cho chất lượng ảnh chân thực, đặc biệt xuất sắc khi quay video chuyên nghiệp. Ngoài ra, máy còn hỗ trợ Dynamic Island, Face ID và tích hợp liền mạch trong hệ sinh thái Apple như iPad, Mac và AirPods.`;
+    }
+    // Xử lý đặc biệt cho Samsung
+    else if (brand === "samsung") {
+      return `${name} là mẫu điện thoại hàng đầu của Samsung, được trang bị màn hình Dynamic AMOLED 2X sắc nét, camera chính lên đến 200MP và zoom quang học ấn tượng. Dòng Galaxy S/Ultra còn tích hợp bút S Pen, trong khi dòng Z mang thiết kế gập độc đáo. Hiệu năng Snapdragon 8 Gen 2/3 đảm bảo mượt mà mọi tác vụ, cùng trải nghiệm Android One UI tối ưu.`;
+    }
+    // Các hãng khác: giữ nguyên dạng list
+    else {
+      return `Các tính năng nổi bật của ${name}:\n${features.map(f => `- ${f}`).join("\n")}`;
+    }
+  }
+
+  if (qLower.includes("pin") || qLower.includes("thời lượng pin")) {
+    const hasBattery = features.some(f => f.toLowerCase().includes("pin"));
+    if (hasBattery) return `Pin của ${name} rất bền bỉ.`;
+    else return `Thông tin pin chưa được liệt kê, nhưng ${phrase.batteryNote}`;
+  }
+  // ✅ HỎI VỀ ĐỐI TƯỢNG SỬ DỤNG
+if (
+  qLower.includes("dành cho ai") ||
+  qLower.includes("đối tượng") ||
+  qLower.includes("đối tượng sử dụng") ||
+  qLower.includes("phù hợp") ||
+  qLower.includes("ai nên dùng") ||
+  qLower.includes("sử dụng cho") ||
+  qLower.includes("học sinh") ||
+  qLower.includes("sinh viên")
+) {
+  return `${name} phù hợp với ${audience}.`;
+}
+
+  if (qLower.includes("có tốt không") || qLower.includes("đánh giá")) {
+    const brandPraise = brand === "apple"
+      ? "được đánh giá cao về hiệu năng, bảo mật và độ bền"
+      : brand === "samsung"
+        ? "nổi bật về màn hình, đa nhiệm và camera"
+        : "là lựa chọn đáng cân nhắc";
+    return `Dựa trên các tính năng như: ${features.slice(0, 2).join(", ")}, ${name} ${brandPraise} cho ${audience}.`;
+  }
+
+  if (qLower.includes("màu") || qLower.includes("màu sắc")) {
+  if (product.colors && product.colors.length > 0) {
+    return `${name} có các phiên bản màu: ${product.colors.join(", ")}.`;
+  } else {
+    return `Hiện tại mình chưa có dữ liệu màu sắc cho ${name}.`;
+  }
+}
+
+
+  if (qLower.includes("bảo hành") || qLower.includes("hỗ trợ")) {
+    return phrase.warranty;
+  }
+
+  return `Tôi chưa hiểu rõ câu hỏi của bạn. Bạn có thể hỏi về: giá, tính năng, camera, pin, hệ điều hành, màu sắc...`;
+}
+</script>
+
+</body>
+</html>

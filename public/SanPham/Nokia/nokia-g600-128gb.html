@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nokia G600 128GB - Chính hãng | Android One, 5G, Pin 5000mAh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .spec-value {
+            width: 70%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #00c853, #64dd17);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Front.png" alt="Nokia G600" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Front.png" alt="Thumbnail 1">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Charcoal_Grey_Front.png" alt="Thumbnail 2">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Back.png" alt="Thumbnail 3">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Side.png" alt="Thumbnail 4">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Charcoal_Grey_Back.png" alt="Thumbnail 5">
+                </div>
+            </div>
+
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Android One</h4>
+                    <p>Sạch – Mượt – Cập nhật 3 năm</p>
+                </div>
+                <div class="feature-item">
+                    <h4>5G toàn diện</h4>
+                    <p>Tốc độ cao, ổn định</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 90Hz</h4>
+                    <p>Mượt mà, tiết kiệm pin</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera 50MP AI</h4>
+                    <p>Chụp rõ, nét, đủ sáng</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 5000mAh</h4>
+                    <p>Sử dụng 2 ngày</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Jack 3.5mm</h4>
+                    <p>Nghe nhạc không dây / có dây</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Thẻ nhớ microSD</h4>
+                    <p>Hỗ trợ đến 1TB</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Thiết kế bền</h4>
+                    <p>Chống trầy, chống bám vân tay</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">Cấu hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Hệ điều hành:</div><div class="spec-value">Android 14 (Android One)</div></div>
+                        <div class="spec-row"><div class="spec-label">Chip:</div><div class="spec-value">MediaTek Dimensity 6020 (6nm, 2x Cortex-A76 + 6x Cortex-A55)</div></div>
+                        <div class="spec-row"><div class="spec-label">RAM:</div><div class="spec-value">6 GB LPDDR4X</div></div>
+                        <div class="spec-row"><div class="spec-label">Bộ nhớ trong:</div><div class="spec-value">128 GB UFS 2.2 (hỗ trợ microSD lên đến 1TB)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="camera">Camera</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Camera sau:</div><div class="spec-value">Chính 50MP (f/1.8, PDAF) + 2MP depth + 2MP macro</div></div>
+                        <div class="spec-row"><div class="spec-label">Camera trước:</div><div class="spec-value">8MP (f/2.0)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tính năng:</div><div class="spec-value">Chế độ chân dung, AI scene detection, Night mode, quay video Full HD</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">Màn hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Loại:</div><div class="spec-value">IPS LCD</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">6.56 inch</div></div>
+                        <div class="spec-row"><div class="spec-label">Độ phân giải:</div><div class="spec-value">720 x 1612 pixels (HD+)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tần số quét:</div><div class="spec-value">90Hz</div></div>
+                        <div class="spec-row"><div class="spec-label">Tỷ lệ:</div><div class="spec-value">20:9, giọt nước</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">Pin & Sạc</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Dung lượng:</div><div class="spec-value">5000 mAh</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc:</div><div class="spec-value">20W (cổng USB-C)</div></div>
+                        <div class="spec-row"><div class="spec-label">Thời lượng:</div><div class="spec-value">~2 ngày với sử dụng thường</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">Thiết kế & Kết nối</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Chất liệu:</div><div class="spec-value">Khung nhựa, lưng nhựa mờ</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">164.8 x 76.2 x 8.6 mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Trọng lượng:</div><div class="spec-value">190g</div></div>
+                        <div class="spec-row"><div class="spec-label">Kết nối:</div><div class="spec-value">5G, Wi-Fi 5, Bluetooth 5.2, GPS, cổng 3.5mm, USB-C</div></div>
+                        <div class="spec-row"><div class="spec-label">Bảo mật:</div><div class="spec-value">Cảm biến vân tay mặt lưng</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Nokia G600 – Smartphone Android One đáng tin cậy</h3>
+                <p>Nokia G600 mang đến trải nghiệm Android thuần – không bloatware, cập nhật bảo mật 3 năm và giao diện mượt mà. Với hỗ trợ 5G, pin 5000mAh và màn hình 90Hz, đây là lựa chọn lý tưởng cho học sinh, sinh viên và người dùng phổ thông.</p>
+                <p>Camera 50MP đủ đáp ứng nhu cầu chụp ảnh hàng ngày, trong khi jack 3.5mm và khe thẻ nhớ microSD giúp bạn linh hoạt trong giải trí và lưu trữ.</p>
+                <p>Thiết kế bền bỉ, màu sắc trẻ trung – Nokia G600 là “người bạn đồng hành” đáng tin cậy trong tầm giá.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Nokia G600 128GB</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">Tặng tai nghe Nokia chính hãng</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 6 tháng</div>
+            </div>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active" data-color="Xanh" 
+                    data-image="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Front.png">
+                    <span class="color-dot" style="background: #1e88e5;"></span> Xanh (Ocean Blue)
+                </button>
+                <button class="color-btn" data-color="Xám"
+                    data-image="https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Charcoal_Grey_Front.png">
+                    <span class="color-dot" style="background: #555;"></span> Xám (Charcoal)
+                </button>
+            </div>
+
+            <div class="price-info">
+                <div class="price-label">Giá tại TP. Hồ Chí Minh</div>
+                <div class="price">3.990.000đ</div>
+                <div class="stock-status">CÒN HÀNG – Giao trong 24h</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                
+                <button style="
+                    padding: 14px 20px;
+                    background: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
+                " onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 18 tháng bởi HMD Global<br>
+                <a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 232 460</strong> để được tư vấn (8:00 - 21:30)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Phụ kiện thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_thumbnail/public/2023-01/nokia_wh-200_earphones_1.png" alt="Tai nghe" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Tai nghe Nokia WH-200</div>
+                        <div class="product-price">290.000đ</div>
+                        <div class="product-old-price">390.000đ</div>
+                        <div class="product-discount">-26%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.5 • Đã bán 3.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_thumbnail/public/2022-08/nokia_p621a_charger_1.png" alt="Sạc" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Củ sạc nhanh 20W Nokia</div>
+                        <div class="product-price">190.000đ</div>
+                        <div class="product-old-price">250.000đ</div>
+                        <div class="product-discount">-24%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.6 • Đã bán 4.1k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://www.nokia.com/sites/default/files/styles/product_thumbnail/public/2023-03/nokia_g22_case_1.png" alt="Ốp lưng" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Ốp lưng Nokia G600 chính hãng</div>
+                        <div class="product-price">150.000đ</div>
+                        <div class="product-old-price">200.000đ</div>
+                        <div class="product-discount">-25%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.4 • Đã bán 2.8k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        const imageUrls = [
+            'https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Front.png',
+            'https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Charcoal_Grey_Front.png',
+            'https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Back.png',
+            'https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Ocean_Blue_Side.png',
+            'https://www.nokia.com/sites/default/files/styles/product_full/public/2023-09/G600_Charcoal_Grey_Back.png'
+        ];
+
+        let currentImageIndex = 0;
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        // Tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    thumbItems[1].querySelector('img').src = newImage; // thumbnail đầu tiên của màu mới
+                }
+            });
+        });
+
+        // Add to cart
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const selectedColorBtn = document.querySelector('.color-btn.active');
+            const selectedColor = selectedColorBtn ? selectedColorBtn.getAttribute('data-color') : 'Xanh';
+            const product = {
+                id: 'nokia-g600-128gb',
+                name: 'Nokia G600 128GB',
+                color: selectedColor,
+                price: 3990000,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(p => p.id === product.id && p.color === product.color);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ Đã thêm vào giỏ hàng:\n${product.name}\nMàu: ${product.color}\nGiá: ${product.price.toLocaleString('vi-VN')}đ`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy now
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            alert('🚀 Chức năng "MUA NGAY" đang được phát triển.\nVui lòng thêm vào giỏ hàng trước!');
+        });
+    </script>
+</body>
+</html>

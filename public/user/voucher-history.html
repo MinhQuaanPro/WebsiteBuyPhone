@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử voucher - Thế Giới Di Động</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 20px;
+            color: #2a9d8f;
+        }
+        
+        .back-btn {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: #c1121f;
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            color: #2a9d8f;
+            margin: 25px 0 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #e63946;
+            border-radius: 3px;
+        }
+        
+        .voucher-history-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .voucher-history-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f0f0f4;
+            color: #6c757d;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+            color: white;
+        }
+        
+        .filter-btn:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .voucher-history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .voucher-item {
+            background: #f8f9fa;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .voucher-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.15);
+            border-color: #2a9d8f;
+        }
+        
+        .voucher-header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+            color: white;
+            position: relative;
+        }
+        
+        .voucher-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .voucher-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        
+        .voucher-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .voucher-body {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .voucher-points {
+            font-size: 28px;
+            font-weight: bold;
+            color: #e63946;
+            margin: 10px 0;
+        }
+        
+        .voucher-details {
+            text-align: left;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .voucher-details p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .voucher-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            z-index: 1;
+        }
+        
+        .status-used {
+            background: linear-gradient(135deg, #28a745 0%, #218874 100%);
+        }
+        
+        .status-expired {
+            background: linear-gradient(135deg, #dc3545 0%, #c1121f 100%);
+        }
+        
+        .status-active {
+            background: linear-gradient(135deg, #007bff 0%, #0069d9 100%);
+        }
+        
+        .voucher-earn-section {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .earn-title {
+            font-size: 18px;
+            color: #2a9d8f;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .earn-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .earn-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .earn-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .earn-icon {
+            color: #28a745;
+            font-size: 20px;
+            min-width: 24px;
+        }
+        
+        .earn-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+        
+        .earn-btn:hover {
+            background: linear-gradient(135deg, #218874 0%, #1a5e51 100%);
+            transform: translateY(-2px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        
+        @media (max-width: 768px) {
+            .voucher-history-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .voucher-history-container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-history"></i>
+                    <span>Lịch sử voucher</span>
+                </div>
+                <button class="back-btn" onclick="window.location.href='../SanPham/cart.html'">
+                    <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
+                </button>
+            </div>
+        </header>
+        
+        <div class="voucher-history-container">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i> Lịch sử sử dụng voucher
+            </h2>
+            
+            <div class="voucher-history-filter">
+                <button class="filter-btn active" data-filter="all">Tất cả</button>
+                <button class="filter-btn" data-filter="used">Đã sử dụng</button>
+                <button class="filter-btn" data-filter="expired">Đã hết hạn</button>
+                <button class="filter-btn" data-filter="active">Còn hiệu lực</button>
+            </div>
+            
+            <div class="voucher-history-list" id="history-list">
+                <!-- Danh sách lịch sử sẽ được tải từ server -->
+            </div>
+            
+            <div class="voucher-earn-section">
+                <h3 class="earn-title">
+                    <i class="fas fa-plus-circle"></i> Nhận thêm voucher
+                </h3>
+                <p>Hoàn thành các nhiệm vụ để nhận voucher:</p>
+                
+                <ul class="earn-list">
+                    <li>
+                        <span class="earn-icon"><i class="fas fa-check-circle"></i></span>
+                        <span>Đăng ký tài khoản mới (+50.000đ)</span>
+                    </li>
+                    <li>
+                        <span class="earn-icon"><i class="fas fa-check-circle"></i></span>
+                        <span>Xem chi tiết 5 sản phẩm (+30.000đ)</span>
+                    </li>
+                    <li>
+                        <span class="earn-icon"><i class="fas fa-check-circle"></i></span>
+                        <span>Mua hàng lần đầu (+100.000đ)</span>
+                    </li>
+                </ul>
+                
+                <a href="view-products-task.html" class="earn-btn">
+                    <i class="fas fa-tasks"></i> Hoàn thành nhiệm vụ
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+
+   <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const historyList = document.getElementById('history-list');
+    const notification = document.getElementById('notification');
+
+    // Lấy người dùng hiện tại
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    
+    if (!currentUser) {
+        window.location.href = "index_user.html"; // Chưa đăng nhập → quay lại
+        return;
+    }
+
+    // Lấy danh sách voucher đã đổi từ người dùng
+    const redeemedVouchers = currentUser.redeemedVouchers || [];
+
+    // Hàm định dạng ngày
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return date.toLocaleDateString('vi-VN', options);
+    }
+
+    // Tính trạng thái voucher dựa trên ngày đổi và hạn sử dụng
+    function getVoucherStatus(voucher) {
+        const redeemedDate = new Date(voucher.date);
+        const expiryDate = new Date(redeemedDate);
+        
+        // Giả định: voucher có hạn sử dụng 30 ngày (trừ khi bạn lưu rõ `expiry`)
+        // Nếu bạn muốn lưu expiry chính xác, hãy sửa ở phần tạo voucher
+        expiryDate.setDate(redeemedDate.getDate() + 30); // +30 ngày
+
+        const today = new Date();
+
+        if (today > expiryDate) {
+            return 'expired';
+        } else {
+            // Giả sử: voucher đổi ra = đã sử dụng (hoặc bạn có thể thêm field `used: true`)
+            // Ở đây, ta coi tất cả voucher đã đổi đều đang "active" đến khi hết hạn
+            return 'active';
+        }
+    }
+
+    // Hiển thị danh sách voucher
+    function renderVouchers(filter = 'all') {
+        historyList.innerHTML = '';
+
+        // Xử lý từng voucher đã đổi
+        const displayedVouchers = redeemedVouchers.map(v => {
+            return {
+                id: v.id,
+                code: v.code || 'NO_CODE',
+                name: v.name || 'Voucher ẩn danh',
+                description: `Đã đổi vào ${formatDate(v.date)}`,
+                discount: v.points || 0, // bạn có thể tính giá trị thật nếu cần
+                status: getVoucherStatus(v),
+                date: v.date,
+                expiry: new Date(new Date(v.date).getTime() + 30 * 24 * 60 * 60 * 1000).toISOString()
+            };
+        });
+
+        // Lọc theo trạng thái
+        const filteredVouchers = displayedVouchers.filter(v => {
+            if (filter === 'all') return true;
+            return v.status === filter;
+        });
+
+        if (filteredVouchers.length === 0) {
+            historyList.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #6c757d;">
+                    <i class="fas fa-inbox" style="font-size: 40px; margin-bottom: 15px;"></i>
+                    <p>Không có voucher nào</p>
+                </div>
+            `;
+            return;
+        }
+
+        filteredVouchers.forEach(voucher => {
+            let statusClass = '';
+            let statusText = '';
+            let icon = '';
+
+            switch (voucher.status) {
+                case 'used':
+                    statusClass = 'status-used';
+                    statusText = 'Đã sử dụng';
+                    icon = 'fa-check-circle';
+                    break;
+                case 'expired':
+                    statusClass = 'status-expired';
+                    statusText = 'Đã hết hạn';
+                    icon = 'fa-times-circle';
+                    break;
+                case 'active':
+                default:
+                    statusClass = 'status-active';
+                    statusText = 'Còn hiệu lực';
+                    icon = 'fa-clock';
+                    break;
+            }
+
+            const item = document.createElement('div');
+            item.className = 'voucher-item';
+            item.innerHTML = `
+                <div class="voucher-status ${statusClass}">
+                    <i class="fas ${icon}"></i> ${statusText}
+                </div>
+                <div class="voucher-header">
+                    <div class="voucher-icon">🎁</div>
+                    <div class="voucher-name">${voucher.name}</div>
+                    <div class="voucher-desc">${voucher.description}</div>
+                </div>
+                <div class="voucher-body">
+                    <div class="voucher-points">-${voucher.discount} điểm</div>
+                    <div class="voucher-details">
+                        <p><strong>Mã voucher:</strong> ${voucher.code}</p>
+                        <p><strong>Ngày đổi:</strong> ${formatDate(voucher.date)}</p>
+                        <p><strong>Hạn sử dụng:</strong> ${formatDate(voucher.expiry)}</p>
+                    </div>
+                </div>
+            `;
+            historyList.appendChild(item);
+        });
+    }
+
+    // Xử lý bộ lọc
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const filterType = this.dataset.filter;
+            renderVouchers(filterType);
+
+            // Hiển thị thông báo nếu không có dữ liệu
+            const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+            const allVouchers = currentUser.redeemedVouchers || [];
+            const count = allVouchers.filter(v => {
+                const status = getVoucherStatus(v);
+                return filterType === 'all' || status === filterType;
+            }).length;
+
+            if (count === 0 && filterType !== 'all') {
+                let msg = '';
+                if (filterType === 'active') msg = 'Không có voucher còn hiệu lực';
+                else if (filterType === 'expired') msg = 'Không có voucher đã hết hạn';
+                showNotification(msg, 'info');
+            }
+        });
+    });
+
+    // Hiển thị thông báo
+    function showNotification(message, type) {
+        if (!notification) return;
+        notification.textContent = message;
+        notification.className = `notification ${type}`;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+
+    // Khởi tạo
+    renderVouchers();
+});
+</script>
+</body>
+</html>

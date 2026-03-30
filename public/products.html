@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả tìm kiếm - Thế Giới Di Động</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    body {
+        background-color: #f5f5f5;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .search-header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    .product-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        cursor: pointer;
+    }
+    .product-card:hover {
+        transform: translateY(-4px);
+    }
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        background: #f9f9f9;
+        padding: 10px;
+    }
+    .product-info {
+        padding: 15px;
+    }
+    .product-name {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .price-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-top: 8px;
+    }
+    .product-price {
+        font-size: 16px;
+        font-weight: bold;
+        color: #d9534f;
+        margin: 0;
+    }
+    .product-old-price {
+        font-size: 14px;
+        color: #999;
+        text-decoration: line-through;
+        margin: 0;
+    }
+    .product-discount {
+        font-size: 14px;
+        color: #5cb85c;
+        font-weight: bold;
+        margin: 0;
+    }
+    .storage-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 8px;
+    }
+    .storage-btn {
+        padding: 4px 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        background: white;
+        font-size: 12px;
+        transition: all 0.2s;
+    }
+    .storage-btn:hover,
+    .storage-btn.active {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    .no-result {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px;
+        color: #999;
+        font-size: 18px;
+    }
+    .back-home {
+        display: inline-block;
+        margin-bottom: 15px;
+        padding: 8px 16px;
+        background: #007bff;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .back-home:hover {
+        background: #0056b3;
+    }
+    .view-more {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        text-align: center;
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+        margin: 30px 0;
+        transition: background 0.2s;
+    }
+    .view-more:hover {
+        background: #e0e0e0;
+    }
+
+    .product-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Bỏ gạch dưới riêng tên sản phẩm (an toàn hơn) */
+  .product-name {
+      text-decoration: none;
+  }
+  /* Nếu vẫn còn gạch dưới ở đâu đó */
+  a {
+      text-decoration: none;
+  }
+</style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-home">← Quay lại trang chủ</a>
+        <div class="search-header">
+            <h2>Kết quả tìm kiếm cho: <span id="keyword">...</span></h2>
+        </div>
+        <div class="products-grid" id="productsGrid">
+            <!-- Sản phẩm sẽ được render ở đây -->
+        </div>
+        <a href="#" class="view-more" id="viewMoreBtn">Xem thêm</a>
+    </div>
+
+    <script>
+        // DỮ LIỆU SẢN PHẨM – GIỐNG HỆT index.html + BỔ SUNG 17 IPHONE
+        const allProducts = [
+            {
+                name: "iPhone 17 Series",
+                price: "24.990.000đ",
+                oldPrice: "42.000.000đ",
+                discount: "-10%",
+                image: "https://cdn.tgdd.vn/Products/Images/42/342667/iphone-17-tim-thumb-0-600x600.jpg",
+                url: "iPhone/iphone-17-series.html",
+                storage: ["256GB", "512GB"]
+            },
+            {
+                name: "Samsung Galaxy S24 Ultra 512GB",
+                price: "26.990.000đ",
+                oldPrice: "30.000.000đ",
+                discount: "-10%",
+                image: "https://cdn2.fptshop.com.vn/unsafe/384x0/filters:format(webp):quality(75)/galaxy_s25_ultra_titan_gray_1_e2fe9c0d57.png",
+                url: "Samsung/samsung-galaxy-s25-ultra.html",
+                storage: ["512GB", "1TB"]
+            },
+            {
+                name: "Google Pixel 8 Pro 256GB",
+                price: "24.990.000đ",
+                oldPrice: "28.000.000đ",
+                discount: "-11%",
+                image: "https://product.hstatic.net/1000370129/product/b4e4ba094f8c6041aee1adf_master_1c0fe76cd10448af9b1c9e9521e48739_master_26df416f76ee4317833c2cb54e77acb9_master.jpg",
+                url: "#",
+                storage: ["256GB", "512GB"]
+            },
+            {
+                name: "OPPO Find X7 Pro 512GB",
+                price: "22.990.000đ",
+                oldPrice: "26.000.000đ",
+                discount: "-12%",
+                image: "https://cdn.mobilecity.vn/mobilecity-vn/images/2024/01/oppo-find-x7-ultra-xanh.jpg.webp",
+                url: "#",
+                storage: ["512GB", "1TB"]
+            },
+            {
+                name: "OnePlus 12 256GB",
+                price: "18.990.000đ",
+                oldPrice: "22.000.000đ",
+                discount: "-14%",
+                image: "https://cdn.viettablet.com/images/detailed/58/oneplus-12-5g.jpg",
+                url: "#",
+                storage: ["256GB", "512GB"]
+            },
+            {
+                name: "Xiaomi 14 Pro 512GB",
+                price: "20.990.000đ",
+                oldPrice: "24.000.000đ",
+                discount: "-13%",
+                image: "https://cdn.viettablet.com/images/detailed/64/download__25__wu0t-23.png",
+                url: "#",
+                storage: ["512GB", "1TB"]
+            },
+            {
+                name: "Honor Magic 6 Pro 512GB",
+                price: "19.990.000đ",
+                oldPrice: "23.000.000đ",
+                discount: "-13%",
+                image: "https://sonpixel.vn/wp-content/uploads/2024/12/honor-magic-6-pro-15.webp",
+                url: "#",
+                storage: ["512GB", "1TB"]
+            },
+            {
+                name: "Realme GT Neo 6 256GB",
+                price: "14.990.000đ",
+                oldPrice: "17.000.000đ",
+                discount: "-12%",
+                image: "https://vinhanmobile.vn/wp-content/uploads/2024/07/Realme-GT-Neo-6-SE-Price-in-Bangladesh.jpg",
+                url: "#",
+                storage: ["256GB", "512GB"]
+            },
+            // {
+            //     name: "Vivo X100 Pro 512GB",
+            //     price: "21.990.000đ",
+            //     oldPrice: "25.000.000đ",
+            //     discount: "-12%",
+            //     image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/d/i/dien-thoai-vivo-x100-pro-16gb-512gb-cu-dep.png",
+            //     url: "#",
+            //     storage: ["512GB", "1TB"]
+            // },
+            {
+                name: "Asus Zenfone 11 Ultra 256GB",
+                price: "16.990.000đ",
+                oldPrice: "19.000.000đ",
+                discount: "-11%",
+                image: "https://m.media-amazon.com/images/I/71K41ffYPYL.jpg",
+                url: "#",
+                storage: ["256GB", "512GB"]
+            },
+            {
+                name: "Nokia G600 128GB",
+                price: "7.990.000đ",
+                oldPrice: "9.500.000đ",
+                discount: "-16%",
+                image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/2/2/221ws.jpg",
+                url: "#",
+                storage: ["128GB", "256GB"]
+            },
+            // {
+            //     name: "Motorola Edge 50 Pro 256GB",
+            //     price: "15.990.000đ",
+            //     oldPrice: "18.000.000đ",
+            //     discount: "-11%",
+            //     image: "https://cdn.mobilecity.vn/mobilecity-vn/images/2024/04/motorola-edge-50-pro-bac-anh-trang.jpg.webp",
+            //     url: "#",
+            //     storage: ["256GB", "512GB"]
+            // },
+            // === BỔ SUNG 17 SẢN PHẨM IPHONE ===
+            {
+                name: "iPhone 17 Pro Max 256GB",
+                price: "29.990.000đ",
+                oldPrice: "35.000.000đ",
+                discount: "-14%",
+                image: "https://cdn-v3.xtmobile.vn/vnt_upload/product/09_2025/thumbs/600_iPhone_17_Pro_cam_1_1.jpg",
+                url: "iPhone/iphone-17-pro-max.html",
+                storage: ["256GB", "512GB"]
+            },
+            {
+                name: "iPhone 17 Plus 256GB",
+                price: "26.990.000đ",
+                oldPrice: "32.000.000đ",
+                discount: "-16%",
+                image: "https://www.didongmy.com/vnt_upload/product/09_2025/thumbs/(600x600)_iphone_17_blue_thumb_didongmy_1.jpg",
+                url: "iPhone/iphone-17-plus.html",
+                storage: ["256GB", "512GB"]
+            },
+                                {
+                    name: "iPhone 11 128GB",
+                    price: "9.990.000đ",
+                    oldPrice: "13.000.000đ",
+                    discount: "-23%",
+                    image: "https://cdn.tgdd.vn/Products/Images/42/210644/iphone-11-128gb-black-200-750x500.png",
+                    url: "iPhone/iphone-11-128.html",
+                    storage: ["64GB", "128GB"]
+                    },
+                    {
+                    name: "iPhone 12 128GB",
+                    price: "11.990.000đ",
+                    oldPrice: "16.000.000đ",
+                    discount: "-25%",
+                    image: "https://cdn.tgdd.vn/Products/Images/42/228736/iphone-12-128gb-black-200x200-750x500.png",
+                    url: "iPhone/iphone-12-128.html",
+                    storage: ["64GB", "128GB"]
+                    },
+                    {
+                    name: "iPhone 13 Pro Max 256GB",
+                    price: "19.990.000đ",
+                    oldPrice: "25.000.000đ",
+                    discount: "-20%",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/3/_/3_51_1_8.jpg",
+                    url: "iPhone/iphone-13-pro-max-256.html",
+                    storage: ["256GB", "512GB"]
+                    },
+                    {
+                    name: "iPhone 14 Plus 256GB",
+                    price: "21.990.000đ",
+                    oldPrice: "27.000.000đ",
+                    discount: "-19%",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-14-256gb.jpg",
+                    url: "iPhone/iphone-14-plus-256.html",
+                    storage: ["128GB", "256GB"]
+                    },
+                    {
+                    name: "iPhone 15 Pro 512GB",
+                    price: "27.990.000đ",
+                    oldPrice: "33.000.000đ",
+                    discount: "-15%",
+                    image: "https://iphoriya.ru/wp-content/uploads/iphone-15-pro-white-titanium.jpg",
+                    url: "iPhone/iphone-15-pro-512.html",
+                    storage: ["256GB", "512GB"]
+                    },
+                    {
+                    name: "iPhone 16 Pro Max 1TB",
+                    price: "31.990.000đ",
+                    oldPrice: "38.000.000đ",
+                    discount: "-16%",
+                    image: "https://cdn.tgdd.vn/Products/Images/42/329151/iphone-16-pro-max-sa-mac-thumb-600x600.jpg",
+                    url: "iPhone/iphone-16-pro-max-1tb.html",
+                    storage: ["512GB", "1TB"]
+                    },
+                    {
+                    name: "iPhone 17 Pro Max 512GB",
+                    price: "33.990.000đ",
+                    oldPrice: "40.000.000đ",
+                    discount: "-15%",
+                    image: "https://cdn.tgdd.vn/Products/Images/42/342680/iphone-17-pro-max-512gb-xanh-duong-thumb-600x600.jpg",
+                    url: "iPhone/iphone-17-pro-max-512.html",
+                    storage: ["512GB", "1TB"]
+                    },
+
+            {
+  name: "iPhone 11 Pro Max 256GB",
+  price: "11.990.000đ",
+  oldPrice: "16.000.000đ",
+  discount: "-25%",
+  image: "https://cdn.tgdd.vn/Products/Images/42/210653/iphone-11-pro-max-256gb-black-600x600.jpg",
+  url: "iPhone/iphone-11-pro-max-256.html",
+  storage: ["256GB", "512GB"]
+},
+{
+  name: "iPhone 12 Pro 256GB",
+  price: "14.990.000đ",
+  oldPrice: "20.000.000đ",
+  discount: "-25%",
+  image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/d/o/download_1__2_4_1.png",
+  url: "iPhone/iphone-12-pro-256.html",
+  storage: ["128GB", "256GB"]
+},
+{
+  name: "iPhone 13 128GB",
+  price: "15.990.000đ",
+  oldPrice: "19.000.000đ",
+  discount: "-16%",
+  image: "https://clickbuy.com.vn/uploads/pro/iphone-13-128gb-cu-dep-99-khong-zin-tang-may-lg-168483.png",
+  url: "iPhone/iphone-13-128.html",
+  storage: ["128GB", "256GB"]
+},
+{
+  name: "iPhone 13 Mini 256GB",
+  price: "14.490.000đ",
+  oldPrice: "18.000.000đ",
+  discount: "-19%",
+  image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/1/4/14_1_14_1_1.jpg",
+  url: "iPhone/iphone-13-mini-256.html",
+  storage: ["128GB", "256GB"]
+},
+{
+  name: "iPhone 14 Pro Max 512GB",
+  price: "26.990.000đ",
+  oldPrice: "32.000.000đ",
+  discount: "-16%",
+  image: "https://cdn.tgdd.vn/Products/Images/42/289702/iphone-14-pro-max-tim-thumb-600x600.jpg",
+  url: "iPhone/iphone-14-pro-max-512.html",
+  storage: ["256GB", "512GB"]
+},
+{
+  name: "iPhone 15 Plus 256GB",
+  price: "23.990.000đ",
+  oldPrice: "29.000.000đ",
+  discount: "-17%",
+  image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:100/plain/https://cellphones.com.vn/media/wysiwyg/Phone/Apple/iphone_15/dien-thoai-iphone-15-plus-256gb-3.jpg",
+  url: "iPhone/iphone-15-plus-256.html",
+  storage: ["128GB", "256GB"]
+},
+{
+  name: "iPhone 16 Pro 512GB",
+  price: "28.990.000đ",
+  oldPrice: "35.000.000đ",
+  discount: "-17%",
+  image: "https://cdn.mediamart.vn/images/product/apple-iphone-16-pro-512gb-titanium-trang_bd9a8e0b.webp",
+  url: "iPhone/iphone-16-pro-512.html",
+  storage: ["256GB", "512GB"]
+},
+{
+  name: "iPhone 16 Plus 256GB",
+  price: "24.990.000đ",
+  oldPrice: "30.000.000đ",
+  discount: "-17%",
+  image: "https://cdn2.cellphones.com.vn/x/media/catalog/product/i/p/iphone-16-plus-1_1.png",
+  url: "iPhone/iphone-16-plus-256.html",
+  storage: ["128GB", "256GB"]
+}
+  
+        ];
+
+        let currentIndex = 0;
+        const batchSize = 8;
+        function createProductCard(product) {
+            let storageHtml = '';
+            if (product.storage) {
+                product.storage.forEach((opt, idx) => {
+                    storageHtml += `<button class="storage-btn ${idx === 0 ? 'active' : ''}">${opt}</button>`;
+                });
+            }
+
+            return `
+                <a href="${product.url}" class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="price-wrap">
+                            <div class="product-price">${product.price}</div>
+                            ${product.oldPrice ? `<div class="product-old-price">${product.oldPrice}</div>` : ''}
+                            ${product.discount ? `<div class="product-discount">${product.discount}</div>` : ''}
+                        </div>
+                        ${storageHtml ? `<div class="storage-options">${storageHtml}</div>` : ''}
+                    </div>
+                </a>
+            `;
+        }
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            const viewMoreBtn = document.getElementById('viewMoreBtn');
+
+            // Lấy từ khóa từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q') || '';
+
+            // Lọc sản phẩm
+            const filtered = allProducts.filter(p =>
+                p.name.toLowerCase().includes(query.toLowerCase())
+            );
+
+            // Hiển thị 8 sản phẩm đầu tiên
+            const endIndex = Math.min(currentIndex + batchSize, filtered.length);
+            const productsToShow = filtered.slice(0, endIndex);
+
+            // Render sản phẩm
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<div class="no-result">Không tìm thấy sản phẩm phù hợp.</div>';
+                viewMoreBtn.style.display = 'none';
+                return;
+            }
+
+            grid.innerHTML = productsToShow.map(createProductCard).join('');
+
+            // Cập nhật nút "Xem thêm"
+            if (endIndex >= filtered.length) {
+                viewMoreBtn.style.display = 'none';
+            } else {
+                viewMoreBtn.style.display = 'block';
+            }
+
+            // Gắn sự kiện click vào nút "Xem thêm"
+            viewMoreBtn.onclick = function(e) {
+                e.preventDefault();
+                currentIndex = endIndex;
+                loadProducts();
+            };
+
+            // Gắn sự kiện click vào nút dung lượng
+            document.querySelectorAll('.storage-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Ngăn chặn chuyển trang khi click nút dung lượng
+                    const group = e.target.closest('.storage-options');
+                    group.querySelectorAll('.storage-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                });
+            });
+        }
+
+        // LẤY TỪ KHÓA TỪ URL VÀ HIỂN THỊ KẾT QUẢ
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q') || '';
+
+            if (!query) {
+                document.getElementById('keyword').textContent = '...';
+                document.getElementById('productsGrid').innerHTML = '<div class="no-result">Không có từ khóa tìm kiếm.</div>';
+                document.getElementById('viewMoreBtn').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('keyword').textContent = `"${query}"`;
+            currentIndex = 0; // Reset chỉ số khi đổi từ khóa
+            loadProducts();
+        });
+    </script>
+</body>
+</html>

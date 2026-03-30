@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 16 Pro 512GB - Chính hãng Apple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+        }
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            background: #f9f9fb;
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .product-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.03);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 0 10px;
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 6px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #c7c7cc;
+            border-radius: 3px;
+        }
+        .thumb-item {
+            width: 70px;
+            height: 70px;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .thumb-item.active {
+            border-color: #0071e3;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            padding: 20px;
+            background: #f9f9fb;
+            border-radius: 16px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 14px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #0071e3;
+        }
+        .feature-item p {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin: 28px 0 20px;
+        }
+        .tab {
+            padding: 12px 24px;
+            background: #f0f0f3;
+            border: none;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6e6e73;
+        }
+        .tab.active {
+            background: #0071e3;
+            color: white;
+        }
+        .tab-content {
+            padding: 24px;
+            background: white;
+            border: 1px solid #d2d2d7;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            min-height: 200px;
+        }
+        .spec-category {
+            background: #f0f7ff;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin: 14px 0;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #0071e3;
+        }
+        .spec-category::after {
+            content: "+";
+            font-size: 20px;
+        }
+        .spec-category.active::after {
+            content: "-";
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 20px;
+        }
+        .spec-details.show {
+            max-height: 700px;
+            padding: 20px;
+            margin-top: 8px;
+            background: #fafafa;
+            border-radius: 12px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .spec-label {
+            width: 40%;
+            font-weight: 600;
+            color: #0071e3;
+        }
+        .spec-value {
+            width: 60%;
+        }
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+        }
+        .promo-banners {
+            margin: 20px 0;
+        }
+        .promo-banner {
+            background: linear-gradient(90deg, #0071e3, #3a98ff);
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 14px;
+            font-size: 17px;
+        }
+        .color-options {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .color-btn {
+            padding: 10px 20px;
+            border: 2px solid #d1d1d6;
+            border-radius: 24px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .color-btn.active {
+            border-color: #0071e3;
+            background: #f0f7ff;
+        }
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid #999;
+        }
+        .price-info {
+            margin: 24px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #86868b;
+        }
+        .price {
+            font-size: 30px;
+            font-weight: 700;
+            color: #ff3b30;
+            margin: 8px 0;
+        }
+        .stock-status {
+            color: #34c759;
+            font-weight: 600;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-buttons {
+            margin: 28px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .btn {
+            padding: 16px 26px;
+            font-size: 19px;
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+        .btn-cart {
+            background: #0071e3;
+            color: white;
+            box-shadow: 0 5px 12px rgba(0,113,227,0.35);
+        }
+        .btn-cart:hover {
+            background: #005bbf;
+        }
+        .btn-buy {
+            background: #ff3b30;
+            color: white;
+            box-shadow: 0 5px 12px rgba(255,59,48,0.35);
+        }
+        .btn-buy:hover {
+            background: #d62b1e;
+        }
+        .warranty-info, .contact-info {
+            padding: 18px;
+            background: #f9f9fb;
+            border-radius: 14px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 20px;
+        }
+        .section-title h2 {
+            font-size: 19px;
+            color: #1d1d1f;
+        }
+        .view-all-link {
+            color: #0071e3;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 18px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            background: #f5f5f7;
+        }
+        .product-info-small {
+            padding: 12px;
+        }
+        .product-name {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ff3b30;
+            margin: 4px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 360px;
+            }
+            .product-features {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Product Section -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-natural-titanium-1-202311?wid=940&hei=1112&fmt=png-alpha" alt="iPhone 16 Pro" class="product-image">
+            </div>
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-natural-titanium-1-202311?wid=120&hei=142&fmt=png-alpha" alt="Titan Tự Nhiên">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-blue-titanium-1-202311?wid=120&hei=142&fmt=png-alpha" alt="Titan Xanh">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-white-titanium-1-202311?wid=120&hei=142&fmt=png-alpha" alt="Titan Trắng">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-black-titanium-1-202311?wid=120&hei=142&fmt=png-alpha" alt="Titan Đen">
+                </div>
+            </div>
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Màn hình Super Retina XDR</h4>
+                    <p>6.3", 120Hz ProMotion</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chip A18 Pro</h4>
+                    <p>3nm thế hệ 2</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Camera 48MP chính</h4>
+                    <p>Zoom quang học 5x</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Khung titanium</h4>
+                    <p>Nhẹ & bền nhất</p>
+                </div>
+                <div class="feature-item">
+                    <h4>USB-C (USB 3.0)</h4>
+                    <p>Truyền dữ liệu 10Gbps</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Action Button</h4>
+                    <p>Tùy chỉnh nhanh</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 5000mAh</h4>
+                    <p>~28h video playback</p>
+                </div>
+                <div class="feature-item">
+                    <h4>iOS 18</h4>
+                    <p>Trí tuệ nhân tạo tích hợp</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <div class="tab-content" id="specsContent">
+                <div class="spec-category" data-category="display">
+                    Màn hình
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Loại:</div>
+                        <div class="spec-value">Super Retina XDR OLED, ProMotion 120Hz</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">6.3 inch (dự kiến)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ phân giải:</div>
+                        <div class="spec-value">2556 x 1179 pixels (~460 PPI)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Độ sáng tối đa:</div>
+                        <div class="spec-value">2000 nits (HDR)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Công nghệ:</div>
+                        <div class="spec-value">Always-On Display, HDR10, Dolby Vision</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="chip">
+                    Hiệu năng
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Chip:</div>
+                        <div class="spec-value">Apple A18 Pro (3nm thế hệ 2)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">GPU:</div>
+                        <div class="spec-value">6 nhân, hỗ trợ ray tracing</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">RAM:</div>
+                        <div class="spec-value">8 GB</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Bộ nhớ trong:</div>
+                        <div class="spec-value">512 GB (không hỗ trợ mở rộng)</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="camera">
+                    Camera
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Sau:</div>
+                        <div class="spec-value">Chính 48MP f/1.6 + Ultra wide 12MP f/2.2 + Tele 12MP f/2.8 (zoom quang 5x)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">LiDAR:</div>
+                        <div class="spec-value">Có</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Quay video:</div>
+                        <div class="spec-value">4K@120fps, Dolby Vision HDR, ProRes 4K</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trước:</div>
+                        <div class="spec-value">12MP f/1.9, TrueDepth, hỗ trợ Focus</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Tính năng:</div>
+                        <div class="spec-value">Photographic Styles, Portrait Mode, Night mode, Apple ProRAW</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="battery">
+                    Pin & Sạc
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Dung lượng:</div>
+                        <div class="spec-value">~5000 mAh</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc nhanh:</div>
+                        <div class="spec-value">27W (0-50% trong 30 phút)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Sạc không dây:</div>
+                        <div class="spec-value">MagSafe 15W, Qi2 15W</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Thời lượng pin:</div>
+                        <div class="spec-value">~28 giờ xem video</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="connectivity">
+                    Kết nối
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">5G:</div>
+                        <div class="spec-value">Sub-6 GHz + mmWave</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Wi-Fi:</div>
+                        <div class="spec-value">Wi-Fi 7 (802.11be)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Bluetooth:</div>
+                        <div class="spec-value">5.4</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">NFC:</div>
+                        <div class="spec-value">Có (Apple Pay)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Cổng:</div>
+                        <div class="spec-value">USB-C (USB 3.0, tốc độ 10 Gbps)</div>
+                    </div>
+                </div>
+                <div class="spec-category" data-category="design">
+                    Thiết kế
+                </div>
+                <div class="spec-details">
+                    <div class="spec-row">
+                        <div class="spec-label">Vật liệu:</div>
+                        <div class="spec-value">Khung titanium cấp hàng không, mặt kính Ceramic Shield</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Kích thước:</div>
+                        <div class="spec-value">149.6 x 71.5 x 8.25 mm (dự kiến)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Trọng lượng:</div>
+                        <div class="spec-value">~187g</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Chống nước:</div>
+                        <div class="spec-value">IP68 (6m trong 30 phút)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Nút bấm:</div>
+                        <div class="spec-value">Action Button (tùy chỉnh)</div>
+                    </div>
+                    <div class="spec-row">
+                        <div class="spec-label">Màu sắc:</div>
+                        <div class="spec-value">Titan Tự Nhiên, Xanh, Trắng, Đen</div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>iPhone 16 Pro 512GB – Đỉnh cao công nghệ 2024</h3>
+                <p>iPhone 16 Pro là phiên bản flagship mạnh nhất của Apple năm 2024, được nâng cấp toàn diện: chip A18 Pro hiệu năng cao, camera tele 5x, USB-C tốc độ 10Gbps và Action Button linh hoạt.</p>
+                <p>Với 512GB dung lượng, bạn thoải mái quay video ProRes 4K, lưu ảnh ProRAW, và cài đặt hàng trăm ứng dụng mà không lo đầy bộ nhớ.</p>
+                <p>Thiết kế bằng titanium siêu nhẹ, màn hình 120Hz Always-On và pin dung lượng lớn – iPhone 16 Pro là lựa chọn hoàn hảo cho người dùng chuyên nghiệp, nhà sáng tạo và game thủ.</p>
+            </div>
+        </div>
+
+        <!-- Product Info Sidebar -->
+        <div class="product-info">
+            <h1>iPhone 16 Pro 512GB</h1>
+            <div class="promo-banners">
+                <div class="promo-banner">🎁 Đặt trước: Tặng AirPods Pro (2024)</div>
+                <div class="promo-banner">💳 Trả góp 0% – Duyệt trong 3 phút</div>
+            </div>
+            <div class="color-options">
+                <button class="color-btn active" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-natural-titanium-1-202311?wid=940&hei=1112&fmt=png-alpha">
+                    <span class="color-dot" style="background: #d0c8bc;"></span> Titan Tự Nhiên
+                </button>
+                <button class="color-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-blue-titanium-1-202311?wid=940&hei=1112&fmt=png-alpha">
+                    <span class="color-dot" style="background: #8aa3b5;"></span> Titan Xanh
+                </button>
+                <button class="color-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-white-titanium-1-202311?wid=940&hei=1112&fmt=png-alpha">
+                    <span class="color-dot" style="background: #e8e8ec;"></span> Titan Trắng
+                </button>
+                <button class="color-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-black-titanium-1-202311?wid=940&hei=1112&fmt=png-alpha">
+                    <span class="color-dot" style="background: #2c2c2e;"></span> Titan Đen
+                </button>
+            </div>
+            <div class="price-info">
+                <div class="price-label">Giá dự kiến tại TP.HCM</div>
+                <div class="price">42.990.000đ</div>
+                <div class="stock-status">⏳ Đặt trước – Nhận hàng từ 20/9/2024</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-cart" id="addToCart">
+                    <i class="fas fa-shopping-cart"></i> THÊM VÀO GIỎ HÀNG
+                </button>
+                <button class="btn btn-buy" id="buyNow">
+                    <i class="fas fa-bolt"></i> MUA NGAY (ĐẶT TRƯỚC)
+                </button>
+            </div>
+            <div class="warranty-info">
+                🔧 Bảo hành chính hãng 12 tháng tại Apple Việt Nam<br>
+                📦 Giao hàng miễn phí toàn quốc
+            </div>
+            <div class="contact-info">
+                📞 Gọi <strong>1800 1111</strong> để được tư vấn đặt trước (8:00 - 22:00)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Phụ kiện đề xuất</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=Ốp+Titanium" alt="Ốp lưng" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Ốp lưng titanium</div>
+                        <div class="product-price">1.790.000đ</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=Cáp+USB-C" alt="Cáp sạc" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Cáp USB-C 1m (10Gbps)</div>
+                        <div class="product-price">690.000đ</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150?text=AirPods+Pro" alt="Tai nghe" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">AirPods Pro (2024)</div>
+                        <div class="product-price">7.490.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+        const priceEl = document.querySelector('.price');
+
+        // Giá dự kiến cho iPhone 16 Pro 512GB (VNĐ)
+        const basePrice = 42990000;
+
+        // Thumb click
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                thumbItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const imgSrc = item.querySelector('img').src.replace('120&hei=142', '940&hei=1112');
+                mainImage.src = imgSrc;
+            });
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion specs
+        specCategories.forEach(cat => {
+            cat.addEventListener('click', () => {
+                const isActive = cat.classList.contains('active');
+                specCategories.forEach(c => {
+                    c.classList.remove('active');
+                    c.nextElementSibling?.classList.remove('show');
+                });
+                if (!isActive) {
+                    cat.classList.add('active');
+                    cat.nextElementSibling?.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImg = btn.dataset.image;
+                if (newImg) {
+                    mainImage.src = newImg;
+                    thumbItems[0].querySelector('img').src = newImg.replace('940&hei=1112', '120&hei=142');
+                }
+            });
+        });
+
+        // Add to Cart
+        document.getElementById('addToCart').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'iphone-16-pro-512gb-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'iPhone 16 Pro 512GB',
+                color: color,
+                storage: '512GB',
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1,
+                preorder: true
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${product.name}\n- Màu: ${color}\n- Bộ nhớ: 512GB\n\n(Lưu ý: Sản phẩm đang trong đợt đặt trước)`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy Now (Pre-order)
+        document.getElementById('buyNow').addEventListener('click', function() {
+            const color = document.querySelector('.color-btn.active').textContent.trim();
+            const product = {
+                id: 'iphone-16-pro-512gb-' + color.toLowerCase().replace(/\s+/g, '-'),
+                name: 'iPhone 16 Pro 512GB',
+                color: color,
+                storage: '512GB',
+                price: basePrice,
+                image: mainImage.src,
+                quantity: 1,
+                preorder: true
+            };
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1&preorder=1';
+        });
+
+        // Set price
+        priceEl.textContent = basePrice.toLocaleString('vi-VN') + 'đ';
+    </script>
+</body>
+</html>

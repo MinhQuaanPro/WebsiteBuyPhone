@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chat Admin - Kiểm soát toàn quyền</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+        }
+        .chat-panel, .control-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .chat-panel {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+        }
+        .control-panel {
+            flex: 1;
+        }
+        .panel-header {
+            padding: 15px 20px;
+            background: #2a9d8f;
+            color: white;
+            font-weight: bold;
+        }
+        .control-panel .panel-header {
+            background: #e76f51;
+        }
+        .chat-area {
+            height: 500px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #fafafa;
+            flex: 1;
+            scroll-behavior: smooth;
+        }
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #e6f7ee;
+            position: relative;
+            word-wrap: break-word;
+        }
+        .message.admin {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        .message .user {
+            font-weight: bold;
+            color: #2a9d8f;
+        }
+        .message .time {
+            font-size: 0.8em;
+            color: #777;
+            margin-left: 6px;
+        }
+        .message-content img {
+            max-width: 200px;
+            border-radius: 8px;
+            margin-top: 6px;
+            display: block;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #ff5252;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            display: none;
+        }
+        .message:hover .delete-btn {
+            display: block;
+        }
+        .input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #eee;
+            background: white;
+            gap: 10px;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        .input-area button {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-area button:hover {
+            opacity: 0.9;
+        }
+        .input-area .attach-btn {
+            background: #6c757d;
+        }
+
+        /* Control panel styles... giữ nguyên */
+        .ban-list {
+            padding: 15px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .ban-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .unban-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .ban-form, .restriction-form {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        .ban-form input,
+        .restriction-form input,
+        .restriction-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .ban-form button,
+        .restriction-form button {
+            width: 100%;
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .restriction-form button.save {
+            background: #2a9d8f;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2a9d8f;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .restriction-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .restriction-label {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .error-msg {
+            color: #e63946;
+            font-size: 14px;
+            margin-top: 5px;
+            padding: 5px 10px;
+            background: #ffebee;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Chat panel -->
+        <div class="chat-panel">
+            <div class="panel-header">
+                <i class="fas fa-shield-alt"></i> Chat Admin - Kiểm soát toàn quyền
+            </div>
+            <div class="chat-area" id="chat-area"></div>
+            <div style="padding: 0 12px 8px;">
+                <div class="error-msg" id="error-msg"></div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="message-input" placeholder="Gửi tin nhắn (hỗ trợ URL ảnh)" maxlength="300">
+                <button class="attach-btn" onclick="document.getElementById('file-input').click()">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleImageUpload(this)">
+                <button onclick="sendAdminMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+        <!-- Control panel -->
+        <div class="control-panel">
+            <div class="panel-header">
+                <i class="fas fa-ban"></i> Quản lý hạn chế
+            </div>
+            
+            <!-- 🔒 Tạm khóa chat -->
+            <div class="restriction-form">
+                <div class="restriction-row">
+                    <span class="restriction-label">Tạm khóa toàn bộ chat</span>
+                    <label class="switch">
+                        <input type="checkbox" id="global-lock" onchange="toggleGlobalLock()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div>
+                    <label><input type="checkbox" id="allow-admin-override"> Cho phép Admin ghi đè khi khóa</label>
+                </div>
+            </div>
+
+            <!-- ⏱️ Giới hạn tin nhắn -->
+            <div class="restriction-form">
+                <label style="display: block; margin-bottom: 6px; font-size: 14px;">Giới hạn tin nhắn (tin/phút):</label>
+                <input type="number" id="msg-limit" min="1" max="100" value="5">
+                <button class="save" onclick="saveMessageLimit()"><i class="fas fa-save"></i> Lưu giới hạn</button>
+            </div>
+
+            <!-- 🚫 Từ cấm -->
+            <div class="restriction-form">
+                <label style="display: block; margin-bottom: 6px; font-size: 14px;">Từ cấm (ngăn cách bằng dấu phẩy):</label>
+                <textarea id="bad-words" rows="2" placeholder="VD: spam, lừa đảo, ..."></textarea>
+                <div>
+                    <label><input type="checkbox" id="ban-words-apply-admin"> Áp dụng từ cấm cho Admin</label>
+                </div>
+                <button class="save" onclick="saveBadWords()"><i class="fas fa-save"></i> Lưu từ cấm</button>
+            </div>
+
+            <!-- 👤 Chặn người dùng -->
+            <div class="ban-list" id="ban-list"></div>
+            <div class="ban-form">
+                <input type="text" id="ban-username" placeholder="Nhập tên để chặn">
+                <button onclick="banUser()"><i class="fas fa-user-lock"></i> Chặn người dùng</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const currentUsername = 'Admin';
+    let lastMessageId = 0;
+
+    function showError(msg) {
+        const el = document.getElementById('error-msg');
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    function isGlobalLocked() {
+        return localStorage.getItem('chatGlobalLock') === 'true';
+    }
+
+    function isAdminOverrideAllowed() {
+        return document.getElementById('allow-admin-override').checked;
+    }
+
+    function getBadWords() {
+        return JSON.parse(localStorage.getItem('chatBadWords') || '[]');
+    }
+
+    function shouldApplyBadWordsToAdmin() {
+        return document.getElementById('ban-words-apply-admin').checked;
+    }
+
+    async function sendAdminMessage() {
+        const input = document.getElementById('message-input');
+        let text = input.value.trim();
+        if (!text) return;
+
+        if (isGlobalLocked() && !isAdminOverrideAllowed()) {
+            showError('🔒 Chat đã bị khóa toàn hệ thống. Admin không được phép ghi đè.');
+            return;
+        }
+
+        const badWords = getBadWords();
+        if (badWords.length > 0 && shouldApplyBadWordsToAdmin()) {
+            const lowerText = text.toLowerCase();
+            const found = badWords.find(word => lowerText.includes(word));
+            if (found) {
+                showError(`🚫 Tin nhắn chứa từ cấm: "${found}".`);
+                return;
+            }
+        }
+
+        const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+        const msg = {
+            id: Date.now(),
+            user: currentUsername,
+            text: text,
+            time: new Date().toISOString()
+        };
+        messages.push(msg);
+        localStorage.setItem('sharedChatGroup', JSON.stringify(messages));
+        input.value = '';
+        appendMessage(msg);
+    }
+
+    function handleImageUpload(input) {
+        const file = input.files[0];
+        if (!file || !file.type.startsWith('image/')) {
+            showError('Chỉ hỗ trợ ảnh!');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('message-input').value = e.target.result;
+            input.value = '';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ✅ SỬA ĐÂY: XOÁ VÀ LOAD LẠI TOÀN BỘ
+    function deleteMessage(msgId) {
+        let messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+        messages = messages.filter(msg => msg.id != msgId);
+        localStorage.setItem('sharedChatGroup', JSON.stringify(messages));
+        loadAllMessages(); // 👈 BẮT BUỘC PHẢI LOAD LẠI
+    }
+
+    function toggleGlobalLock() {
+        localStorage.setItem('chatGlobalLock', document.getElementById('global-lock').checked ? 'true' : 'false');
+    }
+
+    function saveMessageLimit() {
+        const limit = document.getElementById('msg-limit').value;
+        localStorage.setItem('chatMessageLimit', limit);
+        alert(`✅ Đã giới hạn ${limit} tin nhắn/phút.`);
+    }
+
+    function saveBadWords() {
+        const words = document.getElementById('bad-words').value
+            .split(',')
+            .map(w => w.trim().toLowerCase())
+            .filter(w => w);
+        localStorage.setItem('chatBadWords', JSON.stringify(words));
+        alert(`✅ Đã lưu ${words.length} từ cấm.`);
+    }
+
+    function banUser() {
+        const username = document.getElementById('ban-username').value.trim();
+        if (!username || username === 'Admin') return alert('Không thể chặn Admin!');
+        const banned = JSON.parse(localStorage.getItem('bannedUsers') || '[]');
+        if (!banned.includes(username)) {
+            banned.push(username);
+            localStorage.setItem('bannedUsers', JSON.stringify(banned));
+            document.getElementById('ban-username').value = '';
+            loadBanList();
+        }
+    }
+
+    function unbanUser(username) {
+        let banned = JSON.parse(localStorage.getItem('bannedUsers') || '[]');
+        banned = banned.filter(name => name !== username);
+        localStorage.setItem('bannedUsers', JSON.stringify(banned));
+        loadBanList();
+    }
+
+    // ✅ HIỂN THỊ TIN NHẮN (PHÂN BIỆT ẢNH)
+    function isImageUrl(text) {
+        try {
+            if (!/^https?:\/\//i.test(text)) return false;
+            const url = new URL(text);
+            return /\.(jpeg|jpg|png|gif|webp)$/i.test(url.pathname);
+        } catch (e) {
+            return text.startsWith('data:image/');
+        }
+    }
+
+    function formatMessage(msg) {
+        let content = msg.text;
+        if (isImageUrl(msg.text)) {
+            content = `<img src="${msg.text}" alt="Ảnh" onerror="this.style.display='none'">`;
+        }
+
+        const isRealAdmin = msg.user === 'Admin';
+        return `
+            <div class="message ${isRealAdmin ? 'admin' : ''}" data-id="${msg.id}">
+                <button class="delete-btn" onclick="deleteMessage(${msg.id})">×</button>
+                <span class="user">${msg.user}</span>
+                <span class="time">(${new Date(msg.time).toLocaleTimeString('vi-VN')})</span><br>
+                <div class="message-content">${content}</div>
+            </div>
+        `;
+    }
+
+    function appendMessage(msg) {
+        if (msg.id <= lastMessageId) return;
+        lastMessageId = msg.id;
+        document.getElementById('chat-area').insertAdjacentHTML('beforeend', formatMessage(msg));
+        document.getElementById('chat-area').scrollTop = document.getElementById('chat-area').scrollHeight;
+    }
+
+    // ✅ LOAD TOÀN BỘ — DÙNG KHI KHỞI TẠO HOẶC XOÁ
+    function loadAllMessages() {
+        const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+        const chatArea = document.getElementById('chat-area');
+        if (messages.length === 0) {
+            chatArea.innerHTML = '<p style="text-align:center;color:#777;padding:20px;">Chưa có tin nhắn nào.</p>';
+            lastMessageId = 0;
+            return;
+        }
+        lastMessageId = Math.max(...messages.map(m => m.id));
+        chatArea.innerHTML = messages.map(formatMessage).join('');
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function loadBanList() {
+        const banned = JSON.parse(localStorage.getItem('bannedUsers') || '[]');
+        const banList = document.getElementById('ban-list');
+        banList.innerHTML = banned.length > 0 
+            ? banned.map(name => `
+                <div class="ban-item">
+                    <span>👤 ${name}</span>
+                    <button class="unban-btn" onclick="unbanUser('${name}')">Gỡ</button>
+                </div>
+            `).join('')
+            : '<p style="padding: 10px; color: #666;">Chưa có ai bị chặn.</p>';
+    }
+
+    function loadRestrictions() {
+        const isLocked = localStorage.getItem('chatGlobalLock') === 'true';
+        document.getElementById('global-lock').checked = isLocked;
+
+        const limit = localStorage.getItem('chatMessageLimit') || '5';
+        document.getElementById('msg-limit').value = limit;
+
+        const badWords = JSON.parse(localStorage.getItem('chatBadWords') || '[]');
+        document.getElementById('bad-words').value = badWords.join(', ');
+
+        const adminOverride = localStorage.getItem('adminOverride') === 'true';
+        document.getElementById('allow-admin-override').checked = adminOverride;
+
+        const banWordsAdmin = localStorage.getItem('banWordsApplyAdmin') === 'true';
+        document.getElementById('ban-words-apply-admin').checked = banWordsAdmin;
+    }
+
+    // Lưu tùy chọn
+    document.getElementById('allow-admin-override').addEventListener('change', (e) =>
+        localStorage.setItem('adminOverride', e.target.checked)
+    );
+    document.getElementById('ban-words-apply-admin').addEventListener('change', (e) =>
+        localStorage.setItem('banWordsApplyAdmin', e.target.checked)
+    );
+
+    // ========= KHỞI TẠO =========
+    const chatArea = document.getElementById('chat-area');
+    const banList = document.getElementById('ban-list');
+
+    loadRestrictions();
+    loadAllMessages(); // 👈 LẦN ĐẦU PHẢI LOAD HẾT
+    loadBanList();
+
+    // Cập nhật định kỳ — chỉ append tin mới (không ảnh hưởng khi xóa)
+    setInterval(() => {
+        const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+        if (messages.length > 0) {
+            const newest = messages[messages.length - 1];
+            if (newest.id > lastMessageId) {
+                appendMessage(newest);
+            }
+        }
+        loadBanList();
+    }, 2000);
+
+    document.getElementById('message-input').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendAdminMessage();
+        }
+    });
+</script>
+</body>
+</html>

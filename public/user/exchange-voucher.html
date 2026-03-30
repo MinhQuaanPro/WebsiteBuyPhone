@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đổi voucher - Thế Giới Di Động</title>
+  <!-- Fix: remove trailing space in href -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 15px 0;
+      margin-bottom: 30px;
+      border-radius: 12px;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 20px;
+      color: #2a9d8f;
+    }
+    
+    .user-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      padding: 25px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .user-name {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #212529;
+    }
+    
+    .user-points {
+      background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 8px 20px;
+      border-radius: 30px;
+      display: inline-block;
+      margin: 10px 0;
+      box-shadow: 0 3px 10px rgba(230, 57, 70, 0.3);
+    }
+    
+    .section-title {
+      font-size: 24px;
+      color: #2a9d8f;
+      margin: 25px 0 20px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: #e63946;
+      border-radius: 3px;
+    }
+    
+    .voucher-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin: 20px 0;
+    }
+    
+    .voucher-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+      position: relative;
+      border: 2px solid #e0e0e0;
+    }
+    
+    .voucher-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(42, 157, 143, 0.15);
+      border-color: #2a9d8f;
+    }
+    
+    .voucher-header {
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+      color: white;
+      position: relative;
+    }
+    
+    .voucher-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    
+    .voucher-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 5px 0;
+    }
+    
+    .voucher-desc {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .voucher-body {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .voucher-points {
+      font-size: 28px;
+      font-weight: bold;
+      color: #e63946;
+      margin: 10px 0;
+    }
+    
+    .voucher-details {
+      text-align: left;
+      margin: 15px 0;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .voucher-details p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #6c757d;
+    }
+    
+    .voucher-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 15px;
+    }
+    
+    .btn-redeem {
+      background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+      color: white;
+    }
+    
+    .btn-redeem:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(42, 157, 143, 0.4);
+    }
+    
+    .btn-redeemed {
+      background: #6c757d;
+      color: white;
+      cursor: not-allowed;
+    }
+    
+    .btn-insufficient {
+      background: #e9ecef;
+      color: #495057;
+      cursor: not-allowed;
+    }
+    
+    .btn-insufficient:hover {
+      background: #dee2e6;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+    }
+    
+    .back-btn {
+      padding: 10px 25px;
+      background: #e63946;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+    
+    .back-btn:hover {
+      background: #c1121f;
+      transform: translateY(-2px);
+    }
+    
+    .history-btn {
+      padding: 10px 25px;
+      background: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+    
+    .history-btn:hover {
+      background: #218874;
+      transform: translateY(-2px);
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 25px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+    }
+    
+    .notification.success {
+      background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+    }
+    
+    .notification.error {
+      background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(100%); }
+    }
+    
+    @media (max-width: 768px) {
+      .voucher-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .back-btn, .history-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .voucher-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-gift"></i>
+          <span>Thế Giới Di Động - Đổi voucher</span>
+        </div>
+        <div class="user-info" id="user-info">
+          <!-- Thông tin người dùng sẽ được điền bằng JavaScript -->
+        </div>
+      </div>
+    </header>
+
+    <div class="user-card">
+      <div class="user-avatar" id="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <h2 class="user-name" id="user-name">Chào mừng!</h2>
+      <div class="user-points" id="user-points">
+        <i class="fas fa-coins"></i> 0 điểm
+      </div>
+      <p style="color: #6c757d; margin-top: 10px;">Hoàn thành nhiệm vụ để nhận thêm điểm và đổi voucher</p>
+    </div>
+
+    <h2 class="section-title">
+      <i class="fas fa-ticket-alt"></i> Voucher có sẵn
+    </h2>
+    
+    <div class="voucher-grid" id="voucher-container">
+      <!-- Danh sách voucher sẽ được tạo tự động -->
+    </div>
+
+    <div class="action-buttons">
+      <button class="back-btn" onclick="window.location='index_user.html'">
+        <i class="fas fa-arrow-left"></i> Quay lại trang chính
+      </button>
+      <button class="history-btn" onclick="window.location='voucher-history.html'">
+        <i class="fas fa-history"></i> Xem lịch sử đổi
+      </button>
+    </div>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <script>
+    class VoucherSystem {
+      constructor() {
+        this.currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+        this.users = JSON.parse(localStorage.getItem("users")) || [];
+        
+        // Voucher mặc định
+        this.defaultVouchers = [
+          { 
+            id: 1, 
+            name: "Giảm 50k", 
+            points: 50, 
+            desc: "Áp dụng cho đơn hàng từ 500k", 
+            icon: "💰",
+            details: [
+              "Áp dụng cho tất cả sản phẩm điện thoại",
+              "Không áp dụng cùng các chương trình khuyến mãi khác",
+              "Hạn sử dụng: 30 ngày kể từ ngày đổi"
+            ]
+          },
+          { 
+            id: 2, 
+            name: "Giảm 100k", 
+            points: 100, 
+            desc: "Áp dụng cho đơn hàng từ 1 triệu", 
+            icon: "🎁", 
+            details: [
+              "Áp dụng cho tất cả sản phẩm",
+              "Có thể kết hợp với khuyến mãi khác",
+              "Hạn sử dụng: 30 ngày kể từ ngày đổi"
+            ]
+          },
+          { 
+            id: 3, 
+            name: "Free ship", 
+            points: 30, 
+            desc: "Miễn phí vận chuyển toàn quốc", 
+            icon: "🚚", 
+            details: [
+              "Áp dụng cho mọi đơn hàng",
+              "Không giới hạn giá trị đơn hàng",
+              "Hạn sử dụng: 15 ngày kể từ ngày đổi"
+            ]
+          },
+          
+          // { 
+          //   id: 4, 
+          //   name: "Giảm 10%", 
+          //   points: 150, 
+          //   desc: "Tối đa 200k cho đơn hàng tiếp theo", 
+          //   icon: "📉", 
+          //   details: [
+          //     "Áp dụng cho đơn hàng tiếp theo",
+          //     "Giảm tối đa 200.000đ",
+          //     "Hạn sử dụng: 30 ngày kể từ ngày đổi"
+          //   ]
+          // }
+        ];
+
+        // Đọc voucher do admin tạo
+        this.customVouchers = JSON.parse(localStorage.getItem("customVouchers")) || [];
+        this.vouchers = [...this.defaultVouchers, ...this.customVouchers];
+
+        // Gán ID duy nhất nếu chưa có
+        this.vouchers.forEach((v, i) => {
+          if (v.id === undefined) v.id = 1000 + i;
+        });
+
+        // Khởi tạo redeemedVouchers nếu cần
+        if (this.currentUser && !this.currentUser.redeemedVouchers) {
+          this.currentUser.redeemedVouchers = [];
+          this.saveUserData();
+        }
+      }
+
+      checkLogin() {
+        if (!this.currentUser) {
+          alert("Bạn cần đăng nhập trước!");
+          return false;
+        }
+        return true;
+      }
+
+      saveUserData() {
+        localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+        const index = this.users.findIndex(u => u.username === this.currentUser.username);
+        if (index >= 0) {
+          this.users[index] = this.currentUser;
+          localStorage.setItem("users", JSON.stringify(this.users));
+        }
+      }
+
+      redeemVoucher(voucherId) {
+        if (!this.currentUser) return { success: false, message: "Bạn cần đăng nhập trước!" };
+        
+        const voucher = this.vouchers.find(v => v.id === voucherId);
+        if (!voucher) return { success: false, message: "Voucher không tồn tại!" };
+        
+        if (this.currentUser.points < voucher.points) {
+          return { success: false, message: `Không đủ điểm! Cần ${voucher.points} điểm.` };
+        }
+        
+        if (this.currentUser.redeemedVouchers.some(v => v.id === voucherId)) {
+          return { success: false, message: "Bạn đã đổi voucher này rồi!" };
+        }
+        
+        this.currentUser.points -= voucher.points;
+        this.currentUser.redeemedVouchers.push({
+          id: voucher.id,
+          name: voucher.name,
+          points: voucher.points,
+          date: new Date().toISOString(),
+          code: this.generateVoucherCode(voucher)
+        });
+        
+        this.saveUserData();
+        return { 
+          success: true, 
+          message: `✅ Đổi thành công ${voucher.icon} ${voucher.name}!`,
+          remainingPoints: this.currentUser.points
+        };
+      }
+
+      generateVoucherCode(voucher) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let code = "";
+        for (let i = 0; i < 8; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return `${voucher.name.substring(0, 3).toUpperCase()}-${code}`;
+      }
+
+      getRedeemedVouchers() {
+        return this.currentUser?.redeemedVouchers || [];
+      }
+
+      getVoucherById(id) {
+        return this.vouchers.find(v => v.id === id);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const voucherSystem = new VoucherSystem();
+      
+      if (!voucherSystem.checkLogin()) {
+        window.location.href = "index_user.html";
+        return;
+      }
+
+      const firstName = voucherSystem.currentUser.username.split(' ')[0];
+      document.getElementById("user-name").textContent = firstName;
+      
+      document.getElementById("user-points").innerHTML = `
+        <i class="fas fa-coins"></i> ${voucherSystem.currentUser.points.toLocaleString('vi-VN')} điểm
+      `;
+      
+      const avatarChar = firstName.charAt(0).toUpperCase();
+      document.getElementById("user-avatar").innerHTML = avatarChar;
+      
+      function renderVouchers() {
+        const container = document.getElementById("voucher-container");
+        container.innerHTML = "";
+        
+        voucherSystem.vouchers.forEach(voucher => {
+          const isRedeemed = voucherSystem.currentUser.redeemedVouchers.some(v => v.id === voucher.id);
+          const canRedeem = voucherSystem.currentUser.points >= voucher.points && !isRedeemed;
+          
+          const card = document.createElement("div");
+          card.className = "voucher-card";
+          
+          let detailsHTML = voucher.details.map(detail => `<li>${detail}</li>`).join('');
+          
+          card.innerHTML = `
+            <div class="voucher-header">
+              <div class="voucher-icon">${voucher.icon}</div>
+              <h3 class="voucher-name">${voucher.name}</h3>
+              <p class="voucher-desc">${voucher.desc}</p>
+            </div>
+            <div class="voucher-body">
+              <div class="voucher-points">${voucher.points.toLocaleString('vi-VN')} điểm</div>
+              <div class="voucher-details">
+                <p><strong>Chi tiết:</strong></p>
+                <ul style="padding-left: 20px; margin-top: 5px;">
+                  ${detailsHTML}
+                </ul>
+              </div>
+              <button class="voucher-btn ${isRedeemed ? 'btn-redeemed' : (canRedeem ? 'btn-redeem' : 'btn-insufficient')}">
+                ${isRedeemed ? '<i class="fas fa-check-circle"></i> Đã đổi' : (canRedeem ? '<i class="fas fa-gift"></i> Đổi ngay' : '<i class="fas fa-times-circle"></i> Không đủ điểm')}
+              </button>
+            </div>
+          `;
+          
+          container.appendChild(card);
+
+          if (canRedeem) {
+            card.querySelector(".voucher-btn").addEventListener("click", () => {
+              const result = voucherSystem.redeemVoucher(voucher.id);
+              if (result.success) {
+                showNotification(result.message, "success");
+                document.getElementById("user-points").innerHTML = `
+                  <i class="fas fa-coins"></i> ${result.remainingPoints.toLocaleString('vi-VN')} điểm
+                `;
+                renderVouchers();
+              } else {
+                showNotification(result.message, "error");
+              }
+            });
+          }
+        });
+      }
+
+      function showNotification(message, type) {
+        const notification = document.getElementById("notification");
+        notification.textContent = message;
+        notification.className = `notification ${type}`;
+        notification.style.display = "block";
+        
+        setTimeout(() => {
+          notification.style.display = "none";
+        }, 3000);
+      }
+
+      renderVouchers();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Theo dõi đơn hàng - Thế Giới Di Động</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 28px;
+            color: #2a9d8f;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #2a9d8f, #e63946);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-id {
+            font-size: 22px;
+            font-weight: bold;
+            color: #e63946;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-action {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .btn-edit:hover {
+            background: #bbdefb;
+        }
+
+        .btn-cancel {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .btn-cancel:hover {
+            background: #ffcdd2;
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-pending { background: #fff8e1; color: #e65100; }
+        .status-processing { background: #e3f2fd; color: #1565c0; }
+        .status-shipped { background: #e8f5e9; color: #2e7d32; }
+        .status-delivered { background: #f1f8e9; color: #558b2f; }
+        .status-cancelled { background: #ffebee; color: #c62828; }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2a9d8f;
+            word-break: break-word;
+        }
+
+        .order-total {
+            text-align: right;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+            padding: 12px 0;
+            border-top: 1px dashed #eee;
+            margin-top: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .empty-state i {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            font-size: 22px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #777;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            color: #2a9d8f;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #2a9d8f;
+            color: white;
+        }
+
+        .btn-close {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .order-header { flex-direction: column; align-items: flex-start; }
+            .order-id { font-size: 20px; }
+            .order-total { text-align: left; font-size: 20px; }
+            .modal-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-truck"></i> Theo dõi đơn hàng</h1>
+            <p>Thông tin chi tiết về đơn hàng của bạn</p>
+        </header>
+
+        <div id="orders-list">
+            <!-- Đơn hàng sẽ được hiển thị ở đây -->
+        </div>
+    </div>
+
+    <!-- Modal chỉnh sửa -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Chỉnh sửa thông tin giao hàng</h3>
+            <div class="form-group">
+                <label for="editPhone">Số điện thoại mới</label>
+                <input type="tel" id="editPhone" class="form-control" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="editAddress">Địa chỉ giao hàng mới</label>
+                <textarea id="editAddress" class="form-control" rows="3" placeholder="Nhập địa chỉ mới"></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn btn-close" id="closeModal">Hủy</button>
+                <button class="modal-btn btn-save" id="saveChanges">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script>
+        // Dữ liệu đơn hàng hiện tại (dùng để cập nhật)
+        let currentOrderId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadOrders();
+        });
+
+        function loadOrders() {
+            const ordersList = document.getElementById('orders-list');
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+            if (orderHistory.length === 0) {
+                const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
+                if (lastOrder && lastOrder.orderId) {
+                    orderHistory = [lastOrder];
+                }
+            }
+
+            if (orderHistory.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h2>Chưa có đơn hàng nào</h2>
+                        <p>Bạn chưa đặt đơn hàng nào. Hãy mua sắm ngay để theo dõi đơn hàng của bạn!</p>
+                        <a href="Phone.html" class="btn">
+                            <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Hiển thị từ mới nhất đến cũ nhất
+            orderHistory.reverse();
+            let html = '';
+            orderHistory.forEach(order => {
+                const { orderId, timestamp, total, customer, status = 'pending' } = order;
+                const name = customer?.name || "Khách hàng";
+                const phone = customer?.phone || "Chưa cung cấp";
+                const address = customer?.address || "Chưa có địa chỉ";
+                const canEdit = status === 'pending';
+
+                html += `
+                    <div class="order-card" data-order-id="${orderId}">
+                        <div class="order-header">
+                            <div class="order-id">#${orderId}</div>
+                            <span class="order-status status-${status}">
+                                <i class="fas fa-clock"></i> 
+                                ${getStatusText(status)}
+                            </span>
+                        </div>
+                        <div class="order-info">
+                            <div class="info-item">
+                                <span class="info-label">Thời gian đặt</span>
+                                <span class="info-value">${timestamp}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Khách hàng</span>
+                                <span class="info-value">${name}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Số điện thoại</span>
+                                <span class="info-value">${phone}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Địa chỉ giao hàng</span>
+                                <span class="info-value">${address}</span>
+                            </div>
+                        </div>
+                        <div class="order-total">
+                            Tổng: ${total.toLocaleString('vi-VN')}đ
+                        </div>
+                        ${canEdit ? `
+                        <div class="order-actions">
+                            <button class="btn-action btn-edit" onclick="openEditModal('${orderId}', '${phone}', \`${address}\`)">
+                                <i class="fas fa-edit"></i> Chỉnh sửa
+                            </button>
+                            <button class="btn-action btn-cancel" onclick="cancelOrder('${orderId}')">
+                                <i class="fas fa-times"></i> Hủy đơn
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            ordersList.innerHTML = html;
+        }
+
+        function getStatusText(status) {
+            const map = {
+                pending: 'Đang chờ xác nhận',
+                processing: 'Đang xử lý',
+                shipped: 'Đã giao cho đơn vị vận chuyển',
+                delivered: 'Đã giao thành công',
+                cancelled: 'Đã huỷ'
+            };
+            return map[status] || status;
+        }
+
+        // Mở modal chỉnh sửa
+        function openEditModal(orderId, phone, address) {
+            currentOrderId = orderId;
+            document.getElementById('editPhone').value = phone;
+            document.getElementById('editAddress').value = address;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        // Đóng modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('editModal').style.display = 'none';
+        });
+
+        // Lưu thay đổi
+        document.getElementById('saveChanges').addEventListener('click', () => {
+            const newPhone = document.getElementById('editPhone').value.trim();
+            const newAddress = document.getElementById('editAddress').value.trim();
+
+            if (!newPhone || !newAddress) {
+                alert('Vui lòng nhập đầy đủ số điện thoại và địa chỉ!');
+                return;
+            }
+
+            // Cập nhật trong localStorage
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const orderIndex = orderHistory.findIndex(o => o.orderId === currentOrderId);
+            
+            if (orderIndex !== -1) {
+                orderHistory[orderIndex].customer.phone = newPhone;
+                orderHistory[orderIndex].customer.address = newAddress;
+                localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+                // Cập nhật lastOrder nếu cần
+                const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
+                if (lastOrder && lastOrder.orderId === currentOrderId) {
+                    lastOrder.customer.phone = newPhone;
+                    lastOrder.customer.address = newAddress;
+                    localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+                }
+            }
+
+            document.getElementById('editModal').style.display = 'none';
+            alert('✅ Đã cập nhật thông tin giao hàng!');
+            loadOrders(); // Tải lại danh sách
+        });
+
+        // Hủy đơn
+        function cancelOrder(orderId) {
+            if (!confirm('Bạn có chắc muốn hủy đơn hàng này? Hành động này không thể hoàn tác.')) {
+                return;
+            }
+
+            let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            const orderIndex = orderHistory.findIndex(o => o.orderId === orderId);
+            
+            if (orderIndex !== -1) {
+                orderHistory[orderIndex].status = 'cancelled';
+                localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+                // Cập nhật lastOrder nếu cần
+                const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
+                if (lastOrder && lastOrder.orderId === orderId) {
+                    lastOrder.status = 'cancelled';
+                    localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+                }
+            }
+
+            alert('✅ Đã hủy đơn hàng thành công!');
+            loadOrders();
+        }
+
+        
+    </script> -->
+   <script>
+/* ================== CONFIG ================== */
+const STATUS_LABELS = {
+    pending: 'Chưa xác nhận',
+    confirmed: 'Đã xác nhận',
+    preparing: 'Đang chuẩn bị hàng',
+    shipping: 'Đang giao hàng',
+    delivered: 'Giao hàng thành công',
+    cancelled: 'Đã hủy',
+    returned: 'Hoàn / trả hàng'
+};
+
+const STATUS_COLORS = {
+    pending: 'status-pending',
+    confirmed: 'status-confirmed',
+    preparing: 'status-preparing',
+    shipping: 'status-shipping',
+    delivered: 'status-delivered',
+    cancelled: 'status-cancelled',
+    returned: 'status-returned'
+};
+
+let currentOrderId = null;
+
+/* ================== UTILS ================== */
+function normalizePhone(phone) {
+    return phone.replace(/\s|\.|-/g, '');
+}
+
+function isValidVietnamPhone(phone) {
+    const cleaned = normalizePhone(phone);
+    const regex = /^(03|05|07|08|09)\d{8}$/;
+    return regex.test(cleaned);
+}
+
+/* ================== INIT ================== */
+document.addEventListener('DOMContentLoaded', () => {
+    loadOrders();
+
+    document.getElementById('saveChanges')
+        .addEventListener('click', handleSaveChanges);
+
+    document.getElementById('closeModal')
+        .addEventListener('click', () => {
+            document.getElementById('editModal').style.display = 'none';
+        });
+});
+
+/* ================== LOAD ORDERS ================== */
+function loadOrders() {
+    const ordersList = document.getElementById('orders-list');
+    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+    if (orderHistory.length === 0) {
+        const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+        if (lastOrder.orderId) orderHistory = [lastOrder];
+    }
+
+    if (orderHistory.length === 0) {
+        ordersList.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h2>Chưa có đơn hàng nào</h2>
+                <p>Hãy mua sắm để theo dõi đơn hàng.</p>
+                <a href="Phone.html" class="btn">
+                    <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+                </a>
+            </div>
+        `;
+        return;
+    }
+
+    orderHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    ordersList.innerHTML = orderHistory.map(order => {
+        const { orderId, timestamp, total, customer, status = 'pending' } = order;
+        const canEdit = status === 'pending';
+
+        return `
+        <div class="order-card">
+            <div class="order-header">
+                <div class="order-id">#${orderId}</div>
+                <span class="order-status ${STATUS_COLORS[status] || 'status-pending'}">
+                    ${STATUS_LABELS[status] || status}
+                </span>
+            </div>
+
+            <div class="order-info">
+                <div class="info-item">
+                    <span class="info-label">Thời gian</span>
+                    <span class="info-value">${timestamp}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Khách hàng</span>
+                    <span class="info-value">${customer?.name || 'Khách hàng'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Số điện thoại</span>
+                    <span class="info-value">${customer?.phone || 'Chưa có'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Địa chỉ</span>
+                    <span class="info-value">${customer?.address || 'Chưa có'}</span>
+                </div>
+            </div>
+
+            <div class="order-total">
+                Tổng: ${total.toLocaleString('vi-VN')}đ
+            </div>
+
+            ${
+                canEdit ? `
+                <div class="order-actions">
+                    <button class="btn-action btn-edit"
+                        onclick="openEditModal('${orderId}', '${customer.phone}', \`${customer.address}\`)">
+                        <i class="fas fa-edit"></i> Chỉnh sửa
+                    </button>
+                    <button class="btn-action btn-cancel"
+                        onclick="cancelOrder('${orderId}')">
+                        <i class="fas fa-times"></i> Hủy đơn
+                    </button>
+                </div>
+                `
+                :
+                `<div style="text-align:center;color:#888;margin-top:10px">
+                    <i class="fas fa-lock"></i> Đơn hàng không thể chỉnh sửa
+                </div>`
+            }
+        </div>
+        `;
+    }).join('');
+}
+
+/* ================== EDIT ================== */
+function openEditModal(orderId, phone, address) {
+    currentOrderId = orderId;
+    document.getElementById('editPhone').value = phone || '';
+    document.getElementById('editAddress').value = address || '';
+    document.getElementById('editModal').style.display = 'flex';
+}
+
+function handleSaveChanges() {
+    const phoneRaw = document.getElementById('editPhone').value.trim();
+    const address = document.getElementById('editAddress').value.trim();
+
+    if (!phoneRaw || !address) {
+        alert('Vui lòng nhập đầy đủ thông tin!');
+        return;
+    }
+
+    const phone = normalizePhone(phoneRaw);
+
+    if (!isValidVietnamPhone(phone)) {
+        alert('❌ SĐT không hợp lệ!\nChỉ chấp nhận số VN (03,05,07,08,09)');
+        return;
+    }
+
+    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+    const index = orderHistory.findIndex(o => o.orderId === currentOrderId);
+
+    if (index === -1) return;
+
+    if (orderHistory[index].customer.phone === phone) {
+        alert('⚠️ Số điện thoại mới trùng số cũ!');
+        return;
+    }
+
+    orderHistory[index].customer.phone = phone;
+    orderHistory[index].customer.address = address;
+    orderHistory[index].updatedAt = new Date().toLocaleString('vi-VN');
+
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+    if (lastOrder.orderId === currentOrderId) {
+        lastOrder.customer.phone = phone;
+        lastOrder.customer.address = address;
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+    }
+
+    alert('✅ Cập nhật thành công!');
+    document.getElementById('editModal').style.display = 'none';
+    loadOrders();
+}
+
+/* ================== CANCEL ================== */
+function cancelOrder(orderId) {
+    if (!confirm('Bạn có chắc muốn hủy đơn hàng?')) return;
+    updateOrderStatus(orderId, 'cancelled');
+}
+
+function updateOrderStatus(orderId, status) {
+    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+    const index = orderHistory.findIndex(o => o.orderId === orderId);
+
+    if (index !== -1) {
+        orderHistory[index].status = status;
+        orderHistory[index].updatedAt = new Date().toLocaleString('vi-VN');
+        localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+    }
+
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '{}');
+    if (lastOrder.orderId === orderId) {
+        lastOrder.status = status;
+        localStorage.setItem('lastOrder', JSON.stringify(lastOrder));
+    }
+
+    alert('✅ Đã hủy đơn hàng!');
+    loadOrders();
+}
+
+/* ================== EXTRA CSS ================== */
+const style = document.createElement('style');
+style.textContent = `
+.status-confirmed{background:#e3f2fd;color:#1565c0}
+.status-preparing{background:#f3e5f5;color:#6a1b9a}
+.status-shipping{background:#fff8e1;color:#e65100}
+.status-returned{background:#ffebee;color:#c62828}
+`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>

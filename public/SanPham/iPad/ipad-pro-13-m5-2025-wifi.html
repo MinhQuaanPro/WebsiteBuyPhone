@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPad Pro 13-inch (2025) M5 Wi-Fi 256GB - Chính hãng | OLED, M5, Mỏng 5.1mm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .spec-value {
+            width: 70%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="iPad Pro 13-inch M5" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow"><</button>
+                    <button class="nav-arrow" id="nextArrow">></button>
+                </div>
+            </div>
+
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Bạc">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-spacegray-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Xám Không Gian">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-angle-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Góc nghiêng">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-pencil-pro-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Với Apple Pencil Pro">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-usb-c-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Cổng USB-C">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-camera-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123" alt="Camera sau">
+                </div>
+            </div>
+
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Chip Apple M5</h4>
+                    <p>Hiệu năng máy trạm trên tablet</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình OLED 13"</h4>
+                    <p>Tỷ lệ tương phản vô cực, mỏng 5.1mm</p>
+                </div>
+                <div class="feature-item">
+                    <h4>16GB RAM</h4>
+                    <p>Đa nhiệm mượt như Mac</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Wi-Fi 7</h4>
+                    <p>Tốc độ truyền dữ liệu siêu nhanh</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Apple Pencil Pro</h4>
+                    <p>Haptic feedback, squeeze, Find My</p>
+                </div>
+                <div class="feature-item">
+                    <h4>LiDAR Scanner</h4>
+                    <p>Quét 3D, AR chuyên nghiệp</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin 10 giờ</h4>
+                    <p>Sạc nhanh USB-C 30W</p>
+                </div>
+                <div class="feature-item">
+                    <h4>iPadOS 19</h4>
+                    <p>Hỗ trợ AI nâng cao, Stage Manager</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">Cấu hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Hệ điều hành:</div><div class="spec-value">iPadOS 19 (hỗ trợ Apple Intelligence nâng cao)</div></div>
+                        <div class="spec-row"><div class="spec-label">Chip:</div><div class="spec-value">Apple M5 (3nm+, CPU 12 nhân, GPU 16 nhân, Neural Engine 32 nhân)</div></div>
+                        <div class="spec-row"><div class="spec-label">RAM:</div><div class="spec-value">16 GB unified memory</div></div>
+                        <div class="spec-row"><div class="spec-label">Bộ nhớ trong:</div><div class="spec-value">256 GB</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">Màn hình</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Loại:</div><div class="spec-value">Ultra Retina Tandem OLED</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">13 inch (2880 x 2064 pixels)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tần số quét:</div><div class="spec-value">120Hz ProMotion, adaptive refresh</div></div>
+                        <div class="spec-row"><div class="spec-label">Độ sáng:</div><div class="spec-value">1000 nits (SDR), 1600 nits (HDR peak)</div></div>
+                        <div class="spec-row"><div class="spec-label">Công nghệ:</div><div class="spec-value">True Tone, P3 wide color, anti-reflective coating</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="camera">Camera</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Camera sau:</div><div class="spec-value">12MP Wide (ƒ/1.8) + LiDAR Scanner</div></div>
+                        <div class="spec-row"><div class="spec-label">Camera trước:</div><div class="spec-value">12MP Center Stage (vị trí linh hoạt nhờ OLED)</div></div>
+                        <div class="spec-row"><div class="spec-label">Tính năng:</div><div class="spec-value">Smart HDR 5, Night mode, quay 4K@60fps, quét 3D, AR chuyên sâu</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="connectivity">Kết nối</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Wi-Fi:</div><div class="spec-value">Wi-Fi 7 (802.11be)</div></div>
+                        <div class="spec-row"><div class="spec-label">Bluetooth:</div><div class="spec-value">5.4</div></div>
+                        <div class="spec-row"><div class="spec-label">Cổng:</div><div class="spec-value">USB-C (USB4, hỗ trợ sạc, xuất video 8K, kết nối màn hình ngoài)</div></div>
+                        <div class="spec-row"><div class="spec-label">Bảo mật:</div><div class="spec-value">Face ID (ngang/dọc)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">Pin & Sạc</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Dung lượng:</div><div class="spec-value">~40.88 Wh</div></div>
+                        <div class="spec-row"><div class="spec-label">Thời lượng pin:</div><div class="spec-value">Lên đến 10 giờ lướt web hoặc xem video</div></div>
+                        <div class="spec-row"><div class="spec-label">Sạc:</div><div class="spec-value">USB-C PD 30W (0-50% trong 30 phút)</div></div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">Thiết kế & Phụ kiện</div>
+                    <div class="spec-details">
+                        <div class="spec-row"><div class="spec-label">Chất liệu:</div><div class="spec-value">Nhôm tái chế 100%</div></div>
+                        <div class="spec-row"><div class="spec-label">Kích thước:</div><div class="spec-value">281.6 x 204.8 x 5.1 mm</div></div>
+                        <div class="spec-row"><div class="spec-label">Trọng lượng:</div><div class="spec-value">622g</div></div>
+                        <div class="spec-row"><div class="spec-label">Phụ kiện hỗ trợ:</div><div class="spec-value">Apple Pencil Pro, Magic Keyboard, Smart Folio</div></div>
+                        <div class="spec-row"><div class="spec-label">Đặc biệt:</div><div class="spec-value">Mỏng nhất mọi thời đại, không quạt, làm mát thụ động</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>iPad Pro 13-inch (2025) – Máy tính bảng của tương lai</h3>
+                <p>iPad Pro 13-inch M5 là bước nhảy vọt của Apple: **màn hình OLED đầu tiên**, **chip M5 mạnh như Mac Studio**, và **thiết kế siêu mỏng 5.1mm** – biến máy tính bảng thành máy trạm di động thực thụ.</p>
+                <p>Với **16GB RAM**, bạn có thể chạy nhiều ứng dụng chuyên nghiệp như Procreate, LumaFusion, Adobe Photoshop cùng lúc. **LiDAR Scanner** mở ra khả năng quét 3D và AR trong giáo dục, thiết kế và y tế.</p>
+                <p>Bản **Wi-Fi 256GB** phù hợp người dùng tại nhà, văn phòng hoặc sáng tạo nội dung không cần kết nối di động. Kết hợp với **Apple Pencil Pro**, đây là công cụ hoàn hảo cho nghệ sĩ, kiến trúc sư và nhà thiết kế.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>iPad Pro 13-inch (2025) M5 Wi-Fi 256GB</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">Tặng Apple Pencil Pro trị giá 3.790.000đ</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 12 tháng</div>
+            </div>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active" data-color="Bạc" 
+                    data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123">
+                    <span class="color-dot" style="background: #e0e0e0;"></span> Bạc
+                </button>
+                <button class="color-btn" data-color="Xám Không Gian"
+                    data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-spacegray-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123">
+                    <span class="color-dot" style="background: #333;"></span> Xám Không Gian
+                </button>
+            </div>
+
+            <div class="price-info">
+                <div class="price-label">Giá tại TP. Hồ Chí Minh</div>
+                <div class="price">42.990.000đ</div>
+                <div class="stock-status">CÒN HÀNG – Giao trong 24h</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                
+                <button style="
+                    padding: 14px 20px;
+                    background: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
+                " onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 12 tháng tại Apple Authorized Service Provider<br>
+                <a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1800 1127</strong> (Apple Care Việt Nam) hoặc <strong>1900 232 460</strong> (tổng đài bán hàng)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Phụ kiện thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-pro-finish-select-silver-202409?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1746872010123" alt="Apple Pencil Pro" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Apple Pencil Pro</div>
+                        <div class="product-price">3.790.000đ</div>
+                        <div class="product-old-price">4.190.000đ</div>
+                        <div class="product-discount">-10%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.9 • Đã bán 1.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-magic-keyboard-silver-202505?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1746872010123" alt="Magic Keyboard" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Magic Keyboard iPad Pro 13"</div>
+                        <div class="product-price">9.490.000đ</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 652</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/usb-c-to-usb-c-2m?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1746872010123" alt="Cáp USB4" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Cáp USB-C 2m (USB4)</div>
+                        <div class="product-price">590.000đ</div>
+                        <div class="product-old-price">690.000đ</div>
+                        <div class="product-discount">-14%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 2.1k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        const imageUrls = [
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123',
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-finish-select-spacegray-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123',
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-angle-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123',
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-pencil-pro-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123',
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-usb-c-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123',
+            'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-13-camera-silver-202505?wid=940&hei=1112&fmt=png-alpha&.v=1746872010123'
+        ];
+
+        let currentImageIndex = 0;
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        // Tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Color selection
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) {
+                    mainImage.src = newImage;
+                    thumbItems[0].querySelector('img').src = newImage;
+                }
+            });
+        });
+
+        // Add to cart
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const selectedColorBtn = document.querySelector('.color-btn.active');
+            const selectedColor = selectedColorBtn ? selectedColorBtn.getAttribute('data-color') : 'Bạc';
+            const product = {
+                id: 'ipad-pro-13-m5-wifi-256gb',
+                name: 'iPad Pro 13-inch (2025) M5 Wi-Fi 256GB',
+                color: selectedColor,
+                price: 42990000,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(p => p.id === product.id && p.color === product.color);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ Đã thêm vào giỏ hàng:\n${product.name}\nMàu: ${product.color}\nGiá: ${product.price.toLocaleString('vi-VN')}đ`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy now
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            alert('🚀 Chức năng "MUA NGAY" đang được phát triển.\nVui lòng thêm vào giỏ hàng trước!');
+        });
+    </script>
+</body>
+</html>

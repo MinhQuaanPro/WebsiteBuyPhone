@@ -1,0 +1,10 @@
+{
+  "productId": 1,
+  "quantity": 10,
+  "customer": {
+    "name": "Nguyễn Văn A",
+    "email": "vana@gmail.com",
+    "phone": "0901234567"
+  },
+  "orderDate": "2025-06-07T08:30:00.000Z"
+}

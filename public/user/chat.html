@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chat Nhóm Chung</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: #2a9d8f;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .chat-area {
+            height: 500px;
+            padding: 15px;
+            overflow-y: auto;
+            background: #fafafa;
+            scroll-behavior: smooth;
+        }
+        .message {
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #e6f7ee;
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+        }
+        .message.admin {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        .message .user {
+            font-weight: bold;
+            color: #2a9d8f;
+        }
+        .message .time {
+            font-size: 0.8em;
+            color: #777;
+            margin-left: 6px;
+        }
+        .message-content {
+            margin-top: 4px;
+        }
+        .message-content img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-top: 6px;
+            display: block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid #eee;
+            background: white;
+            gap: 10px;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+        .input-area button {
+            background: #2a9d8f;
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-area button.attach {
+            background: #6c757d;
+        }
+        .input-area button:hover {
+            opacity: 0.9;
+        }
+
+        .banned-notice {
+            text-align: center;
+            padding: 15px;
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
+        .redirect-notice {
+            text-align: center;
+            padding: 20px;
+            color: #e63946;
+            font-weight: bold;
+        }
+
+        .error-msg {
+            color: #e63946;
+            font-size: 14px;
+            padding: 5px 15px;
+            background: #ffebee;
+            border-radius: 4px;
+            margin: 0 12px 8px;
+            display: none;
+        }
+
+        /* Ẩn file input thật */
+        #file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-comments"></i> Chat Nhóm Chung (User + Admin)
+        </div>
+        <div class="chat-area" id="chat-area"></div>
+        <div class="error-msg" id="error-msg"></div>
+        <div class="input-area" id="input-section">
+            <!-- Input sẽ được tạo động -->
+        </div>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*">
+
+    <script>
+
+   
+        // 🔹 LẤY TÊN TỪ HỆ THỐNG ĐĂNG NHẬP (CHÍNH XÁC)
+let currentUsername = 'Ẩn danh';
+
+const currentUserData = JSON.parse(localStorage.getItem('currentUser'));
+if (currentUserData?.username) {
+    currentUsername = currentUserData.username;
+} else {
+    // Chưa đăng nhập → chuyển hướng
+    document.querySelector('.container').innerHTML = `
+        <div class="redirect-notice">
+            🔒 Bạn cần đăng nhập để tham gia chat.<br>
+            Đang chuyển hướng...
+        </div>
+    `;
+    setTimeout(() => window.location.href = 'login.html', 2000);
+    throw new Error('Chưa đăng nhập');
+}
+// Kiểm tra nếu currentUser thay đổi → cập nhật tên chat
+setInterval(() => {
+    const storageUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (storageUser && storageUser.username !== currentUsername) {
+        currentUsername = storageUser.username;
+        loadMessages(); // hoặc reload nhẹ để cập nhật giao diện
+    }
+}, 1000);
+        const chatArea = document.getElementById('chat-area');
+        const inputSection = document.getElementById('input-section');
+        const errorMsg = document.getElementById('error-msg');
+        const fileInput = document.getElementById('file-input');
+
+        const messageInput = document.createElement('input');
+        messageInput.type = 'text';
+        messageInput.placeholder = 'Nhập tin nhắn hoặc dán URL ảnh...';
+        messageInput.maxLength = 300;
+
+        const attachButton = document.createElement('button');
+        attachButton.className = 'attach';
+        attachButton.innerHTML = '<i class="fas fa-paperclip"></i>';
+        attachButton.onclick = () => fileInput.click();
+
+        const sendButton = document.createElement('button');
+        sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        sendButton.onclick = sendMessage;
+
+        let lastMessageId = 0;
+
+        // === TIỆN ÍCH ===
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.style.display = 'block';
+            setTimeout(() => errorMsg.style.display = 'none', 3000);
+        }
+
+        function isBanned() {
+            const banned = JSON.parse(localStorage.getItem('bannedUsers') || '[]');
+            return banned.includes(currentUsername);
+        }
+
+        function isChatLocked() {
+            return localStorage.getItem('chatGlobalLock') === 'true';
+        }
+
+        function getBadWords() {
+            return JSON.parse(localStorage.getItem('chatBadWords') || '[]');
+        }
+
+        // === XỬ LÝ ẢNH ===
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                showError('Chỉ hỗ trợ file ảnh!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                messageInput.value = e.target.result; // base64
+                fileInput.value = ''; // reset
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // === GỬI TIN NHẮN ===
+        function sendMessage() {
+            if (isBanned()) {
+                alert('🚫 Bạn đã bị Admin chặn!');
+                return;
+            }
+
+            if (isChatLocked()) {
+                showError('🔒 Chat hiện đang bị khóa toàn hệ thống.');
+                return;
+            }
+
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            // Kiểm tra từ cấm
+            const badWords = getBadWords();
+            if (badWords.length > 0) {
+                const lowerText = text.toLowerCase();
+                const found = badWords.find(word => lowerText.includes(word));
+                if (found) {
+                    showError(`🚫 Tin nhắn chứa từ cấm: "${found}".`);
+                    return;
+                }
+            }
+
+            const msg = {
+                id: Date.now(),
+                user: currentUsername,
+                text: text,
+                time: new Date().toISOString()
+            };
+
+            const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+            messages.push(msg);
+            localStorage.setItem('sharedChatGroup', JSON.stringify(messages));
+            messageInput.value = '';
+            appendMessage(msg);
+        }
+
+        // === HIỂN THỊ TIN NHẮN ===
+        function isImageUrl(text) {
+            try {
+                if (!/^https?:\/\//i.test(text)) return false;
+                const url = new URL(text);
+                return /\.(jpeg|jpg|png|gif|webp)$/i.test(url.pathname);
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function renderMessageContent(text) {
+            if (text.startsWith('data:image/')) {
+                return `<img src="${text}" alt="Ảnh đã gửi">`;
+            }
+            if (isImageUrl(text)) {
+                return `<img src="${text}" alt="Ảnh" onerror="this.style.display='none'">`;
+            }
+            return text;
+        }
+
+        function formatMessage(msg) {
+            const isRealAdmin = msg.user === 'admin';
+            const content = renderMessageContent(msg.text);
+            return `
+                <div class="message ${isRealAdmin ? 'admin' : ''}" data-id="${msg.id}">
+                    <span class="user">${msg.user}</span>
+                    <span class="time">(${new Date(msg.time).toLocaleTimeString('vi-VN')})</span><br>
+                    <div class="message-content">${content}</div>
+                </div>
+            `;
+        }
+
+        function appendMessage(msg) {
+            if (msg.id <= lastMessageId) return;
+            lastMessageId = msg.id;
+            chatArea.insertAdjacentHTML('beforeend', formatMessage(msg));
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function loadAllMessages() {
+            const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+            if (messages.length === 0) {
+                chatArea.innerHTML = '<p style="text-align:center;color:#777;padding:20px;">Chưa có tin nhắn nào.</p>';
+                lastMessageId = 0;
+                return;
+            }
+
+            const latestId = Math.max(...messages.map(m => m.id));
+            lastMessageId = latestId;
+            chatArea.innerHTML = messages.map(formatMessage).join('');
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function updateInputSection() {
+            inputSection.innerHTML = '';
+            if (isBanned()) {
+                inputSection.innerHTML = '<div class="banned-notice">🚫 Bạn đã bị Admin chặn. Không thể gửi tin nhắn.</div>';
+            } else {
+                inputSection.appendChild(messageInput);
+                inputSection.appendChild(attachButton);
+                inputSection.appendChild(sendButton);
+            }
+        }
+
+        // === KHỞI TẠO ===
+        fileInput.addEventListener('change', handleImageUpload);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        loadAllMessages();
+        updateInputSection();
+
+        // Theo dõi thay đổi (bao gồm cả khi admin xóa tin)
+        setInterval(() => {
+            const messages = JSON.parse(localStorage.getItem('sharedChatGroup') || '[]');
+            const currentIds = new Set(messages.map(m => m.id));
+            const existingEls = chatArea.querySelectorAll('.message');
+            let hasChange = false;
+
+            // Xóa tin không còn trong localStorage
+            existingEls.forEach(el => {
+                const id = parseInt(el.getAttribute('data-id'));
+                if (!currentIds.has(id)) {
+                    el.remove();
+                    hasChange = true;
+                }
+            });
+
+            // Thêm tin mới
+            if (messages.length > 0) {
+                const newest = messages[messages.length - 1];
+                if (newest.id > lastMessageId) {
+                    appendMessage(newest);
+                    hasChange = true;
+                }
+            }
+
+            if (hasChange) {
+                // Cập nhật lại lastMessageId an toàn
+                const allIds = messages.map(m => m.id);
+                lastMessageId = allIds.length ? Math.max(...allIds) : 0;
+            }
+
+            // Cập nhật trạng thái bị chặn
+            if (isBanned()) {
+                updateInputSection();
+            }
+        }, 1500);
+    </script>
+</body>
+</html>     

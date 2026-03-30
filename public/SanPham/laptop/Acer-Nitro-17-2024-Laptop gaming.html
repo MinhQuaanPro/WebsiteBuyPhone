@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acer Nitro 17 2024 - Laptop Gaming Mạnh Mẽ</title>
+    <style>
+        /* Giữ nguyên toàn bộ CSS cũ — không thay đổi giao diện */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .image-thumbs:hover {
+            scrollbar-width: thin;
+        }
+
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #d9534f;
+        }
+
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: #d9534f;
+            color: white;
+            border-color: #d9534f;
+        }
+
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+
+        .spec-section {
+            margin-top: 20px;
+        }
+
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-label {
+            width: 35%;
+            font-weight: 600;
+            color: #d9534f;
+        }
+
+        .spec-value {
+            width: 65%;
+        }
+
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #d9534f, #ff6b6b);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .storage-options {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .storage-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .storage-btn:hover, .storage-btn.active {
+            background: #d9534f;
+            color: white;
+            border-color: #d9534f;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .color-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .color-btn:hover, .color-btn.active {
+            background: #d9534f;
+            color: white;
+            border-color: #d9534f;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .price-info {
+            margin: 20px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .stock-status {
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            color: #d9534f;
+            font-size: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d9534f;
+        }
+
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .view-all-link {
+            color: #d9534f;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+
+        .product-info-small {
+            padding: 10px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .star {
+            color: #ffcc00;
+        }
+
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/44/336967/Slider/3s1-1020x574.jpg" alt="Acer Nitro 17 2024" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow">&lt;</button>
+                    <button class="nav-arrow" id="nextArrow">&gt;</button>
+                </div>
+            </div>
+
+            <div class="image-thumbs">
+  <div class="thumb-item active">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-1-638754929163211657-750x500.jpg" alt="Acer Nitro V 15 ảnh 1">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-2-638754929175088256-750x500.jpg" alt="Acer Nitro V 15 ảnh 2">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-3-638754929181722741-750x500.jpg" alt="Acer Nitro V 15 ảnh 3">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-4-638754929190402552-750x500.jpg" alt="Acer Nitro V 15 ảnh 4">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-5-638754929197118078-750x500.jpg" alt="Acer Nitro V 15 ảnh 5">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-6-638754929203072930-750x500.jpg" alt="Acer Nitro V 15 ảnh 6">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-7-638754929209471665-750x500.jpg" alt="Acer Nitro V 15 ảnh 7">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-8-638754929219260975-750x500.jpg" alt="Acer Nitro V 15 ảnh 8">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-9-638754929227346232-750x500.jpg" alt="Acer Nitro V 15 ảnh 9">
+  </div>
+  <div class="thumb-item">
+    <img src="https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-13-638754929259223162-750x500.jpg" alt="Acer Nitro V 15 tem">
+  </div>
+</div>
+
+
+            <!-- Product Features Grid -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Intel Core i7-13620H</h4>
+                    <p>10 nhân / 16 luồng</p>
+                </div>
+                <div class="feature-item">
+                    <h4>NVIDIA RTX 4060 8GB</h4>
+                    <p>Hiệu năng gaming</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Màn hình 17.3" QHD 165Hz</h4>
+                    <p>IPS, 100% DCI-P3</p>
+                </div>
+                <div class="feature-item">
+                    <h4>RAM 16GB DDR5</h4>
+                    <p>3200MHz</p>
+                </div>
+                <div class="feature-item">
+                    <h4>SSD 1TB PCIe Gen4</h4>
+                    <p>Tốc độ cao</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Bàn phím RGB 4 vùng</h4>
+                    <p>Tùy chỉnh màu</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Hệ thống tản nhiệt 5 quạt</h4>
+                    <p>Acer CoolBoost</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Windows 11 Home</h4>
+                    <p>Bản quyền</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">
+                        Cấu hình & Hiệu năng
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">CPU:</div>
+                            <div class="spec-value">Intel Core i7-13620H (10 nhân, 16 luồng, Turbo lên 4.9GHz)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">GPU:</div>
+                            <div class="spec-value">NVIDIA GeForce RTX 4060 8GB GDDR6 (140W Max TGP)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">RAM:</div>
+                            <div class="spec-value">16GB DDR5 4800MHz (2 khe, tối đa 32GB)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Ổ cứng:</div>
+                            <div class="spec-value">1TB PCIe Gen4 NVMe SSD</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Hệ điều hành:</div>
+                            <div class="spec-value">Windows 11 Home bản quyền</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="display">
+                        Màn hình
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">17.3 inch</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Độ phân giải:</div>
+                            <div class="spec-value">2560 x 1440 (QHD)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tần số quét:</div>
+                            <div class="spec-value">165Hz</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Công nghệ:</div>
+                            <div class="spec-value">IPS, 100% DCI-P3, 3ms response time</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="design">
+                        Thiết kế & Cổng kết nối
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Chất liệu:</div>
+                            <div class="spec-value">Vỏ nhựa bền, họa tiết đỏ đặc trưng Nitro</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Cân nặng:</div>
+                            <div class="spec-value">2.7 kg</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Cổng kết nối:</div>
+                            <div class="spec-value">1x Thunderbolt 4, 2x USB-A 3.2, HDMI 2.1, RJ45, 3.5mm, SD card reader</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Wi-Fi / Bluetooth:</div>
+                            <div class="spec-value">Wi-Fi 6E, Bluetooth 5.3</div>
+                        </div>
+                    </div>
+
+                    <div class="spec-category" data-category="battery">
+                        Pin & Bàn phím
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Dung lượng pin:</div>
+                            <div class="spec-value">57Wh</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Thời lượng sử dụng:</div>
+                            <div class="spec-value">~4–5 giờ (văn phòng), ~1.5–2 giờ (gaming)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Bàn phím:</div>
+                            <div class="spec-value">RGB 4 vùng, hành trình phím 1.5mm</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tản nhiệt:</div>
+                            <div class="spec-value">2 quạt + 5 ống dẫn nhiệt, công nghệ CoolBoost</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Giới thiệu Acer Nitro 17 (2024)</h3>
+                <p>Acer Nitro 17 2024 là laptop gaming cỡ lớn, mạnh mẽ, trang bị CPU Intel thế hệ 13 và GPU RTX 4060, tối ưu cho chơi game AAA, đồ họa và render video.</p>
+                <p>Màn hình QHD 165Hz cho trải nghiệm mượt mà, màu sắc chính xác. Hệ thống tản nhiệt hiệu quả giữ máy luôn mát dù load nặng. Bàn phím RGB 4 vùng giúp cá nhân hóa phong cách.</p>
+                <p>Lý tưởng cho game thủ, sinh viên kỹ thuật, designer cần hiệu năng cao với mức giá hợp lý.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Acer Nitro 17 2024</h1>
+
+            <div class="promo-banners">
+                <div class="promo-banner">TẶNG BALO + CHUỘT GAMING</div>
+                <div class="promo-banner">TRẢ GÓP 0% – DUYỆT NHANH TRONG 15 PHÚT</div>
+            </div>
+
+            <!-- Storage Options -->
+            <div class="storage-options">
+                <button class="storage-btn active">16GB RAM / 1TB SSD</button>
+                <button class="storage-btn">32GB RAM / 2TB SSD</button>
+            </div>
+
+            <!-- Color Options -->
+            <div class="color-options">
+                <button class="color-btn active">
+                    <span class="color-dot" style="background: #333;"></span> Đen đỏ (Mặc định)
+                </button>
+            </div>
+
+            <div class="price-info">
+                <div class="price-label">Giá bán lẻ đề xuất</div>
+                <div class="price">28.990.000đ</div>
+                <div class="stock-status">CÒN HÀNG – GIAO NGAY</div>
+            </div>
+
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                
+                <button style="
+                    padding: 14px 20px;
+                    background: #d9534f;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(217, 83, 79, 0.3);
+                " onmouseover="this.style.background='#c9302c'" onmouseout="this.style.background='#d9534f'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+
+            <div class="warranty-info">
+                Bảo hành chính hãng 2 năm toàn quốc<br>
+                <a href="#" style="color: #d9534f; text-decoration: underline;">Xem trung tâm bảo hành</a>
+            </div>
+
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Hỗ trợ kỹ thuật: <strong>1900 1234</strong> (8:00 – 22:00)
+            </div>
+
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Sản phẩm thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Balo" alt="Balo" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Balo Acer Gaming Nitro</div>
+                        <div class="product-price">490.000đ</div>
+                        <div class="product-old-price">790.000đ</div>
+                        <div class="product-discount">-38%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 3.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Chu%E1%BB%99t" alt="Chuột" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Chuột Gaming Acer P650</div>
+                        <div class="product-price">650.000đ</div>
+                        <div class="product-old-price">990.000đ</div>
+                        <div class="product-discount">-34%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.9 • Đã bán 8.7k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=T%E1%BA%A3n+nhi%E1%BB%87t" alt="Tản nhiệt" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Đế tản nhiệt Acer CoolBoost</div>
+                        <div class="product-price">890.000đ</div>
+                        <div class="product-discount">Mới</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 1.5k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cập nhật dữ liệu cho laptop gaming
+        const priceByStorage = {
+            "16GB RAM / 1TB SSD": 28990000,
+            "32GB RAM / 2TB SSD": 33990000
+        };
+
+        function formatPrice(price) {
+            return price.toLocaleString('vi-VN') + 'đ';
+        }
+
+        // Ảnh sản phẩm (dùng hình thật từ Acer)
+       const imageUrls = [
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-1-638754929163211657-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-2-638754929175088256-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-3-638754929181722741-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-4-638754929190402552-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-5-638754929197118078-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-6-638754929203072930-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-7-638754929209471665-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-8-638754929219260975-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-9-638754929227346232-750x500.jpg",
+  "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/333430/acer-nitro-v-15-anv15-41-r2up-r5-nhqpgsv004-13-638754929259223162-750x500.jpg"
+];
+
+
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const storageBtns = document.querySelectorAll('.storage-btn');
+        const colorBtns = document.querySelectorAll('.color-btn');
+
+        let currentImageIndex = 0;
+
+        function updateMainImage(index) {
+            mainImage.src = imageUrls[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.length) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+            updateMainImage(currentImageIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                updateMainImage(currentImageIndex);
+            });
+        });
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        storageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                storageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const config = btn.textContent.trim();
+                const newPrice = priceByStorage[config];
+                if (newPrice) {
+                    document.querySelector('.price').textContent = formatPrice(newPrice);
+                }
+            });
+        });
+
+        // Màu sắc: chỉ có 1 lựa chọn, nên không thay đổi ảnh
+        colorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                colorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Giỏ hàng
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const productName = "Acer Nitro 17 2024";
+            const config = document.querySelector('.storage-btn.active')?.textContent.trim() || "16GB RAM / 1TB SSD";
+            const priceText = document.querySelector('.price')?.textContent || "28.990.000đ";
+            const price = parseInt(priceText.replace(/\D/g, ''));
+
+            const product = {
+                id: "acer-nitro-17-2024",
+                name: productName,
+                config: config,
+                price: price,
+                image: mainImage.src,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existing = cart.find(item => item.id === product.id && item.config === product.config);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n${productName}\nCấu hình: ${config}\nSố lượng: ${existing ? existing.quantity : 1}`);
+            window.location.href = '../cart.html';
+        });
+
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            alert('🚀 TÍNH NĂNG ĐANG ĐƯỢC PHÁT TRIỂN\nVui lòng sử dụng "THÊM VÀO GIỎ HÀNG"!');
+        });
+    </script>
+</body>
+</html>

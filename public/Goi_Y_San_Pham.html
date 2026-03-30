@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gợi ý sản phẩm phù hợp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #007bff;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .option-btn {
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-btn:hover, .option-btn.selected {
+            border-color: #007bff;
+            background: #f0f8ff;
+            font-weight: bold;
+        }
+        .btn-nav {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-next {
+            background: #007bff;
+            color: white;
+        }
+        .btn-reset {
+            background: #28a745;
+            color: white;
+            margin-top: 15px;
+        }
+        .result-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        .result-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .result-info h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .result-info .price {
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+        .result-info .reason {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .back-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-lightbulb"></i> GỢI Ý SẢN PHẨM PHÙ HỢP</h1>
+
+        <!-- Bước 1: Vai trò -->
+        <div id="step1" class="step active">
+            <h2>Công việc/học tập hiện tại của bạn là gì?</h2>
+            <div class="options" id="role-options">
+                <div class="option-btn" data-role="student">Sinh viên</div>
+                <div class="option-btn" data-role="office">Văn phòng</div>
+                <div class="option-btn" data-role="gamer">Game thủ</div>
+                <div class="option-btn" data-role="photographer">Nhiếp ảnh</div>
+                <div class="option-btn" data-role="business">Doanh nhân</div>
+            </div>
+            <div class="btn-nav">
+                <div></div>
+                <button class="btn btn-next" onclick="nextStep(1)">Tiếp theo</button>
+            </div>
+        </div>
+
+        <!-- Bước 2: Sở thích (chọn nhiều) -->
+        <div id="step2" class="step">
+            <h2>Bạn quan tâm đến những tính năng nào? (Chọn nhiều)</h2>
+            <div class="options" id="hobby-options"></div>
+            <div class="btn-nav">
+                <button class="btn btn-prev" onclick="prevStep(2)">Quay lại</button>
+                <button class="btn btn-next" onclick="nextStep(2)">Tiếp theo</button>
+            </div>
+        </div>
+
+        <!-- Bước 3: Mức giá -->
+        <div id="step3" class="step">
+            <h2>Mức giá bạn quan tâm?</h2>
+            <div class="options">
+                <div class="option-btn" data-price="low">Giá thấp (< 5 triệu)</div>
+                <div class="option-btn" data-price="medium">Trung bình (5–15 triệu)</div>
+                <div class="option-btn" data-price="high">Cao (> 15 triệu)</div>
+            </div>
+            <div class="btn-nav">
+                <button class="btn btn-prev" onclick="prevStep(3)">Quay lại</button>
+                <button class="btn btn-next" onclick="nextStep(3)">Xem gợi ý</button>
+            </div>
+        </div>
+
+        <!-- Bước 4: Kết quả -->
+        <div id="step4" class="step">
+            <h2>Đây là sản phẩm phù hợp với bạn!</h2>
+            <div id="result-list"></div>
+            <button class="btn btn-reset" onclick="resetForm()">Chọn lại</button>
+        </div>
+
+        <a href="../public/index.html" class="back-home">← Quay lại trang chủ</a>
+    </div>
+
+    <script>
+        let userSelection = {
+            role: null,
+            hobbies: [],
+            priceRange: null // 'low', 'medium', 'high'
+        };
+
+        const hobbiesByRole = {
+            student: ["Chơi game", "Học online", "Chụp ảnh", "Pin trâu"],
+            office: ["Làm việc đa nhiệm", "Họp online", "Màn hình đẹp"],
+            gamer: ["Chơi game nặng", "Màn hình 120Hz+", "Tản nhiệt tốt"],
+            photographer: ["Camera chính 50MP+", "Chụp đêm tốt", "Zoom quang học"],
+            business: ["Bảo mật cao", "Gọi video rõ", "Thiết kế sang trọng"]
+        };
+
+        // Hàm chuyển giá tiền thành số
+        function parsePrice(priceStr) {
+            return parseInt(priceStr.replace(/[₫.,]/g, ''));
+        }
+
+        // Dữ liệu sản phẩm có mức giá cụ thể
+        const productDatabase = {
+            student: [
+                {
+                    name: "Realme Narzo N53",
+                    price: "3.490.000₫",
+                    image: "https://cdn.kalvo.com/uploads/img/gallery/51763-realme-narzo-n53-1.jpg",
+                    features: ["Chơi game", "Pin trâu"],
+                    reason: "Giá siêu tốt, pin 5000mAh – phù hợp sinh viên."
+                },
+                {
+                    name: "Xiaomi Redmi Note 12",
+                    price: "4.790.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/_/7/_76666_6__4_2.jpg",
+                    features: ["Học online", "Màn hình đẹp"],
+                    reason: "Màn hình AMOLED 120Hz – lý tưởng cho học tập."
+                },
+                {
+                    name: "iPhone 14",
+                    price: "16.990.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-14_2_1.jpg",
+                    features: ["Chụp ảnh", "Thiết kế sang trọng"],
+                    reason: "Camera xuất sắc, phù hợp sinh viên yêu nhiếp ảnh."
+                }
+            ],
+            office: [
+                {
+                    name: "Samsung Galaxy A54",
+                    price: "8.490.000₫",
+                    image: "https://cdn.viettablet.com/images/detailed/59/samsung-galaxy-a54-5g.jpg",
+                    features: ["Làm việc đa nhiệm", "Pin tốt"],
+                    reason: "Hiệu năng ổn định, pin 5000mAh – lý tưởng cho văn phòng."
+                },
+                {
+                    name: "iPhone 15 Pro",
+                    price: "21.990.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_2__5_2_1_1.jpg",
+                    features: ["Gọi video rõ", "Bảo mật cao"],
+                    reason: "Face ID an toàn, mic chống ồn – hoàn hảo cho họp online."
+                }
+            ],
+            gamer: [
+                {
+                    name: "ASUS ROG Phone 8",
+                    price: "25.990.000₫",
+                    image: "https://cdn.mobilecity.vn/mobilecity-vn/images/2024/01/asus-rog-phone-8-den.jpg.webp",
+                    features: ["Chơi game nặng", "Tản nhiệt tốt", "Màn hình 120Hz+"],
+                    reason: "Chip Snapdragon 8 Gen 3 – cỗ máy chiến game đỉnh cao."
+                },
+                {
+                    name: "Redmi Note 13 Pro",
+                    price: "6.990.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-note-13-pro-4g_13__1.png",
+                    features: ["Chơi game", "Màn hình 120Hz+"],
+                    reason: "Hiệu năng tốt trong tầm giá – phù hợp game thủ phổ thông."
+                }
+            ],
+            photographer: [
+                {
+                    name: "Samsung S24 Ultra",
+                    price: "28.990.000₫",
+                    image: "https://product.hstatic.net/1000379731/product/anh_viber_2024-01-18_16-58-45_03baa2e699ef41d890c2ad20f6f9a065.jpg",
+                    features: ["Camera chính 50MP+", "Chụp đêm tốt", "Zoom quang học"],
+                    reason: "Camera 200MP, zoom 5x – công cụ chuyên nghiệp cho nhiếp ảnh."
+                },
+                {
+                    name: "iPhone 15 Pro Max",
+                    price: "32.990.000₫",
+                    features: ["Chụp đêm tốt", "Chụp ảnh"],
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_2__5_2_1_1.jpg",
+                    reason: "Chế độ Night Mode xuất sắc, màu sắc trung thực."
+                }
+            ],
+            business: [
+                {
+                    name: "iPhone 16 Pro Max",
+                    price: "32.990.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-16-pro_1.png",
+                    features: ["Bảo mật cao", "Gọi video rõ", "Thiết kế sang trọng"],
+                    reason: "Face ID an toàn, thiết kế titanium – biểu tượng đẳng cấp."
+                },
+                {
+                    name: "Samsung Galaxy S25+",
+                    price: "22.990.000₫",
+                    image: "https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/d/i/dien-thoai-samsung-galaxy-s25-plus_2_.png",
+                    features: ["Gọi video rõ", "Bảo mật cao"],
+                    reason: "Knox bảo mật cao, phù hợp doanh nhân."
+                }
+            ]
+        };
+        // === STEP 1: Chọn vai trò ===
+        document.querySelectorAll('#role-options .option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#role-options .option-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                userSelection.role = this.getAttribute('data-role');
+            });
+        });
+
+        // === STEP 2: Chọn sở thích (nhiều) ===
+        function setupHobbySelection() {
+            const container = document.getElementById('hobby-options');
+            container.innerHTML = '';
+            const hobbies = hobbiesByRole[userSelection.role] || [];
+            hobbies.forEach(hobby => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                btn.textContent = hobby;
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    const isSelected = this.classList.contains('selected');
+                    if (isSelected) {
+                        if (!userSelection.hobbies.includes(hobby)) userSelection.hobbies.push(hobby);
+                    } else {
+                        userSelection.hobbies = userSelection.hobbies.filter(h => h !== hobby);
+                    }
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        // === STEP 3: Chọn mức giá ===
+        document.querySelectorAll('#step3 .option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('#step3 .option-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                userSelection.priceRange = this.getAttribute('data-price');
+            });
+        });
+
+        // === Điều hướng bước ===
+        function nextStep(currentStep) {
+            if (currentStep === 1) {
+                if (!userSelection.role) return alert("Vui lòng chọn vai trò!");
+                userSelection.hobbies = [];
+                setupHobbySelection();
+                showStep(2);
+            } else if (currentStep === 2) {
+                if (userSelection.hobbies.length === 0) return alert("Vui lòng chọn ít nhất 1 sở thích!");
+                showStep(3);
+            } else if (currentStep === 3) {
+                if (!userSelection.priceRange) return alert("Vui lòng chọn mức giá!");
+                showResult();
+                showStep(4);
+            }
+        }
+
+        function prevStep(currentStep) {
+            showStep(currentStep - 1);
+        }
+
+        function showStep(stepNum) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`step${stepNum}`).classList.add('active');
+        }
+
+        // === LỌC VÀ HIỂN THỊ KẾT QUẢ ===
+        function showResult() {
+            const products = productDatabase[userSelection.role] || [];
+            const { hobbies, priceRange } = userSelection;
+
+            // Xác định ngưỡng giá
+            let minPrice = 0, maxPrice = Infinity;
+            if (priceRange === 'low') {
+                maxPrice = 5_000_000;
+            } else if (priceRange === 'medium') {
+                minPrice = 5_000_000;
+                maxPrice = 15_000_000;
+            } else if (priceRange === 'high') {
+                minPrice = 15_000_000;
+            }
+
+            // Lọc sản phẩm
+            const matched = products.filter(p => {
+                const priceNum = parsePrice(p.price);
+                const inPriceRange = priceNum >= minPrice && priceNum <= maxPrice;
+                const matchHobby = hobbies.some(h => p.features.includes(h));
+                return inPriceRange && matchHobby;
+            });
+
+            const resultContainer = document.getElementById('result-list');
+            if (matched.length === 0) {
+                resultContainer.innerHTML = '<p>Không tìm thấy sản phẩm phù hợp với lựa chọn của bạn.</p>';
+                return;
+            }
+
+            resultContainer.innerHTML = matched.map(p => `
+                <div class="result-item">
+                    <img src="${p.image}" alt="${p.name}" class="result-image">
+                    <div class="result-info">
+                        <h3>${p.name}</h3>
+                        <div class="price">${p.price}</div>
+                        <div class="reason"><strong>Lý do phù hợp:</strong> ${p.reason}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function resetForm() {
+            userSelection = { role: null, hobbies: [], priceRange: null };
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            showStep(1);
+        }
+    </script>
+</body>
+</html>

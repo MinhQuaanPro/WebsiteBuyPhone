@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Nhiệm vụ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 20px;
+            color: #2a9d8f;
+        }
+        
+        .logo i {
+            color: #e63946;
+        }
+        
+        /* Button Group */
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-login {
+            background: #e63946;
+            color: white;
+        }
+        
+        .btn-register {
+            background: #2a9d8f;
+            color: white;
+        }
+        
+        .btn-logout {
+            background: #e63946;
+            color: white;
+        }
+        
+        .btn-tasks {
+            background: #2a9d8f;
+            color: white;
+        }
+        
+        .header-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* User Card */
+        .user-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #e63946;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 36px;
+        }
+        
+        .user-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .user-status {
+            color: #2a9d8f;
+            margin-bottom: 15px;
+        }
+        
+        .user-points {
+            font-size: 18px;
+            color: #2a9d8f;
+            font-weight: bold;
+            margin: 15px 0;
+            padding: 10px 20px;
+            background: #e6f7ee;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        /* Tasks Section */
+        .tasks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .task-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e6f7ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: #2a9d8f;
+            font-size: 24px;
+        }
+        
+        .task-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .task-points {
+            font-weight: bold;
+            color: #e63946;
+            font-size: 16px;
+        }
+        
+        /* Voucher Section */
+        .voucher-section {
+            background: #e6f7ee;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .voucher-title {
+            font-size: 18px;
+            color: #2a9d8f;
+            margin-bottom: 15px;
+        }
+        
+        .voucher-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #2a9d8f;
+            color: white;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .voucher-btn:hover {
+            background: #218874;
+            transform: scale(1.05);
+        }
+        
+        /* Hidden state */
+        .hidden {
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tasks-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .header-btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.btn-login {
+    background: #e63946;
+    color: white;
+}
+
+.btn-register {
+    background: #2a9d8f;
+    color: white;
+}
+
+.btn-logout {
+    background: #e63946;
+    color: white;
+}
+
+.btn-tasks {
+    background: #2a9d8f;
+    color: white;
+}
+
+.header-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Badge cập nhật mới - góc trên phải */
+.update-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e63946;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: blinkBadge 1.2s infinite;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Hiệu ứng chớp chớp */
+@keyframes blinkBadge {
+    0%, 50% { opacity: 1; transform: scale(1); }
+    51%, 100% { opacity: 0.4; transform: scale(0.9); }
+}
+
+/* Đảm bảo nút có position:relative để badge định vị đúng */
+.track-order-btn {
+    position: relative;
+    padding: 8px 15px 8px 15px !important;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header động -->
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <span>Hệ thống Nhiệm vụ</span>
+                </div>
+                <div class="header-buttons">
+                    <!-- Nút sẽ được tạo động bằng JavaScript -->
+                </div>
+            </div>
+        </header>
+
+        <!-- Khu vực người dùng (ẩn khi chưa đăng nhập) -->
+        <div id="user-section" class="user-card hidden">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2 class="user-name" id="user-name">Quân</h2>
+            <p class="user-status">Đăng nhập thành công!</p>
+            <div class="user-points" id="user-points">
+                Tổng điểm: 0 điểm
+            </div>
+        </div>
+
+        <!-- Nhiệm vụ của bạn -->
+        <div id="tasks-section" class="tasks-container hidden">
+            <div class="task-card">
+                <div class="task-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h3 class="task-title">Đăng ký tài khoản</h3>
+                <p class="task-points">+50 điểm</p>
+            </div>
+            <div class="task-card">
+                <div class="task-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <h3 class="task-title">Đăng nhập lần đầu</h3>
+                <p class="task-points">+10 điểm</p>
+            </div>
+            <div class="task-card">
+                <div class="task-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="task-title">Xem chi tiết điện thoại</h3>
+                <p class="task-points">+150 điểm</p>
+            </div>
+        </div>
+
+        <!-- Voucher Section -->
+        <div class="voucher-section">
+            <div class="voucher-title">Đổi voucher ngay</div>
+            <a href="exchange-voucher.html" class="voucher-btn">
+                <i class="fas fa-gift"></i> Đổi voucher
+            </a>
+        </div>
+    </div>
+
+   <script>
+    // DOM Elements
+    const headerButtons = document.querySelector('.header-buttons');
+    const userSection = document.getElementById('user-section');
+    const tasksSection = document.getElementById('tasks-section');
+    const userName = document.getElementById('user-name');
+    const userPoints = document.getElementById('user-points');
+    
+    // State
+    let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+    
+    // Cập nhật header dựa trên trạng thái đăng nhập
+    function updateHeader() {
+        headerButtons.innerHTML = '';
+
+
+        
+            // 🔹 NÚT TRANG CHỦ (luôn hiển thị)
+            const homeBtn = document.createElement('button');
+            homeBtn.textContent = 'Trang chủ';
+            homeBtn.className = 'header-btn btn-home';
+            homeBtn.addEventListener('click', () => {
+                window.location.href = '../index.html';
+            });
+            headerButtons.appendChild(homeBtn);
+        
+        if (currentUser) {
+            // Trạng thái ĐÃ ĐĂNG NHẬP
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Đăng xuất';
+            logoutBtn.className = 'header-btn btn-logout';
+            logoutBtn.addEventListener('click', () => {
+                currentUser = null;
+                localStorage.removeItem("currentUser");
+                updateHeader();
+                userSection.classList.add('hidden');
+                tasksSection.classList.remove('hidden'); // Sửa lỗi: tasks-section nên ẩn khi đăng xuất
+            });
+            
+
+
+
+                // Sau khi đã tạo tasksBtn và trước khi append logoutBtn
+
+                const cartBtn = document.createElement('button');
+                cartBtn.textContent = 'Giỏ hàng';
+                cartBtn.className = 'header-btn';
+                cartBtn.style.background = '#4a90e2';
+                cartBtn.style.color = 'white';
+                cartBtn.addEventListener('click', () => {
+                    window.location.href = '../SanPham/cart.html';
+                });
+                headerButtons.appendChild(cartBtn);
+
+                // const trackOrderBtn = document.createElement('button');
+                // trackOrderBtn.textContent = 'Theo dõi đơn';
+                // trackOrderBtn.className = 'header-btn';
+                // trackOrderBtn.style.background = '#f4a361';
+                // trackOrderBtn.style.color = 'white';
+                // trackOrderBtn.addEventListener('click', () => {
+                //     window.location.href = 'order-tracking.html';
+                // });
+                // headerButtons.appendChild(trackOrderBtn);
+                // Tạo nút "Theo dõi đơn" với badge "!" động
+                        const trackOrderBtn = document.createElement('button');
+                        trackOrderBtn.className = 'header-btn track-order-btn';
+                        trackOrderBtn.style.background = '#f4a361';
+                        trackOrderBtn.style.color = 'white';
+                        trackOrderBtn.innerHTML = 'Theo dõi đơn';
+
+                        // Kiểm tra có cập nhật mới không
+                        const lastOrderUpdate = localStorage.getItem('lastOrderUpdate');
+                        const lastSeenUpdate = localStorage.getItem('lastSeenOrderUpdate');
+                        const hasUpdate = lastOrderUpdate && (!lastSeenUpdate || new Date(lastOrderUpdate) > new Date(lastSeenUpdate));
+
+                        if (hasUpdate) {
+                            // Tạo badge "!" chớp chớp
+                            const badge = document.createElement('span');
+                            badge.className = 'update-badge';
+                            badge.textContent = '!';
+                            trackOrderBtn.appendChild(badge);
+                        }
+
+                        trackOrderBtn.addEventListener('click', () => {
+                            if (hasUpdate) {
+                                localStorage.setItem('lastSeenOrderUpdate', lastOrderUpdate);
+                            }
+                            window.location.href = 'order-tracking.html';
+                        });
+
+                        headerButtons.appendChild(trackOrderBtn);
+
+            const tasksBtn = document.createElement('button');
+            tasksBtn.textContent = 'Nhiệm vụ';
+            tasksBtn.className = 'header-btn btn-tasks';
+            tasksBtn.addEventListener('click', () => {
+                window.location.href = 'tasks.html';
+            });
+            
+            headerButtons.appendChild(logoutBtn);
+            headerButtons.appendChild(tasksBtn);
+            
+            // Cập nhật thông tin người dùng
+            userName.textContent = currentUser.username || 'Người dùng';
+            userPoints.textContent = `Tổng điểm: ${currentUser.points || 0} điểm`;
+            userSection.classList.remove('hidden');
+            tasksSection.classList.remove('hidden');
+        } else {
+            // Trạng thái CHƯA ĐĂNG NHẬP
+            const loginBtn = document.createElement('button');
+            loginBtn.textContent = 'Đăng nhập';
+            loginBtn.className = 'header-btn btn-login';
+            loginBtn.addEventListener('click', () => {
+                window.location.href = 'login.html';
+            });
+            
+            const registerBtn = document.createElement('button');
+            registerBtn.textContent = 'Đăng ký';
+            registerBtn.className = 'header-btn btn-register';
+            registerBtn.addEventListener('click', () => {
+                window.location.href = 'register.html';
+            });
+            
+            headerButtons.appendChild(loginBtn);
+            headerButtons.appendChild(registerBtn);
+            
+            // Ẩn khu vực người dùng
+            userSection.classList.add('hidden');
+            tasksSection.classList.add('hidden');
+        }
+    }
+    
+    // ✅ THÊM HÀM NÀY ĐỂ CẬP NHẬT THÔNG TIN SAU KHI ĐĂNG NHẬP
+    function handleLoginSuccess(loginData) {
+        if (loginData.user) {
+            const currentUser = {
+                username: loginData.user.username,
+                points: loginData.user.points || 0, // ✅ LẤY ĐIỂM TỪ SERVER
+                doneTasks: loginData.user.doneTasks || [],
+                token: loginData.token
+            };
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Cập nhật giao diện
+            updateHeader();
+        }
+    }
+    
+    // ✅ THÊM SỰ KIỆN CHECK URL PARAMS ĐỂ CẬP NHẬT SAU ĐĂNG NHẬP
+    function checkUrlParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginSuccess = urlParams.get('loginSuccess');
+        const userData = urlParams.get('userData');
+        
+        if (loginSuccess && userData) {
+            try {
+                const parsedData = JSON.parse(decodeURIComponent(userData));
+                handleLoginSuccess(parsedData);
+                // Xóa params khỏi URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } catch (e) {
+                console.error('Lỗi parse userData:', e);
+            }
+        }
+    }
+    
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kiểm tra URL params khi trang được tải
+        checkUrlParams();
+        updateHeader();
+    });
+    
+    // ✅ THÊM SỰ KIỆN THƯỜNG XUYÊN CHECK ĐĂNG NHẬP
+    setInterval(() => {
+        const storageUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (!currentUser && storageUser) {
+            currentUser = storageUser;
+            updateHeader();
+        } else if (currentUser && JSON.stringify(currentUser) !== JSON.stringify(storageUser)) {
+            currentUser = storageUser;
+            updateHeader();
+        }
+    }, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Watch Series 9 - 45mm | GPS</title>
+    <style>
+        /* Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        /* Main Product Section */
+        .product-main {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+        .image-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            margin-top: 10px;
+            overflow: hidden;
+            width: 690px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .image-thumbs:hover {
+            scrollbar-width: thin;
+        }
+        .image-thumbs::-webkit-scrollbar {
+            height: 8px;
+        }
+        .image-thumbs::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .image-thumbs::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+        .thumb-item {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .thumb-item.active {
+            border-color: #007bff;
+        }
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+        .nav-arrow {
+            background: rgba(255,255,255,0.7);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.9);
+        }
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .feature-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+        .feature-item p {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        /* Tabs Section */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .tab.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .tab-content {
+            padding: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            min-height: 200px;
+        }
+        .spec-section {
+            margin-top: 20px;
+        }
+        .spec-category {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .spec-category:hover {
+            background: #e9e9e9;
+        }
+        .spec-category::after {
+            content: '+';
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        .spec-category.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+        .spec-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 15px;
+            margin-bottom: 10px;
+        }
+        .spec-details.show {
+            max-height: 500px;
+            padding: 15px 15px 10px;
+        }
+        .spec-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .spec-label {
+            width: 30%;
+            font-weight: 600;
+            color: #007bff;
+        }
+        .spec-value {
+            width: 70%;
+        }
+        /* Product Info Section */
+        .product-info {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .promo-banners {
+            margin-bottom: 20px;
+        }
+        .promo-banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .size-options, .connectivity-options, .band-options {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .size-btn, .conn-btn, .band-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+        .size-btn:hover, .size-btn.active,
+        .conn-btn:hover, .conn-btn.active,
+        .band-btn:hover, .band-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .price-info {
+            margin: 20px 0;
+        }
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+        .stock-status {
+            color: #d9534f;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .warranty-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .contact-icon {
+            color: #007bff;
+            font-size: 18px;
+        }
+        /* Recently Viewed & Related Products */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+        }
+        .section-title h2 {
+            font-size: 18px;
+            color: #333;
+        }
+        .view-all-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .product-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+        .product-image-small {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            background: #f9f9f9;
+        }
+        .product-info-small {
+            padding: 10px;
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 5px 0;
+        }
+        .product-old-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+        .product-discount {
+            font-size: 14px;
+            color: #5cb85c;
+            font-weight: bold;
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .star {
+            color: #ffcc00;
+        }
+        .product-sold {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .product-image-container {
+                height: 300px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column: Product Main -->
+        <div class="product-main">
+            <!-- Product Image Carousel -->
+            <div class="product-image-container">
+                <img id="mainImage" src="https://cdn.tgdd.vn/Products/Images/7077/314708/Slider/apple-watch-s9-45mm-vien-nhom-day-silicone638317775164008314.png" alt="Apple Watch Series 9" class="product-image">
+                <div class="nav-arrows">
+                    <button class="nav-arrow" id="prevArrow">&lt;</button>
+                    <button class="nav-arrow" id="nextArrow">&gt;</button>
+                </div>
+            </div>
+            <!-- Thumbnail Images -->
+            <div class="image-thumbs">
+                <div class="thumb-item active">
+                    <img src="https://cdn.tgdd.vn/Products/Images/7077/314708/apple-watch-s9-45mm-vien-nhom-day-silicone-trang-starlight-1-750x500.jpg" alt="Midnight">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/7077/314708/apple-watch-s9-45mm-vien-nhom-day-silicone-trang-starlight-2-750x500.jpg" alt="Starlight">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF63_VW_34FR+watch-45-alu-silver-nc-se_VW_34FR_WL_CO?wid=120&hei=120" alt="Silver">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF93_VW_34FR+watch-45-alu-pink-nc-se_VW_34FR_WL_CO?wid=120&hei=120" alt="Pink">
+                </div>
+                <div class="thumb-item">
+                    <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQFA3_VW_34FR+watch-45-alu-blue-nc-se_VW_34FR_WL_CO?wid=120&hei=120" alt="Blue">
+                </div>
+            </div>
+            <!-- Product Features Grid -->
+            <div class="product-features">
+                <div class="feature-item">
+                    <h4>Màn hình Always-On</h4>
+                    <p>Retina LTPO OLED</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chip S9 Siêu nhanh</h4>
+                    <p>Hiệu năng vượt trội</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Cảm biến nhịp tim</h4>
+                    <p>Theo dõi sức khỏe 24/7</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Chống nước 50m</h4>
+                    <p>Hoàn hảo cho bơi lội</p>
+                </div>
+                <div class="feature-item">
+                    <h4>GPS & Cellular</h4>
+                    <p>Kết nối mọi lúc</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Pin ~18 giờ</h4>
+                    <p>Sử dụng cả ngày</p>
+                </div>
+                <div class="feature-item">
+                    <h4>watchOS 10</h4>
+                    <p>Hệ điều hành mượt mà</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Phát hiện té ngã</h4>
+                    <p>Bảo vệ an toàn</p>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="specs">Thông số kỹ thuật</div>
+                <div class="tab" data-tab="info">Thông tin sản phẩm</div>
+            </div>
+            <!-- Tab Content -->
+            <div class="tab-content" id="specsContent">
+                <div class="spec-section">
+                    <div class="spec-category" data-category="system">
+                        Cấu hình & Hiệu năng
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Hệ điều hành:</div>
+                            <div class="spec-value">watchOS 10</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Chip xử lý:</div>
+                            <div class="spec-value">Apple S9 Siêu chip</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">RAM:</div>
+                            <div class="spec-value">2 GB</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Bộ nhớ trong:</div>
+                            <div class="spec-value">64 GB</div>
+                        </div>
+                    </div>
+                    <div class="spec-category" data-category="display">
+                        Màn hình
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Loại màn hình:</div>
+                            <div class="spec-value">Always-On Retina LTPO OLED</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước (45mm):</div>
+                            <div class="spec-value">45 mm (396 x 484 pixels)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Độ sáng tối đa:</div>
+                            <div class="spec-value">2000 nits</div>
+                        </div>
+                    </div>
+                    <div class="spec-category" data-category="battery">
+                        Pin & Sạc
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Thời lượng pin:</div>
+                            <div class="spec-value">~18 giờ</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Sạc:</div>
+                            <div class="spec-value">Sạc từ tính, không hỗ trợ sạc nhanh</div>
+                        </div>
+                    </div>
+                    <div class="spec-category" data-category="connectivity">
+                        Kết nối
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Wi-Fi:</div>
+                            <div class="spec-value">Wi-Fi 6 (802.11ax)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Bluetooth:</div>
+                            <div class="spec-value">5.3</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">GPS:</div>
+                            <div class="spec-value">Có</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Cellular:</div>
+                            <div class="spec-value">Có (phiên bản Cellular)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">NFC:</div>
+                            <div class="spec-value">Có (Apple Pay)</div>
+                        </div>
+                    </div>
+                    <div class="spec-category" data-category="sensors">
+                        Cảm biến
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Cảm biến:</div>
+                            <div class="spec-value">Nhịp tim, SpO2, ECG, Gia tốc kế, Con quay hồi chuyển, Cảm biến ánh sáng</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Chống nước:</div>
+                            <div class="spec-value">WR50 (50 mét)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Phát hiện té ngã:</div>
+                            <div class="spec-value">Có</div>
+                        </div>
+                    </div>
+                    <div class="spec-category" data-category="design">
+                        Thiết kế
+                    </div>
+                    <div class="spec-details">
+                        <div class="spec-row">
+                            <div class="spec-label">Vật liệu:</div>
+                            <div class="spec-value">Nhôm anod hóa (màu sắc), thép không gỉ, titanium (tuỳ phiên bản)</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Kích thước:</div>
+                            <div class="spec-value">45mm hoặc 41mm</div>
+                        </div>
+                        <div class="spec-row">
+                            <div class="spec-label">Tương thích dây đeo:</div>
+                            <div class="spec-value">Tất cả dây đeo Apple Watch Series 9 & trước đó</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="infoContent" style="display: none;">
+                <h3>Thông tin sản phẩm Apple Watch Series 9</h3>
+                <p>Apple Watch Series 9 là chiếc đồng hồ thông minh mạnh mẽ nhất từ trước đến nay của Apple, trang bị chip S9 mới, màn hình Always-On sáng hơn, và nhiều tính năng sức khỏe tiên tiến.</p>
+                <p>Với khả năng theo dõi nhịp tim, SpO2, phát hiện té ngã và gọi khẩn cấp, Apple Watch Series 9 là người bạn đồng hành lý tưởng cho cuộc sống năng động và an toàn.</p>
+                <p>Phiên bản GPS + Cellular cho phép bạn gọi điện, nhắn tin, nghe nhạc mà không cần mang theo iPhone.</p>
+            </div>
+        </div>
+        <!-- Right Column: Product Info -->
+        <div class="product-info">
+            <h1>Apple Watch Series 9</h1>
+            <!-- Promo Banners -->
+            <div class="promo-banners">
+                <div class="promo-banner">Giảm đến 1.000.000đ</div>
+                <div class="promo-banner">Trả góp 0% - Lên đến 6 tháng</div>
+            </div>
+            <!-- Size Options -->
+            <div class="size-options">
+                <button class="size-btn active">45mm</button>
+                <button class="size-btn">41mm</button>
+            </div>
+            <!-- Connectivity Options -->
+            <div class="connectivity-options">
+                <button class="conn-btn active">GPS</button>
+                <button class="conn-btn">GPS + Cellular</button>
+            </div>
+            <!-- Band Color Options -->
+            <div class="band-options">
+                <button class="band-btn active" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF73_VW_34FR+watch-45-alu-midnight-nc-se_VW_34FR_WL_CO?wid=1200&hei=1200">
+                    <span class="color-dot" style="background: #121212;"></span> Midnight
+                </button>
+                <button class="band-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF53_VW_34FR+watch-45-alu-starlight-nc-se_VW_34FR_WL_CO?wid=1200&hei=1200">
+                    <span class="color-dot" style="background: #f8f4e5;"></span> Starlight
+                </button>
+                <button class="band-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF63_VW_34FR+watch-45-alu-silver-nc-se_VW_34FR_WL_CO?wid=1200&hei=1200">
+                    <span class="color-dot" style="background: #d3d7da;"></span> Silver
+                </button>
+                <button class="band-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQF93_VW_34FR+watch-45-alu-pink-nc-se_VW_34FR_WL_CO?wid=1200&hei=1200">
+                    <span class="color-dot" style="background: #f4c3d0;"></span> Pink
+                </button>
+                <button class="band-btn" data-image="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQFA3_VW_34FR+watch-45-alu-blue-nc-se_VW_34FR_WL_CO?wid=1200&hei=1200">
+                    <span class="color-dot" style="background: #a7c7e7;"></span> Blue
+                </button>
+            </div>
+            <!-- Price & Stock -->
+            <div class="price-info">
+                <div class="price-label">Giá tại Thành phố Hồ Chí Minh</div>
+                <div class="price">12.990.000đ</div>
+                <div class="stock-status">CÒN HÀNG</div>
+            </div>
+            <!-- Action Buttons -->
+            <div class="action-buttons" style="margin: 25px 0; display: flex; gap: 12px; flex-direction: column;">
+                <button style="
+                    padding: 14px 20px;
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+                " onmouseover="this.style.background='#218838'" onmouseout="this.style.background='#28a745'">
+                    <i class="fas fa-cart-plus" style="font-size: 20px;"></i>
+                    THÊM VÀO GIỎ HÀNG
+                </button>
+                <button style="
+                    padding: 14px 20px;
+                    background: #dc3545;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
+                " onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+                    <i class="fas fa-bolt" style="font-size: 20px;"></i>
+                    MUA NGAY
+                </button>
+            </div>
+            <!-- Warranty Info -->
+            <div class="warranty-info">
+                Bảo hành chính hãng 1 năm tại Apple Việt Nam
+                <br><a href="#" style="color: #007bff; text-decoration: underline;">Xem địa chỉ bảo hành</a>
+            </div>
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <span class="contact-icon">📞</span>
+                Liên hệ <strong>1900 232 460</strong> để được tư vấn (8:00 - 21:30)
+            </div>
+            <!-- Related Products -->
+            <div class="section-title">
+                <h2>Sản phẩm thường mua cùng</h2>
+                <a href="#" class="view-all-link">Xem tất cả</a>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Dây+đeo" alt="Dây đeo" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Dây đeo Sport Loop</div>
+                        <div class="product-price">990.000đ</div>
+                        <div class="product-old-price">1.290.000đ</div>
+                        <div class="product-discount">-23%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.8 • Đã bán 8.2k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Bảo+vệ" alt="Bảo vệ" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Kính cường lực AW</div>
+                        <div class="product-price">150.000đ</div>
+                        <div class="product-old-price">250.000đ</div>
+                        <div class="product-discount">-40%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.7 • Đã bán 3.1k</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150x150?text=Sạc" alt="Sạc" class="product-image-small">
+                    <div class="product-info-small">
+                        <div class="product-name">Sạc Apple Watch</div>
+                        <div class="product-price">790.000đ</div>
+                        <div class="product-old-price">890.000đ</div>
+                        <div class="product-discount">-11%</div>
+                        <div class="product-rating"><span class="star">★</span> 4.9 • Đã bán 12.4k</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // DOM Elements
+        const mainImage = document.getElementById('mainImage');
+        const thumbItems = document.querySelectorAll('.thumb-item');
+        const prevArrow = document.getElementById('prevArrow');
+        const nextArrow = document.getElementById('nextArrow');
+        const tabs = document.querySelectorAll('.tab');
+        const specsContent = document.getElementById('specsContent');
+        const infoContent = document.getElementById('infoContent');
+        const specCategories = document.querySelectorAll('.spec-category');
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        const connBtns = document.querySelectorAll('.conn-btn');
+        const bandBtns = document.querySelectorAll('.band-btn');
+
+        // Bảng giá (đơn vị: VNĐ)
+        const priceConfig = {
+            "45mm-GPS": 12990000,
+            "45mm-GPS+Cellular": 14990000,
+            "41mm-GPS": 11990000,
+            "41mm-GPS+Cellular": 13990000
+        };
+
+        function getCurrentConfig() {
+            const size = document.querySelector('.size-btn.active')?.textContent || '45mm';
+            const conn = document.querySelector('.conn-btn.active')?.textContent || 'GPS';
+            return `${size}-${conn}`;
+        }
+
+        function updatePrice() {
+            const config = getCurrentConfig();
+            const price = priceConfig[config] || 12990000;
+            document.querySelector('.price').textContent = price.toLocaleString('vi-VN') + 'đ';
+        }
+
+        function formatPrice(price) {
+            return price.toLocaleString('vi-VN') + 'đ';
+        }
+
+        // Thumb navigation
+        let currentThumbIndex = 0;
+        const thumbImages = Array.from(thumbItems).map(item => item.querySelector('img').src.replace('120&hei=120', '1200&hei=1200'));
+
+        function updateMainFromThumb(index) {
+            mainImage.src = thumbImages[index];
+            thumbItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            currentThumbIndex = index;
+        }
+
+        prevArrow.addEventListener('click', () => {
+            currentThumbIndex = (currentThumbIndex - 1 + thumbImages.length) % thumbImages.length;
+            updateMainFromThumb(currentThumbIndex);
+        });
+
+        nextArrow.addEventListener('click', () => {
+            currentThumbIndex = (currentThumbIndex + 1) % thumbImages.length;
+            updateMainFromThumb(currentThumbIndex);
+        });
+
+        thumbItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                updateMainFromThumb(index);
+            });
+        });
+
+        // Tab switching
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (tab.dataset.tab === 'specs') {
+                    specsContent.style.display = 'block';
+                    infoContent.style.display = 'none';
+                } else {
+                    specsContent.style.display = 'none';
+                    infoContent.style.display = 'block';
+                }
+            });
+        });
+
+        // Accordion specs
+        specCategories.forEach(category => {
+            category.addEventListener('click', () => {
+                const details = category.nextElementSibling;
+                const isActive = category.classList.contains('active');
+                specCategories.forEach(cat => {
+                    cat.classList.remove('active');
+                    cat.nextElementSibling.classList.remove('show');
+                });
+                if (!isActive) {
+                    category.classList.add('active');
+                    details.classList.add('show');
+                }
+            });
+        });
+
+        // Size, connectivity, band selection
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updatePrice();
+            });
+        });
+
+        connBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                connBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updatePrice();
+            });
+        });
+
+        bandBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                bandBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const newImage = btn.getAttribute('data-image');
+                if (newImage) mainImage.src = newImage;
+                // Cập nhật thumbnail đầu tiên
+                thumbItems[0].querySelector('img').src = newImage.replace('1200&hei=1200', '120&hei=120');
+            });
+        });
+
+        // Add to Cart
+        document.querySelector('.action-buttons button:first-child').addEventListener('click', function() {
+            const productName = "Apple Watch Series 9";
+            const size = document.querySelector('.size-btn.active')?.textContent || '45mm';
+            const conn = document.querySelector('.conn-btn.active')?.textContent || 'GPS';
+            const colorBtn = document.querySelector('.band-btn.active');
+            const color = colorBtn?.textContent.trim() || 'Midnight';
+            const priceText = document.querySelector('.price')?.textContent || "12.990.000đ";
+            const price = parseInt(priceText.replace(/\D/g, ''));
+            const image = mainImage.src;
+
+            const productId = `apple-watch-s9-${size.toLowerCase()}-${conn.replace('+', '-').toLowerCase()}-${color.toLowerCase().replace(/\s+/g, '-')}`;
+
+            const product = {
+                id: productId,
+                name: productName,
+                size: size,
+                connectivity: conn,
+                color: color,
+                price: price,
+                image: image,
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingIndex = cart.findIndex(item => item.id === productId);
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`✅ ĐÃ THÊM VÀO GIỎ!\n- ${productName}\n- Kích cỡ: ${size}\n- Kết nối: ${conn}\n- Màu: ${color}`);
+            window.location.href = '../cart.html';
+        });
+
+        // Buy Now
+        document.querySelector('.action-buttons button:last-child').addEventListener('click', function() {
+            const productName = "Apple Watch Series 9";
+            const size = document.querySelector('.size-btn.active')?.textContent || '45mm';
+            const conn = document.querySelector('.conn-btn.active')?.textContent || 'GPS';
+            const colorBtn = document.querySelector('.band-btn.active');
+            const color = colorBtn?.textContent.trim() || 'Midnight';
+            const priceText = document.querySelector('.price')?.textContent || "12.990.000đ";
+            const price = parseInt(priceText.replace(/\D/g, '')) || 12990000;
+            const image = mainImage.src;
+
+            const productId = `apple-watch-s9-${size.toLowerCase()}-${conn.replace('+', '-').toLowerCase()}-${color.toLowerCase().replace(/\s+/g, '-')}`;
+
+            const product = {
+                id: productId,
+                name: productName,
+                size: size,
+                connectivity: conn,
+                color: color,
+                price: price,
+                image: image,
+                quantity: 1
+            };
+
+            localStorage.setItem('buyNowProduct', JSON.stringify(product));
+            window.location.href = '../cart.html?buyNow=1';
+        });
+
+        // Init
+        updatePrice();
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách sản phẩm</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f8f8f8; text-align:center; padding:20px;}
+.container { max-width:900px; margin:auto;}
+.product-list { display:flex; flex-wrap:wrap; justify-content:center; padding:0; list-style:none;}
+.product-item { width:150px; margin:10px; padding:10px; border:1px solid #ccc; border-radius:8px; cursor:pointer; background:#fff; transition:0.3s;}
+.product-item:hover { box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.product-item img { width:100%; border-radius:5px; }
+.product-item p { margin:5px 0 0 0; font-weight:bold; }
+
+/* Popup chi tiết sản phẩm */
+#detail-popup { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
+.detail-content { background:white; padding:20px; border-radius:8px; width:90%; max-width:800px; text-align:left; position:relative;}
+.close-btn { position:absolute; top:10px; right:10px; cursor:pointer; font-weight:bold; font-size:20px; }
+.detail-img { float:left; width:45%; margin-right:20px; }
+.detail-img img { width:100%; border-radius:5px; }
+.detail-info { float:left; width:50%; }
+.clearfix { clear:both; }
+.detail-info h2 { margin-top:0; }
+.detail-info p { margin:5px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Danh sách sản phẩm</h1>
+<ul class="product-list" id="product-list"></ul>
+<a href="index_user.html"><button>Quay lại nhiệm vụ</button></a>
+</div>
+
+<!-- Popup chi tiết -->
+<div id="detail-popup">
+  <div class="detail-content">
+    <span class="close-btn" id="close-popup">×</span>
+    <div class="detail-img" id="detail-img"></div>
+    <div class="detail-info" id="detail-info"></div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<script>
+// User hiện tại
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+if(!currentUser){ alert("Bạn cần đăng nhập trước!"); window.location="index.html"; }
+
+// Danh sách sản phẩm chi tiết
+const products = [
+  {id:1, name:"iPhone 15 128GB", img:"https://via.placeholder.com/300x300", price:"17.190.000₫", color:["Đen","Trắng","Đỏ"], storage:["128GB","256GB"], promo:["Tặng phiếu mua hàng 500k","Giảm 50k cước"]},
+  {id:2, name:"Samsung Galaxy Z Fold 5", img:"https://via.placeholder.com/300x300", price:"42.990.000₫", color:["Đen","Bạc"], storage:["512GB"], promo:["Tặng tai nghe","Giảm 1 triệu"]},
+  {id:3, name:"Xiaomi 17 Pro Max", img:"https://via.placeholder.com/300x300", price:"20.990.000₫", color:["Xanh","Vàng"], storage:["256GB"], promo:["Tặng sạc nhanh"]},
+  {id:4, name:"Oppo Reno 12", img:"https://via.placeholder.com/300x300", price:"9.990.000₫", color:["Đen","Hồng"], storage:["128GB"], promo:["Giảm 100k"]},
+  {id:5, name:"Vivo V30", img:"https://via.placeholder.com/300x300", price:"11.990.000₫", color:["Xanh","Trắng"], storage:["128GB","256GB"], promo:["Tặng ốp lưng"]},
+  {id:6, name:"Realme GT", img:"https://via.placeholder.com/300x300", price:"8.990.000₫", color:["Đen","Đỏ"], storage:["128GB"], promo:["Giảm 50k"]},
+  {id:7, name:"Huawei P60", img:"https://via.placeholder.com/300x300", price:"14.990.000₫", color:["Đen","Vàng"], storage:["256GB"], promo:["Tặng tai nghe"]},
+  {id:8, name:"Samsung Note 24", img:"https://via.placeholder.com/300x300", price:"18.990.000₫", color:["Trắng","Đen"], storage:["512GB"], promo:["Giảm 200k"]},
+  {id:9, name:"iPhone SE 4", img:"https://via.placeholder.com/300x300", price:"12.990.000₫", color:["Đen","Trắng"], storage:["128GB"], promo:["Tặng sạc"]},
+  {id:10,name:"Xiaomi Mi Fold", img:"https://via.placeholder.com/300x300", price:"25.990.000₫", color:["Đen"], storage:["512GB"], promo:["Tặng ốp lưng"]},
+];
+
+const productList = document.getElementById("product-list");
+const detailPopup = document.getElementById("detail-popup");
+const closePopupBtn = document.getElementById("close-popup");
+const detailImg = document.getElementById("detail-img");
+const detailInfo = document.getElementById("detail-info");
+
+// Tạo danh sách sản phẩm
+products.forEach(p => {
+  const li = document.createElement("li");
+  li.className = "product-item";
+  li.innerHTML = `<img src="${p.img.trim()}" alt="${p.name}"><p>${p.name}</p>`;
+  productList.appendChild(li);
+
+  li.addEventListener("click", () => {
+    // Hiển thị popup chi tiết
+    detailImg.innerHTML = `<img src="${p.img.trim()}" alt="${p.name}">`;
+    const colors = p.color.map(c => `<span>${c}</span>`).join(", ");
+    const storage = p.storage.join(", ");
+    const promo = p.promo.map(x => `<li>${x}</li>`).join("");
+
+    detailInfo.innerHTML = `
+      <h2>${p.name}</h2>
+      <p>Giá: ${p.price}</p>
+      <p>Màu: ${colors}</p>
+      <p>Bộ nhớ: ${storage}</p>
+      <p>Khuyến mãi:</p>
+      <ul>${promo}</ul>
+    `;
+    detailPopup.style.display = "flex";
+
+    // Chỉ xử lý cộng điểm nếu chưa hoàn thành nhiệm vụ này
+    if (!currentUser.doneTasks || !currentUser.doneTasks.includes(3)) {
+      // Cập nhật điểm và nhiệm vụ
+      currentUser.points += 20;
+      if (!currentUser.doneTasks) {
+        currentUser.doneTasks = [];
+      }
+      currentUser.doneTasks.push(3);
+
+      // Lưu lại currentUser vào localStorage
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+      // Cập nhật trong mảng users (nếu cần đồng bộ)
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const index = users.findIndex(u => u.username === currentUser.username);
+      if (index >= 0) {
+        users[index] = currentUser;
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+
+      // Hiển thị thông báo sau khi popup đã được render
+      setTimeout(() => {
+        alert("Hoàn thành nhiệm vụ: Xem chi tiết điện thoại +20 điểm!");
+      }, 50); // 50ms để đảm bảo UI kịp hiển thị
+    }
+  });
+});
+
+// Đóng popup
+closePopupBtn.addEventListener("click", ()=>{ detailPopup.style.display="none"; });
+</script>
+</body>
+</html>

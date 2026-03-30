@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2a9d8f;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #2a9d8f;
+        }
+        
+        .back-btn {
+            padding: 8px 16px;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #c1121f;
+        }
+        
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .product-image-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .main-image {
+            margin-bottom: 15px;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: 350px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #2a9d8f;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .product-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e63946;
+            margin: 15px 0;
+        }
+        
+        .product-desc {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #495057;
+        }
+        
+        .specs-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 20px 0 15px;
+            color: #2a9d8f;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .specs-list {
+            list-style: none;
+        }
+        
+        .specs-item {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .specs-label {
+            width: 40%;
+            font-weight: 500;
+            color: #6c757d;
+        }
+        
+        .specs-value {
+            width: 60%;
+            font-weight: 600;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-view-detail {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-view-detail:hover {
+            background: #5a6268;
+        }
+        
+        .btn-compare {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-compare:hover {
+            background: #e0a800;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+            z-index: 1000;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .compare-badge {
+            position: fixed;
+            top: 20px;
+            right: 100px;
+            background: #ffc107;
+            color: #212529;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 999;
+        }
+
+
+
+
+        .btn-show-more {
+    background: linear-gradient(135deg, #2a9d8f 0%, #1d7462 100%);
+    color: white;
+}
+
+.btn-show-more:hover {
+    background: linear-gradient(135deg, #218874 0%, #1a5e51 100%);
+}
+
+.extra-content {
+    transition: all 0.3s ease;
+}
+
+.extra-content.show {
+    display: block !important;
+}
+
+.extra-section {
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                <span>MobileHUB</span>
+            </div>
+            <button class="back-btn" id="back-btn">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </button>
+        </div>
+        
+        <div class="product-detail-container">
+            <div class="product-image-container">
+                <div class="main-image">
+                    <img src="" alt="Product image" class="product-image" id="main-image">
+                </div>
+                <div class="thumbnail-gallery" id="thumbnail-gallery">
+                    <!-- Thumbnails sẽ được tạo bởi JS -->
+                </div>
+            </div>
+            
+            <div class="product-info-container">
+                <h1 class="product-name" id="product-name"></h1>
+                <div class="product-price" id="product-price"></div>
+                <p class="product-desc" id="product-desc"></p>
+                
+                <h3 class="specs-title">Thông số kỹ thuật</h3>
+                <ul class="specs-list" id="specs-list">
+                    <!-- Specs sẽ được tạo bởi JS -->
+                </ul>
+                
+                <div class="action-buttons">
+    <button class="action-btn btn-show-more" id="btn-show-more">
+        <i class="fas fa-plus-circle"></i> Xem thêm
+    </button>
+</div>
+
+<!-- Phần nội dung ẩn ban đầu -->
+<div class="extra-content" id="extra-content" style="display: none; margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #2a9d8f;">
+    <h3 style="color: #2a9d8f; margin-bottom: 15px;">📌 Thông tin bổ sung</h3>
+    
+    <div class="extra-section">
+        <h4>✅ Đánh giá nổi bật</h4>
+        <p>“iPhone 15 có thiết kế sang trọng, hiệu năng mượt mà, camera chụp ảnh cực nét.” — Người dùng T.H.</p>
+    </div>
+
+    <div class="extra-section" style="margin-top: 20px;">
+        <h4>📦 Bảo hành & Chính sách đổi trả</h4>
+        <ul style="padding-left: 20px; line-height: 1.6;">
+            <li>Bảo hành 12 tháng chính hãng</li>
+            <li>Đổi trả trong 7 ngày nếu lỗi nhà sản xuất</li>
+            <li>Giao hàng toàn quốc, COD nhận hàng mới thanh toán</li>
+        </ul>
+    </div>
+
+            <div class="extra-section" style="margin-top: 20px;">
+                <h4>🔗 Video giới thiệu sản phẩm</h4>
+                <div style="width: 100%; height: 300px; position: relative; border-radius: 8px; overflow: hidden;">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/rfueghrOL8Q"></iframe>" 
+            title="iPhone 15 - Giới thiệu chi tiết" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen></iframe>
+</div>  
+            </div>
+
+            <!-- Nút So sánh được đưa vào phần mở rộng -->
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="action-btn btn-compare" id="btn-compare-in-extra">
+                    <i class="fas fa-balance-scale"></i> So sánh với sản phẩm khác
+                </button>
+            </div>
+        </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Cảm ơn bạn đã xem chi tiết sản phẩm! Bạn đã nhận được 150 điểm cho nhiệm vụ này.</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== DỮ LIỆU MẪU CHO NHIỀU ẢNH VÀ THÔNG SỐ ==========
+        const productData = {
+            '1': {
+                name: "iPhone 15",
+                price: "23,000,000₫",
+                description: "iPhone 15 chính hãng với thiết kế sang trọng và hiệu năng vượt trội.",
+                images: [
+                    "https://cdn.tgdd.vn/Files/2023/09/16/1547538/1fix-170923-193758.jpg",
+                    "https://hoangsonstore.com/wp-content/uploads/2023/11/moi-100-iphone-15-pro-max-256gb-7075-11.jpg",                   
+                    "https://thegioialo.vn/wp-content/uploads/2023/10/iphone15pro-624x400.jpg",                  
+                    "https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/news/di-dong/nut-tac-vu-nhieu-chuc-nang-hon-tren-iphone-15-pro-max-256gb.jpg"
+                ],
+                specs: {
+                    "Màn hình": "6.7 inch Super Retina XDR",
+                    "Camera": "48MP + 12MP + 12MP",
+                    "Pin": "4,422 mAh",
+                    "Chip": "Apple A17 Pro",
+                    "Dung lượng": "128GB / 256GB / 512GB",
+                    "Hệ điều hành": "iOS 17",
+                    "Màu sắc": "Đen, Trắng, Xanh, Hồng"
+                }
+            },
+            '2': {
+                name: "Samsung S24",
+                price: "21,000,000₫",
+                description: "Samsung Galaxy S24 với màn hình Dynamic AMOLED 2X và camera 200MP.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=Samsung+S24+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=Samsung+S24+Front",
+                    "https://placehold.co/400x600/1d7462/ffffff?text=Samsung+S24+Camera"
+                ],
+                specs: {
+                    "Màn hình": "6.8 inch Dynamic AMOLED 2X",
+                    "Camera": "200MP + 12MP + 10MP + 10MP",
+                    "Pin": "5,000 mAh",
+                    "Chip": "Snapdragon 8 Gen 3",
+                    "Dung lượng": "256GB / 512GB",
+                    "Hệ điều hành": "Android 14",
+                    "Màu sắc": "Đen, Trắng, Vàng"
+                }
+            },
+            '3': {
+                name: "Xiaomi 14",
+                price: "19,000,000₫",
+                description: "Xiaomi 14 cao cấp với hiệu năng đỉnh cao và giá thành hợp lý.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=Xiaomi+14+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=Xiaomi+14+Front"
+                ],
+                specs: {
+                    "Màn hình": "6.7 inch AMOLED 1.5K",
+                    "Camera": "50MP + 50MP + 50MP",
+                    "Pin": "4,880 mAh",
+                    "Chip": "Snapdragon 8 Gen 3",
+                    "Dung lượng": "256GB",
+                    "Hệ điều hành": "HyperOS",
+                    "Màu sắc": "Đen, Trắng, Xanh"
+                }
+            },
+            '4': {
+            name: "OPPO Find X7",
+            price: "18,500,000₫",
+            description: "Thiết kế camera độc đáo, chip Dimensity 9300, màn hình 1.5K.",
+            images: [
+                "https://placehold.co/400x600/2a9d8f/ffffff?text=OPPO+Find+X7+Back",
+                "https://placehold.co/400x600/e63946/ffffff?text=OPPO+Find+X7+Front"
+            ],
+            specs: {
+                "Màn hình": "6.7 inch AMOLED 1.5K",
+                "Camera": "50MP + 50MP + 50MP",
+                "Pin": "5,000 mAh",
+                "Chip": "Dimensity 9300",
+                "Dung lượng": "256GB / 512GB",
+                "Hệ điều hành": "ColorOS 14",
+                "Màu sắc": "Đen, Trắng, Xanh"
+            }
+        },
+            '5': {
+                name: "Vivo V30",
+                price: "8,900,000₫",
+                description: "Thiết kế tinh tế, camera selfie chất lượng cao.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=Vivo+V30+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=Vivo+V30+Front"
+                ],
+                specs: {
+                    "Màn hình": "6.7 inch AMOLED",
+                    "Camera": "64MP + 8MP",
+                    "Pin": "4,500 mAh",
+                    "Chip": "MediaTek Dimensity 7200",
+                    "Dung lượng": "128GB / 256GB",
+                    "Hệ điều hành": "Funtouch OS 14",
+                    "Màu sắc": "Trắng, Xanh, Hồng"
+                }
+            },
+            '6': {
+                name: "Realme GT 6",
+                price: "7,500,000₫",
+                description: "Hiệu năng mạnh mẽ, thiết kế thể thao trẻ trung.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=Realme+GT+6+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=Realme+GT+6+Front"
+                ],
+                specs: {
+                    "Màn hình": "6.7 inch AMOLED 120Hz",
+                    "Camera": "50MP + 8MP",
+                    "Pin": "5,000 mAh",
+                    "Chip": "Snapdragon 7+ Gen 3",
+                    "Dung lượng": "128GB / 256GB",
+                    "Hệ điều hành": "Realme UI 5.0",
+                    "Màu sắc": "Đen, Xanh, Đỏ"
+                }
+            },
+            '7': {
+                name: "Google Pixel 8 Pro",
+                price: "25,000,000₫",
+                description: "Camera AI xuất sắc, trải nghiệm Android thuần khiết.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=Pixel+8+Pro+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=Pixel+8+Pro+Front"
+                ],
+                specs: {
+                    "Màn hình": "6.7 inch LTPO OLED",
+                    "Camera": "50MP + 12MP + 48MP",
+                    "Pin": "5,050 mAh",
+                    "Chip": "Google Tensor G3",
+                    "Dung lượng": "128GB / 256GB / 512GB",
+                    "Hệ điều hành": "Android 14",
+                    "Màu sắc": "Đen, Trắng, Xanh"
+                }
+            },
+            '8': {
+                name: "ROG Phone 7",
+                price: "27,000,000₫",
+                description: "Điện thoại gaming cao cấp với hiệu năng đỉnh cao.",
+                images: [
+                    "https://placehold.co/400x600/2a9d8f/ffffff?text=ROG+Phone+7+Back",
+                    "https://placehold.co/400x600/e63946/ffffff?text=ROG+Phone+7+Front"
+                ],
+                specs: {
+                    "Màn hình": "6.78 inch AMOLED 165Hz",
+                    "Camera": "50MP + 13MP + 5MP",
+                    "Pin": "6,000 mAh",
+                    "Chip": "Snapdragon 8 Gen 2",
+                    "Dung lượng": "256GB / 512GB",
+                    "Hệ điều hành": "ROG UI (Android 13)",
+                    "Màu sắc": "Đen, Xám, Đỏ"
+                }
+            }
+        };
+
+        // ========== LẤY SẢN PHẨM TỪ LOCALSTORAGE ==========
+        const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+        if (!selectedProduct || !productData[selectedProduct.id]) {
+            window.location.href = 'view-products-task.html';
+        }
+
+        const product = productData[selectedProduct.id];
+
+        // ========== CẬP NHẬT GIAO DIỆN ==========
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-price').textContent = product.price;
+        document.getElementById('product-desc').textContent = product.description;
+
+        // --- Gallery ảnh ---
+        const mainImage = document.getElementById('main-image');
+        const thumbnailGallery = document.getElementById('thumbnail-gallery');
+
+        product.images.forEach((imgUrl, index) => {
+            const thumb = document.createElement('div');
+            thumb.className = 'thumbnail';
+            if (index === 0) {
+                thumb.classList.add('active');
+                mainImage.src = imgUrl;
+            }
+            thumb.innerHTML = `<img src="${imgUrl}" alt="Thumbnail">`;
+            thumb.addEventListener('click', () => {
+                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                mainImage.src = imgUrl;
+            });
+            thumbnailGallery.appendChild(thumb);
+        });
+
+        // --- Thông số kỹ thuật ---
+        const specsList = document.getElementById('specs-list');
+        Object.entries(product.specs).forEach(([label, value]) => {
+            const li = document.createElement('li');
+            li.className = 'specs-item';
+            li.innerHTML = `<span class="specs-label">${label}:</span><span class="specs-value">${value}</span>`;
+            specsList.appendChild(li);
+        });
+
+        // ========== NHIỆM VỤ: XEM CHI TIẾT ==========
+        function completeViewDetailTask() {
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (!currentUser) return;
+
+            const TASK_ID = 3;
+            if (!currentUser.doneTasks || !currentUser.doneTasks.includes(TASK_ID)) {
+                currentUser.points = (currentUser.points || 0) + 150;
+                if (!currentUser.doneTasks) currentUser.doneTasks = [];
+                currentUser.doneTasks.push(TASK_ID);
+
+                localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+                // Cập nhật danh sách users (nếu cần)
+                let users = JSON.parse(localStorage.getItem("users")) || [];
+                const idx = users.findIndex(u => u.username === currentUser.username);
+                if (idx >= 0) {
+                    users[idx] = currentUser;
+                    localStorage.setItem("users", JSON.stringify(users));
+                }
+
+                showNotification('✅ Hoàn thành nhiệm vụ! +150 điểm', 'success');
+            }
+        }
+
+        // Gọi khi trang tải xong
+        document.addEventListener('DOMContentLoaded', completeViewDetailTask);
+
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.location.href = 'view-products-task.html';
+        });
+
+        // ========== XỬ LÝ NÚT "XEM THÊM" ==========
+            const btnShowMore = document.getElementById('btn-show-more');
+            const extraContent = document.getElementById('extra-content');
+
+            btnShowMore.addEventListener('click', function() {
+                if (extraContent.style.display === 'none') {
+                    extraContent.style.display = 'block';
+                    btnShowMore.innerHTML = '<i class="fas fa-minus-circle"></i> Thu gọn';
+                    btnShowMore.classList.add('btn-show-more-active');
+                } else {
+                    extraContent.style.display = 'none';
+                    btnShowMore.innerHTML = '<i class="fas fa-plus-circle"></i> Xem thêm';
+                    btnShowMore.classList.remove('btn-show-more-active');
+                }
+            });
+
+// ========== XỬ LÝ NÚT "SO SÁNH" TRONG PHẦN MỞ RỘNG ==========
+document.getElementById('btn-compare-in-extra').addEventListener('click', function() {
+    let compareList = JSON.parse(localStorage.getItem('compareList')) || [];
+
+    const fullProduct = {
+        id: selectedProduct.id,
+        name: product.name,
+        specs: product.specs
+    };
+
+    if (!compareList.some(p => p.id === fullProduct.id)) {
+        compareList.push(fullProduct);
+        localStorage.setItem('compareList', JSON.stringify(compareList));
+        showNotification('✅ Đã thêm vào danh sách so sánh!', 'success');
+
+        if (compareList.length >= 2) {
+            if (confirm('Bạn đã chọn 2 sản phẩm. Chuyển đến trang so sánh ngay?')) {
+                window.location.href = 'compare.html';
+                return;
+            }
+        }
+    } else {
+        showNotification('⚠️ Sản phẩm đã có trong danh sách so sánh!', 'error');
+    }
+
+    updateCompareBadge();
+});
+    </script>
+</body>
+</html>
